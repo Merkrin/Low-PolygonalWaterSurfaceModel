@@ -6,6 +6,8 @@ import ru.hse.terrain.generation.TerrainGenerator;
 import ru.hse.terrain.utils.ColorGenerator;
 import ru.hse.terrain.utils.PerlinNoiseGenerator;
 import ru.hse.utils.Configs;
+import ru.hse.water.generation.WaterGenerator;
+import ru.hse.water.utils.WaterTile;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,11 +22,14 @@ public class Main {
         TerrainGenerator terrainGenerator = new PolygonizedTerrainGenerator(noise, colourGen);
         Terrain terrain = terrainGenerator.generateTerrain(Configs.WORLD_SIZE);
 
-        while (!engine.getWindow().isCloseRequested()) {
+        WaterTile water = WaterGenerator.generate(Configs.WORLD_SIZE, Configs.WATER_HEIGHT);
+
+        while (!engine.getWINDOW().isCloseRequested()) {
             camera.move();
-            engine.render(terrain, camera, light);
+            engine.render(terrain, water, camera, light);
         }
 
+        water.delete();
         terrainGenerator.cleanUp();
         terrain.delete();
 

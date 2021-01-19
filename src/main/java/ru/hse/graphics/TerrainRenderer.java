@@ -6,8 +6,9 @@ import ru.hse.engine.Light;
 import ru.hse.terrain.generation.Terrain;
 
 public class TerrainRenderer {
-    private final TerrainShader shader;
-    private final boolean hasIndices;
+    private final TerrainShader TERRAIN_SHADER;
+
+    private final boolean USES_INDICES;
 
     /**
      * @param shader
@@ -17,8 +18,9 @@ public class TerrainRenderer {
      *            buffer or not.
      */
     public TerrainRenderer(TerrainShader shader, boolean usesIndices) {
-        this.shader = shader;
-        this.hasIndices = usesIndices;
+        TERRAIN_SHADER = shader;
+
+        USES_INDICES = usesIndices;
     }
 
     /**
@@ -34,8 +36,11 @@ public class TerrainRenderer {
      */
     public void render(Terrain terrain, ICamera camera, Light light) {
         prepare(terrain, camera, light);
-        if (hasIndices) {
-            GL11.glDrawElements(GL11.GL_TRIANGLES, terrain.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+
+        if (USES_INDICES) {
+            GL11.glDrawElements(GL11.GL_TRIANGLES,
+                    terrain.getVertexCount(),
+                    GL11.GL_UNSIGNED_INT, 0);
         } else {
             GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, terrain.getVertexCount());
         }
@@ -46,7 +51,7 @@ public class TerrainRenderer {
      * Used when the program closes. Deletes the shader program.
      */
     public void cleanUp() {
-        shader.cleanUp();
+        TERRAIN_SHADER.cleanUp();
     }
 
     /**
@@ -61,11 +66,11 @@ public class TerrainRenderer {
      */
     private void prepare(Terrain terrain, ICamera camera, Light light) {
         terrain.getVao().bind();
-        shader.start();
-        shader.lightBias.loadVector2f(light.getLightBias());
-        shader.lightDirection.loadVector3f(light.getDirection());
-        shader.lightColour.loadVector3f(light.getColour().getColor());
-        shader.projectionViewMatrix.loadMatrix(camera.getProjectionViewMatrix());
+        TERRAIN_SHADER.start();
+        TERRAIN_SHADER.lightBias.loadVector2f(light.getLightBias());
+        TERRAIN_SHADER.lightDirection.loadVector3f(light.getDirection());
+        TERRAIN_SHADER.lightColour.loadVector3f(light.getColor().getColor());
+        TERRAIN_SHADER.projectionViewMatrix.loadMatrix(camera.getProjectionViewMatrix());
     }
 
     /**
@@ -76,6 +81,6 @@ public class TerrainRenderer {
      */
     private void finish(Terrain terrain) {
         terrain.getVao().unbind();
-        shader.stop();
+        TERRAIN_SHADER.stop();
     }
 }

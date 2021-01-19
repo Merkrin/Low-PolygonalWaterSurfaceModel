@@ -1,43 +1,35 @@
 package ru.hse.utils;
 
-import java.nio.ByteBuffer;
-
 public class WindowBuilder {
-    private static final String DEFAULT_TITLE = "Equinox Engine";
+    private static final String TITLE = "Low-Polygonal water ";
 
-    private final int width;
-    private final int height;
-    private final int fpsCap;
+    private final int WIDTH;
+    private final int HEIGHT;
+    private final int FPS_CAP;
 
-    private String title = DEFAULT_TITLE;
-    private ByteBuffer[] icon = null;
-    private boolean vSync = false;
-    private boolean antialiasing = false;
-    private boolean fullScreen = false;
+    private boolean hasVSync = false;
+    private boolean withAntialiasing = false;
+    private boolean isFullScreen = false;
 
     protected WindowBuilder(int width, int height, int fpsCap){
-        this.width = width;
-        this.height = height;
-        this.fpsCap = fpsCap;
-    }
-
-    public WindowBuilder setTitle(String title){
-        this.title = title;
-        return this;
+        WIDTH = width;
+        HEIGHT = height;
+        FPS_CAP = fpsCap;
     }
 
     public WindowBuilder withVSync(boolean vSync){
-        this.vSync = vSync;
+        hasVSync = vSync;
+
         return this;
     }
 
     public WindowBuilder antialias(boolean antialias){
-        this.antialiasing = antialias;
+        this.withAntialiasing = antialias;
         return this;
     }
 
     public WindowBuilder fullScreen(boolean full){
-        this.fullScreen = full;
+        this.isFullScreen = full;
         return this;
     }
 
@@ -45,39 +37,31 @@ public class WindowBuilder {
         return new Window(new Context(3,3), this);
     }
 
-    protected int getWidth() {
-        return width;
+    protected int getWIDTH() {
+        return WIDTH;
     }
 
-    protected int getHeight(){
-        return height;
+    protected int getHEIGHT(){
+        return HEIGHT;
     }
 
-    protected int getFpsCap() {
-        return fpsCap;
+    protected int getFPS_CAP() {
+        return FPS_CAP;
     }
 
-    protected String getTitle() {
-        return title;
+    protected String getTITLE() {
+        return TITLE;
     }
 
-    protected ByteBuffer[] getIcon() {
-        return icon;
+    protected boolean hasVSync() {
+        return hasVSync;
     }
 
-    protected boolean hasIcon(){
-        return icon != null;
-    }
-
-    protected boolean isvSync() {
-        return vSync;
-    }
-
-    protected boolean isAntialiasing() {
-        return antialiasing;
+    protected boolean isWithAntialiasing() {
+        return withAntialiasing;
     }
 
     protected boolean isFullScreen() {
-        return fullScreen;
+        return isFullScreen;
     }
 }

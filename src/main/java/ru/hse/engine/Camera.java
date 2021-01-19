@@ -25,11 +25,12 @@ public class Camera implements ICamera {
     private Matrix4f viewMatrix = new Matrix4f();
     private Matrix4f reflectedMatrix = new Matrix4f();
 
-    private boolean reflected = false;
+    private boolean isReflected = false;
 
-    private Vector3f position = new Vector3f(100, 100, 50);
+    private Vector3f position = new Vector3f(50, 50, 50);
 
     private float yaw = 0;
+
     private SmoothFloat pitch = new SmoothFloat(10, 10);
     private SmoothFloat angleAroundPlayer = new SmoothFloat(0, 10);
     private SmoothFloat distanceFromPlayer = new SmoothFloat(10, 5);
@@ -68,12 +69,12 @@ public class Camera implements ICamera {
 
     @Override
     public void reflect(){
-        this.reflected = !reflected;
+        this.isReflected = !isReflected;
     }
 
     @Override
     public Matrix4f getProjectionViewMatrix() {
-        if(reflected){
+        if(isReflected){
             return Matrix4f.mul(projectionMatrix, reflectedMatrix, null);
         }else{
             return Matrix4f.mul(projectionMatrix, viewMatrix, null);

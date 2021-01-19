@@ -6,7 +6,7 @@ public class UniformFloat extends Uniform {
     private float value;
     private boolean isUsed = false;
 
-    protected UniformFloat(String name) {
+    public UniformFloat(String name) {
         super(name);
     }
 

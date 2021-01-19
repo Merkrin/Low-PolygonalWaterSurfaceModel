@@ -6,14 +6,17 @@ import ru.hse.utils.Color;
 
 public class Light {
     private Vector3f direction;
+
     private Color colour;
-    private Vector2f lightBias;// how much ambient light and how much diffuse
-    // light
+
+    private Vector2f lightBias;// how much ambient light and how much diffuse light
 
     public Light(Vector3f direction, Color colour, Vector2f lightBias) {
         this.direction = direction;
         this.direction.normalise();
+
         this.colour = colour;
+
         this.lightBias = lightBias;
     }
 
@@ -21,7 +24,7 @@ public class Light {
         return direction;
     }
 
-    public Color getColour() {
+    public Color getColor() {
         return colour;
     }
 

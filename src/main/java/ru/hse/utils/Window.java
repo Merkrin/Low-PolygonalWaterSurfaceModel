@@ -21,18 +21,18 @@ public class Window {
     private List<DisplayMode> availableResolutions = new ArrayList<DisplayMode>();
 
     protected Window(Context context, WindowBuilder settings) {
-        this.fpsCap = settings.getFpsCap();
+        this.fpsCap = settings.getFPS_CAP();
         try {
             getSuitableFullScreenModes();
             DisplayMode resolution = getStartResolution(settings);
             Display.setInitialBackground(1, 1, 1);
             this.aspectRatio = (float) resolution.getWidth() / resolution.getHeight();
             setResolution(resolution, settings.isFullScreen());
-            if (settings.hasIcon()) {
-                Display.setIcon(settings.getIcon());
-            }
-            Display.setVSyncEnabled(settings.isvSync());
-            Display.setTitle(settings.getTitle());
+//            if (settings.hasIcon()) {
+//                Display.setIcon(settings.getIcon());
+//            }
+            Display.setVSyncEnabled(settings.hasVSync());
+            Display.setTitle(settings.getTITLE());
             Display.create(new PixelFormat().withDepthBits(24).withSamples(4), context.getAttribs());
             GL11.glViewport(0, 0, resolution.getWidth(), resolution.getHeight());
         } catch (LWJGLException e) {
@@ -121,13 +121,13 @@ public class Window {
 
     private DisplayMode getStartResolution(WindowBuilder settings) {
         if (settings.isFullScreen()) {
-            DisplayMode fullScreenMode = getFullScreenDisplayMode(settings.getWidth(), settings.getHeight());
+            DisplayMode fullScreenMode = getFullScreenDisplayMode(settings.getWIDTH(), settings.getHEIGHT());
             if (fullScreenMode != null) {
                 return fullScreenMode;
             }
             settings.fullScreen(false);
         }
-        return new DisplayMode(settings.getWidth(), settings.getHeight());
+        return new DisplayMode(settings.getWIDTH(), settings.getHEIGHT());
 
     }
 }

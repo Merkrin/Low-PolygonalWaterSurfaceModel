@@ -14,7 +14,9 @@ public class Context {
     }
 
     public ContextAttribs getAttribs() {
-        return new ContextAttribs(openGlVersion[0], openGlVersion[1]).withForwardCompatible(true).withProfileCore(true);
+        return new ContextAttribs(openGlVersion[0], openGlVersion[1])
+                .withForwardCompatible(true)
+                .withProfileCore(true);
     }
 
 }
