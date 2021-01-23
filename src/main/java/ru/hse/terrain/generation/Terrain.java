@@ -1,5 +1,6 @@
 package ru.hse.terrain.generation;
 
+import org.lwjgl.util.vector.Vector4f;
 import ru.hse.engine.ICamera;
 import ru.hse.engine.Light;
 import ru.hse.graphics.TerrainRenderer;
@@ -24,8 +25,8 @@ public class Terrain {
         return vao;
     }
 
-    public void render(ICamera camera, Light light){
-        renderer.render(this, camera, light);
+    public void render(ICamera camera, Light light, Vector4f clipPlane){
+        renderer.render(this, camera, light, clipPlane);
     }
 
     public void delete(){

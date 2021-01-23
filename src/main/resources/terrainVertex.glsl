@@ -12,6 +12,8 @@ uniform vec2 lightBias;
 
 uniform mat4 projectionViewMatrix;
 
+uniform vec4 plane;
+
 //simple diffuse lighting
 vec3 calculateLighting(){
     vec3 normal = in_normal.xyz * 2.0 - 1.0;//required just because of the format the normals were stored in (0 - 1)
@@ -20,9 +22,12 @@ vec3 calculateLighting(){
 }
 
 void main(void){
+
     vec4 worldPosition = vec4(in_position, 1.0);
+    gl_ClipDistance[0] = dot(worldPosition, plane);
     gl_Position = projectionViewMatrix * worldPosition;
 
     vec3 lighting = calculateLighting();
     pass_colour = in_colour.rgb * lighting;
+
 }

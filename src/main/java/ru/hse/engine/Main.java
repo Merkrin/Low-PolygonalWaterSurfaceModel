@@ -11,12 +11,10 @@ import ru.hse.water.utils.WaterTile;
 
 public class Main {
     public static void main(String[] args) {
-        //init engine and scene objects
         RenderEngine engine = new RenderEngine(Configs.FPS_CAP, Configs.WIDTH, Configs.HEIGHT);
         Camera camera = new Camera();
         Light light = new Light(Configs.LIGHT_POS, Configs.LIGHT_COL, Configs.LIGHT_BIAS);
 
-        //init generators for heights and colours
         PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.SEED, Configs.OCTAVES, Configs.AMPLITUDE, Configs.ROUGHNESS);
         ColorGenerator colourGen = new ColorGenerator(Configs.TERRAIN_COLS, Configs.COLOUR_SPREAD);
         TerrainGenerator terrainGenerator = new PolygonizedTerrainGenerator(noise, colourGen);
