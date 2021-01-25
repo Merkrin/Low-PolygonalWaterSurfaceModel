@@ -15,7 +15,7 @@ public class Main {
         Camera camera = new Camera();
         Light light = new Light(Configs.LIGHT_POS, Configs.LIGHT_COL, Configs.LIGHT_BIAS);
 
-        PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.OCTAVES, Configs.AMPLITUDE, Configs.ROUGHNESS);
+        PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.SEED, Configs.OCTAVES, Configs.AMPLITUDE, Configs.ROUGHNESS);
         ColorGenerator colourGen = new ColorGenerator(Configs.TERRAIN_COLS, Configs.COLOUR_SPREAD);
         TerrainGenerator terrainGenerator = new PolygonizedTerrainGenerator(noise, colourGen);
         Terrain terrain = terrainGenerator.generateTerrain(Configs.WORLD_SIZE);

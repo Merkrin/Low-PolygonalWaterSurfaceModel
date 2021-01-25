@@ -17,6 +17,8 @@ public class WaterShader extends ShaderProgram {
     public UniformVector2f nearFarPlanes = new UniformVector2f("nearFarPlanes");
 
     protected UniformFloat waveTime = new UniformFloat("waveTime");
+    protected UniformFloat waveLength = new UniformFloat("waveLength");
+    protected UniformFloat waveAmplitude = new UniformFloat("waveAmplitude");
 
     protected UniformVector3f lightDirection = new UniformVector3f("lightDirection");
     protected UniformVector3f lightColor = new UniformVector3f("lightColour");
@@ -29,7 +31,7 @@ public class WaterShader extends ShaderProgram {
     public WaterShader() {
         super(VERTEX_SHADER, FRAGMENT_SHADER);
         super.storeAllUniformLocations(projectionViewMatrix, height, reflectionTexture, refractionTexture, depthTexture,
-                cameraPos, nearFarPlanes, waveTime, lightDirection, lightColor, lightBias);
+                cameraPos, nearFarPlanes, waveTime, waveLength, waveAmplitude,lightDirection, lightColor, lightBias);
         linkTextureUnits();
     }
 
