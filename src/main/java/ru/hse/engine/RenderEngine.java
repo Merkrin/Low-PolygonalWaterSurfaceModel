@@ -17,7 +17,8 @@ import ru.hse.utils.Window;
 import ru.hse.water.utils.WaterTile;
 
 public class RenderEngine {
-    private static final float OFFSET = 2f;
+    private static final float REFRACT_OFFSET = 1f;
+    private static final float REFLECT_OFFSET = 0.1f;
 
     private final Window WINDOW;
 
@@ -57,14 +58,11 @@ public class RenderEngine {
     }
 
     private void prepare() {
+        GL11.glClearColor(1f, 1f, 1f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
         GL32.glProvokingVertex(GL32.GL_FIRST_VERTEX_CONVENTION);
-
         GraphicsUtils.cullBackFaces(true);
-
         GraphicsUtils.enableDepthTesting(true);
-
         GraphicsUtils.antialias(true);
     }
 
@@ -72,7 +70,7 @@ public class RenderEngine {
         reflectionFbo.bindForRender(0);
         camera.reflect();
         prepare();
-        terrain.render(camera, light, new Vector4f(0, 1, 0, -waterHeight));
+        terrain.render(camera, light, new Vector4f(0, 1, 0, -waterHeight + REFLECT_OFFSET));
         camera.reflect();
         reflectionFbo.unbindAfterRender();
     }
@@ -80,7 +78,7 @@ public class RenderEngine {
     private void doRefractionPass(Terrain terrain, ICamera camera, Light light, float waterHeight) {
         refractionFbo.bindForRender(0);
         prepare();
-        terrain.render(camera, light, new Vector4f(0, -1, 0, waterHeight + OFFSET));
+        terrain.render(camera, light, new Vector4f(0, -1, 0, waterHeight + REFRACT_OFFSET));
         refractionFbo.unbindAfterRender();
     }
 
