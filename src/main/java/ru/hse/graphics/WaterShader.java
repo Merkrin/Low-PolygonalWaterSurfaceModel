@@ -18,6 +18,10 @@ public class WaterShader extends ShaderProgram {
 
     protected UniformFloat waveTime = new UniformFloat("waveTime");
 
+    protected UniformVector3f lightDirection = new UniformVector3f("lightDirection");
+    protected UniformVector3f lightColor = new UniformVector3f("lightColour");
+    protected UniformVector2f lightBias = new UniformVector2f("lightBias");
+
     protected UniformSampler reflectionTexture = new UniformSampler("reflectionTexture");
     protected UniformSampler refractionTexture = new UniformSampler("refractionTexture");
     protected UniformSampler depthTexture = new UniformSampler("depthTexture");
@@ -25,16 +29,20 @@ public class WaterShader extends ShaderProgram {
     public WaterShader() {
         super(VERTEX_SHADER, FRAGMENT_SHADER);
         super.storeAllUniformLocations(projectionViewMatrix, height, reflectionTexture, refractionTexture, depthTexture,
-                cameraPos, nearFarPlanes, waveTime);
+                cameraPos, nearFarPlanes, waveTime, lightDirection, lightColor, lightBias);
         linkTextureUnits();
     }
 
-
-    private void linkTextureUnits(){
+    /**
+     * Links the texture samplers in the fragment shader to the texture units
+     * that they're going to be sampling from.
+     */
+    private void linkTextureUnits() {
         super.start();
         reflectionTexture.loadTexUnit(REFLECT_TEX_UNIT);
         refractionTexture.loadTexUnit(REFRACT_TEX_UNIT);
         depthTexture.loadTexUnit(DEPTH_TEX_UNIT);
         super.stop();
     }
+
 }

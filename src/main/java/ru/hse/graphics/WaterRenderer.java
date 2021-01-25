@@ -9,7 +9,7 @@ import ru.hse.water.utils.WaterTile;
 
 public class WaterRenderer {
     // TODO: make changeable
-    private static final float WAVE_SPEED = 0.004f;
+    private static final float WAVE_SPEED = 0.0009f;
 
     private final WaterShader WATER_SHADER;
 
@@ -59,6 +59,7 @@ public class WaterRenderer {
         updateTime();
 
         loadCameraVariables(camera);
+        loadLightVariables(light);
 
         WATER_SHADER.height.loadFloat(water.getHEIGHT());
     }
@@ -67,6 +68,12 @@ public class WaterRenderer {
         WATER_SHADER.projectionViewMatrix.loadMatrix(camera.getProjectionViewMatrix());
         WATER_SHADER.cameraPos.loadVector3f(camera.getPosition());
         WATER_SHADER.nearFarPlanes.loadVector2f(camera.getNearPlane(), camera.getFarPlane());
+    }
+
+    private void loadLightVariables(Light light){
+        WATER_SHADER.lightBias.loadVector2f(light.getLightBias());
+        WATER_SHADER.lightDirection.loadVector3f(light.getDirection());
+        WATER_SHADER.lightColor.loadVector3f(light.getColor().getColor());
     }
 
     private void updateTime(){
