@@ -78,5 +78,4 @@ void main(void){
 
     //apply soft edges
     out_colour.a = clamp(waterDepth / edgeSoftness, 0.0, 1.0);
-
 }

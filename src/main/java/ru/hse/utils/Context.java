@@ -18,5 +18,4 @@ public class Context {
                 .withForwardCompatible(true)
                 .withProfileCore(true);
     }
-
 }

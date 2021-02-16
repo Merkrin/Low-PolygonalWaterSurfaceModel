@@ -11,7 +11,6 @@ public class DataUtils {
     public static final int BYTES_IN_FLOAT = 4, BYTES_IN_INT = 4;
 
     public static int pack_2_10_10_10_REV_int(float x, float y, float z, float w) {
-        //FIXME need to check native byte order? (big/small endian)
         int val = 0;
         val = val | (quantizeNormalized(w, TWO_BITS_MAX, false) << 30);
         val = val | (quantizeNormalized(z, TEN_BITS_MAX, true) << 20);

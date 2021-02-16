@@ -22,12 +22,10 @@ vec3 calculateLighting(){
 }
 
 void main(void){
-
     vec4 worldPosition = vec4(in_position, 1.0);
     gl_ClipDistance[0] = dot(worldPosition, plane);
     gl_Position = projectionViewMatrix * worldPosition;
 
     vec3 lighting = calculateLighting();
     pass_colour = in_colour.rgb * lighting;
-
 }

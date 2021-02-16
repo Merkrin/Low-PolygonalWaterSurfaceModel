@@ -1,12 +1,22 @@
 package ru.hse.graphics;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import ru.hse.engine.ICamera;
 import ru.hse.engine.Light;
 import ru.hse.openGL.utils.GraphicsUtils;
 import ru.hse.water.utils.WaterTile;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class WaterRenderer {
     // TODO: make changeable
@@ -26,6 +36,7 @@ public class WaterRenderer {
         prepare(water, camera, light);
         bindTextures(reflectionTexture, refractionTexture, depthTexture);
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, water.getVERTEX_AMOUNT());
+
         finish(water);
     }
 

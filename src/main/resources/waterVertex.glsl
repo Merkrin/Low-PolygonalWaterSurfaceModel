@@ -2,8 +2,6 @@
 
 const float PI = 3.1415926535897932384626433832795;
 
-//const float waveLength = 4.0;
-//const float waveAmplitude = 0.2;
 const float specularReflectivity = 0.4;
 const float shineDamper = 20.0;
 
@@ -32,8 +30,8 @@ uniform mat4 projectionViewMatrix;
 
 vec3 calcSpecularLighting(vec3 toCamVector, vec3 toLightVector, vec3 normal){
     vec3 reflectedLightDirection = reflect(-toLightVector, normal);
-    float specularFactor = dot(reflectedLightDirection , toCamVector);
-    specularFactor = max(specularFactor,0.0);
+    float specularFactor = dot(reflectedLightDirection, toCamVector);
+    specularFactor = max(specularFactor, 0.0);
     specularFactor = pow(specularFactor, shineDamper);
     return specularFactor * specularReflectivity * lightColour;
 }
@@ -51,7 +49,7 @@ vec3 calcNormal(vec3 vertex0, vec3 vertex1, vec3 vertex2){
 
 float generateOffset(float x, float z, float val1, float val2){
     float radiansX = ((mod(x+z*x*val1, waveLength)/waveLength) + waveTime * mod(x * 0.8 + z, 1.5)) * 2.0 * PI;
-    float radiansZ = ((mod(val2 * (z*x +x*z), waveLength)/waveLength) + waveTime * 2.0 * mod(x , 2.0) ) * 2.0 * PI;
+    float radiansZ = ((mod(val2 * (z*x +x*z), waveLength)/waveLength) + waveTime * 2.0 * mod(x, 2.0)) * 2.0 * PI;
     return waveAmplitude * 0.5 * (sin(radiansZ) + cos(radiansX));
 }
 
@@ -87,7 +85,4 @@ void main(void){
     vec3 toLightVector = -normalize(lightDirection);
     pass_specular = calcSpecularLighting(pass_toCameraVector, toLightVector, pass_normal);
     pass_diffuse = calculateDiffuseLighting(toLightVector, pass_normal);
-
-
-
 }
