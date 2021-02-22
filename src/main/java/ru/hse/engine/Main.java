@@ -1,5 +1,9 @@
 package ru.hse.engine;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 import ru.hse.terrain.generation.PolygonizedTerrainGenerator;
 import ru.hse.terrain.generation.Terrain;
 import ru.hse.terrain.generation.TerrainGenerator;
@@ -8,6 +12,14 @@ import ru.hse.terrain.utils.PerlinNoiseGenerator;
 import ru.hse.utils.Configs;
 import ru.hse.water.generation.WaterGenerator;
 import ru.hse.water.utils.WaterTile;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {

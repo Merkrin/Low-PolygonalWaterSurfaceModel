@@ -52,19 +52,19 @@ public class Window {
         }
     }
 
-    public float getAspectRatio(){
+    public float getAspectRatio() {
         return aspectRatio;
     }
 
-    public DisplayMode getResolution(){
+    public DisplayMode getResolution() {
         return resolution;
     }
 
-    public boolean isFullScreen(){
+    public boolean isFullScreen() {
         return fullScreen;
     }
 
-    public List<DisplayMode> getAvailableResolutions(){
+    public List<DisplayMode> getAvailableResolutions() {
         return availableResolutions;
     }
 
@@ -84,8 +84,6 @@ public class Window {
     public void update() {
         Display.sync(fpsCap);
         Display.update();
-
-        performInput();
     }
 
     public boolean isCloseRequested() {
@@ -143,43 +141,5 @@ public class Window {
         }
         return new DisplayMode(settings.getWIDTH(), settings.getHEIGHT());
 
-    }
-
-    private void performInput() {
-        if(Keyboard.isKeyDown(Keyboard.KEY_P)) {
-            takeScreenshot();
-        }
-    }
-
-    private void takeScreenshot() {
-        GL11.glReadBuffer(GL11.GL_FRONT);
-        int width = Display.getDisplayMode().getWidth();
-        int height= Display.getDisplayMode().getHeight();
-        int bpp = 4;
-        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
-        GL11.glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
-//        GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer );
-
-        DateTimeFormatter dtf =
-                DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
-        LocalDateTime now = LocalDateTime.now();
-
-        File file = new File(dtf.format(now) + ".png");
-        String format = "PNG";
-        BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
-        for(int y = 0; y < height; ++y) {
-            for(int x = 0; x < width; ++x) {
-                int i = y * width * bpp + x * bpp;
-                int r = buffer.get(i) & 0xFF;
-                int g = buffer.get(i + 1) & 0xFF;
-                int b = buffer.get(i + 2) & 0xFF;
-                image.setRGB(x,y,(0xFF << 24) | (r << 16) | (g << 8) | b);
-            }
-        }
-        try {
-            ImageIO.write(image, format, file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

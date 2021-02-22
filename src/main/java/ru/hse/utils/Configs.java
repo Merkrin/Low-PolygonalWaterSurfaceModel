@@ -3,7 +3,9 @@ package ru.hse.utils;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-public class Configs {
+import java.io.Serializable;
+
+public class Configs implements Serializable {
     // Maximal FPS-rate.
     public static int FPS_CAP = 100;
     // Window sizes

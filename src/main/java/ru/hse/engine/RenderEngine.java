@@ -1,6 +1,5 @@
 package ru.hse.engine;
 
-import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Vector4f;
@@ -13,14 +12,6 @@ import ru.hse.openGL.utils.GraphicsUtils;
 import ru.hse.terrain.generation.Terrain;
 import ru.hse.utils.Window;
 import ru.hse.water.utils.WaterTile;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class RenderEngine {
     private static final float REFRACT_OFFSET = 1f;
@@ -67,7 +58,7 @@ public class RenderEngine {
         GL11.glClearColor(1f, 1f, 1f, 1f);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL32.glProvokingVertex(GL32.GL_FIRST_VERTEX_CONVENTION);
-//        GraphicsUtils.cullBackFaces(true);
+        GraphicsUtils.cullBackFaces(true);
         GraphicsUtils.enableDepthTesting(true);
         GraphicsUtils.antialias(true);
     }
@@ -94,7 +85,6 @@ public class RenderEngine {
         GraphicsUtils.goWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
         WATER_RENDERER.render(waterTile, camera, light, reflectionFbo.getColourBuffer(0), refractionFbo.getColourBuffer(0),
                 refractionFbo.getDepthBuffer());
-//        performInput();
         GraphicsUtils.goWireframe(false);
         WINDOW.update();
     }
@@ -109,48 +99,4 @@ public class RenderEngine {
         }
         return Fbo.newFbo(width, height).addColourAttachment(0, colourAttach).addDepthAttachment(depthAttach).init();
     }
-
-//    private void performInput() {
-//        if(Keyboard.isKeyDown(Keyboard.KEY_P)) {
-//            reflectionFbo.bindForRender(0);
-//            refractionFbo.bindForRender(0);
-//            takeScreenshot();
-//            refractionFbo.unbindAfterRender();
-//            reflectionFbo.unbindAfterRender();
-//        }
-//    }
-
-//    private void takeScreenshot() {
-//
-//
-//        GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
-//        GL11.glReadBuffer(GL11.GL_FRONT);
-//        int width = Display.getDisplayMode().getWidth();
-//        int height= Display.getDisplayMode().getHeight();
-//        int bpp = 4;
-//        ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
-//        GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer );
-//
-//        DateTimeFormatter dtf =
-//                DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
-//        LocalDateTime now = LocalDateTime.now();
-//
-//        File file = new File(dtf.format(now) + ".png");
-//        String format = "PNG";
-//        BufferedImage image = new BufferedImage(width,height,BufferedImage.TYPE_INT_ARGB);
-//        for(int y = 0; y < height; ++y) {
-//            for(int x = 0; x < width; ++x) {
-//                int i = y * width * bpp + x * bpp;
-//                int r = buffer.get(i) & 0xFF;
-//                int g = buffer.get(i + 1) & 0xFF;
-//                int b = buffer.get(i + 2) & 0xFF;
-//                image.setRGB(x,y,(0xFF << 24) | (r << 16) | (g << 8) | b);
-//            }
-//        }
-//        try {
-//            ImageIO.write(image, format, file);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
