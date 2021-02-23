@@ -36,6 +36,6 @@ public class Main {
         terrainGenerator.cleanUp();
         terrain.delete();
 
-        engine.close();
+        engine.cleanUp();
     }
 }
