@@ -6,7 +6,6 @@ import ru.hse.engine.ICamera;
 import ru.hse.engine.Light;
 import ru.hse.openGL.utils.GraphicsUtils;
 import ru.hse.utils.Configs;
-import ru.hse.utils.InputParser;
 import ru.hse.water.utils.WaterTile;
 
 public class WaterRenderer {
@@ -72,7 +71,7 @@ public class WaterRenderer {
 
     private void loadCameraVariables(ICamera camera) {
         WATER_SHADER.projectionViewMatrix.loadMatrix(camera.getProjectionViewMatrix());
-        WATER_SHADER.cameraPos.loadVector3f(camera.getPosition());
+        WATER_SHADER.cameraPos.loadVector3f(camera.getCameraPosition());
         WATER_SHADER.nearFarPlanes.loadVector2f(camera.getNearPlane(), camera.getFarPlane());
     }
 

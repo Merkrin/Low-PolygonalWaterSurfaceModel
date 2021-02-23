@@ -13,6 +13,7 @@ import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+// TODO: https://www.youtube.com/watch?v=WQLPZKpnod8&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=48 about multiple rendering
 public class InputParser {
     private static boolean isKeyDown = false;
 

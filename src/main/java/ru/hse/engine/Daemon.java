@@ -4,10 +4,15 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.utils.Window;
 
-public class Player {
+/**
+ * Daemon-"player" class. The idea is to implement a player figure,
+ * that does not really exist, so it can be moved and the camera
+ * works as the third view camera.
+ */
+public class Daemon {
     private final static float RUN_SPEED = 20;
     private final static float TURN_SPEED = 160;
-    private final static float JUMP_POWER = 1;
+    private final static float JUMP_POWER = 0.6f;
 
     private float currentSpeed = 0;
     private float currentTurnSpeed = 0;
@@ -20,7 +25,7 @@ public class Player {
 
     private Window window;
 
-    public Player(Window window, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Daemon(Window window, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.window = window;
         this.position = position;
         this.rotX = rotX;

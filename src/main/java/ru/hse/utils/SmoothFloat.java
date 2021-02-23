@@ -1,37 +1,74 @@
 package ru.hse.utils;
 
+/**
+ * Class for float representation, that can be increased smoothly.
+ */
 public class SmoothFloat {
-    private final float AGILITY;
+    // Smoothness of float changing.
+    private final float SMOOTHNESS;
 
-    private float target;
-    private float actual;
+    // Actual float value and target value.
+    private float actualValue;
+    private float targetValue;
 
-    public SmoothFloat(float initialValue, float agility) {
-        target = initialValue;
-        actual = initialValue;
-        AGILITY = agility;
+    /**
+     * Constructor for the class.
+     *
+     * @param initialValue initial value of the float
+     * @param smoothness   smoothness of float changing
+     */
+    public SmoothFloat(float initialValue, float smoothness) {
+        actualValue = initialValue;
+        targetValue = initialValue;
+
+        SMOOTHNESS = smoothness;
     }
 
+    /**
+     * Method for actual value updating.
+     *
+     * @param delta updating delta
+     */
     public void update(float delta) {
-        float offset = target - actual;
-        float change = offset * delta * AGILITY;
+        float offset = targetValue - actualValue;
+        float change = offset * delta * SMOOTHNESS;
 
-        actual += change;
+        actualValue += change;
     }
 
-    public void increaseTarget(float dT) {
-        this.target += dT;
+    /**
+     * Getter of the actual value.
+     *
+     * @return actual value
+     */
+    public float getActualValue() {
+        return actualValue;
     }
 
-    public void setTarget(float target) {
-        this.target = target;
+    /**
+     * Method for target value increasing.
+     *
+     * @param targetValueDelta increasing delta
+     */
+    public void increaseTargetValue(float targetValueDelta) {
+        this.targetValue += targetValueDelta;
     }
 
-    public float get() {
-        return actual;
+    /**
+     * Setter of the target value.
+     *
+     * @param targetValue value to set
+     */
+    public void setTargetValue(float targetValue) {
+        this.targetValue = targetValue;
     }
 
-    public float getTarget() {
-        return target;
+    /**
+     * Getter of the target value.
+     *
+     * @return target value
+     */
+    public float getTargetValue() {
+        return targetValue;
     }
 }
