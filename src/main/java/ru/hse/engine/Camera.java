@@ -32,23 +32,32 @@ public class Camera implements ICamera {
     private Vector3f position = new Vector3f(0, 0, 0);
 
     private float yaw = 0;
+    private float roll = 0;
     private SmoothFloat pitch = new SmoothFloat(10, 10);
     private SmoothFloat angleAroundPlayer = new SmoothFloat(0, 10);
     private SmoothFloat distanceFromPlayer = new SmoothFloat(10, 5);
 
-    public Camera() {
+    private Player player;
+
+    public Camera(Player player) {
+        this.player = player;
         this.projectionMatrix = createProjectionMatrix();
     }
 
     public void move() {
         calculatePitch();
-        calculateAngleAroundPlayer();
+        //calculateAngleAroundPlayer();
         calculateZoom();
+
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
+
         calculateCameraPosition(horizontalDistance, verticalDistance);
-        this.yaw = 360 - angleAroundPlayer.get();
-        yaw %= 360;
+
+        yaw = 180 - (player.getRotY() + angleAroundPlayer.get());
+
+//        this.yaw = 360 - angleAroundPlayer.get();
+//        yaw %= 360;
         updateViewMatrices();
     }
 
@@ -116,10 +125,17 @@ public class Camera implements ICamera {
     }
 
     private void calculateCameraPosition(float horizDistance, float verticDistance) {
-        float theta = angleAroundPlayer.get();
-        position.x = Configs.WORLD_SIZE / 2f + (float) (horizDistance * Math.sin(Math.toRadians(theta)));
-        position.y = verticDistance + Y_OFFSET;
-        position.z = Configs.WORLD_SIZE / 2f + (float) (horizDistance * Math.cos(Math.toRadians(theta)));
+        float theta = player.getRotY() + angleAroundPlayer.get();
+        float offsetX = (float) (horizDistance * Math.sin(Math.toRadians(theta)));
+        float offsetZ = (float) (horizDistance * Math.cos(Math.toRadians(theta)));
+
+        position.x = player.getPosition().x - offsetX;
+        position.z = player.getPosition().z - offsetZ;
+        position.y = player.getPosition().y + verticDistance;
+
+//        position.x = Configs.WORLD_SIZE / 2f + (float) (horizDistance * Math.sin(Math.toRadians(theta)));
+//        position.y = verticDistance + Y_OFFSET;
+//        position.z = Configs.WORLD_SIZE / 2f + (float) (horizDistance * Math.cos(Math.toRadians(theta)));
     }
 
     /**

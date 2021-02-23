@@ -22,7 +22,7 @@ public class InputParser {
 
             takeScreenshot();
         }else if(Keyboard.isKeyDown(Keyboard.KEY_H) && !isKeyDown){
-            Configs.saveConfigs();
+            //Configs.saveConfigs();
         }
 
         if(!Keyboard.getEventKeyState())

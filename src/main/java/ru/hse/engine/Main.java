@@ -4,6 +4,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Vector3f;
 import ru.hse.terrain.generation.PolygonizedTerrainGenerator;
 import ru.hse.terrain.generation.Terrain;
 import ru.hse.terrain.generation.TerrainGenerator;
@@ -24,10 +25,13 @@ import java.time.format.DateTimeFormatter;
 public class Main {
     public static void main(String[] args) {
         RenderEngine engine = new RenderEngine(Configs.FPS_CAP, Configs.SCREEN_WIDTH, Configs.SCREEN_HEIGHT);
-        Camera camera = new Camera();
+        Player player = new Player(engine.getWINDOW(), new Vector3f(200, 50, 200),
+                0, 0, 0, 1);
+        Camera camera = new Camera(player);
         Light light = new Light(Configs.LIGHT_POSITION, Configs.LIGHT_COLOR, Configs.LIGHT_BIAS);
 
-        PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.SEED, Configs.OCTAVES, Configs.AMPLITUDE, Configs.ROUGHNESS);
+        PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.SEED, Configs.OCTAVES, Configs.AMPLITUDE,
+                Configs.ROUGHNESS);
         ColorGenerator colourGen = new ColorGenerator(Configs.TERRAIN_COLORS, Configs.COLOR_SPREAD);
         TerrainGenerator terrainGenerator = new PolygonizedTerrainGenerator(noise, colourGen);
         Terrain terrain = terrainGenerator.generateTerrain(Configs.WORLD_SIZE);
@@ -36,6 +40,7 @@ public class Main {
 
         while (!engine.getWINDOW().isCloseRequested()) {
             camera.move();
+            player.move();
             engine.render(terrain, water, camera, light);
         }
 

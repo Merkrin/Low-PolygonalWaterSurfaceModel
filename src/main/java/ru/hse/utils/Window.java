@@ -2,6 +2,7 @@ package ru.hse.utils;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -30,10 +31,14 @@ public class Window {
     private boolean fullScreen;
     private float aspectRatio;
 
+    private long lastFrameTime;
+    private float delta;
+
     private List<DisplayMode> availableResolutions = new ArrayList<DisplayMode>();
 
     protected Window(Context context, WindowBuilder settings) {
         this.fpsCap = settings.getFPS_CAP();
+
         try {
             getSuitableFullScreenModes();
             DisplayMode resolution = getStartResolution(settings);
@@ -50,6 +55,8 @@ public class Window {
         } catch (LWJGLException e) {
             e.printStackTrace();
         }
+
+        lastFrameTime = getCurrentTime();
     }
 
     public float getAspectRatio() {
@@ -84,6 +91,10 @@ public class Window {
     public void update() {
         Display.sync(fpsCap);
         Display.update();
+
+        long currentFrameTime = getCurrentTime();
+        delta = (currentFrameTime - lastFrameTime)/1000f;
+        lastFrameTime = currentFrameTime;
     }
 
     public boolean isCloseRequested() {
@@ -141,5 +152,13 @@ public class Window {
         }
         return new DisplayMode(settings.getWIDTH(), settings.getHEIGHT());
 
+    }
+
+    private long getCurrentTime(){
+        return Sys.getTime()*1000/Sys.getTimerResolution();
+    }
+
+    public float getFrameTimeSeconds(){
+        return delta;
     }
 }
