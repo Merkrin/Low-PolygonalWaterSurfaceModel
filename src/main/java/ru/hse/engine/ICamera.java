@@ -3,12 +3,54 @@ package ru.hse.engine;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
+/**
+ * Camera interface for program scaling, if it is needed.
+ */
 public interface ICamera {
-    public Matrix4f getViewMatrix();
-    public Vector3f getCameraPosition();
-    public Matrix4f getProjectionMatrix();
-    public Matrix4f getProjectionViewMatrix();
-    public float getNearPlane();
-    public float getFarPlane();
-    public void reflect();
+    /**
+     * Getter of view matrix.
+     *
+     * @return view matrix
+     */
+    Matrix4f getViewMatrix();
+
+    /**
+     * Getter of camera position.
+     *
+     * @return position of camera
+     */
+    Vector3f getCameraPosition();
+
+    /**
+     * Getter of projection matrix.
+     *
+     * @return projection matrix
+     */
+    Matrix4f getProjectionMatrix();
+
+    /**
+     * Getter of projection view matrix.
+     *
+     * @return projection view matrix
+     */
+    Matrix4f getProjectionViewMatrix();
+
+    /**
+     * Getter of the near plane.
+     *
+     * @return near plane
+     */
+    float getNearPlane();
+
+    /**
+     * Getter of the far plane.
+     *
+     * @return far plane
+     */
+    float getFarPlane();
+
+    /**
+     * Method for matrix reflection.
+     */
+    void reflect();
 }

@@ -4,34 +4,58 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.utils.Color;
 
+/**
+ * Class for light representation.
+ */
 public class Light {
+    // Light direction.
     private Vector3f direction;
 
-    private Color colour;
+    // Light color.
+    private Color color;
 
-    private Vector2f lightBias;// how much ambient light and how much diffuse light
+    // Setting of how much ambient (x-value) and
+    // how much diffuse (y-value) light there has to be.
+    private Vector2f lightBias;
 
-    public Light(Vector3f direction, Color colour, Vector2f lightBias) {
+    /**
+     * The class' constructor.
+     *
+     * @param direction light direction vector
+     * @param color     light color vector
+     * @param lightBias bias of the light
+     */
+    public Light(Vector3f direction, Color color, Vector2f lightBias) {
         this.direction = direction;
         this.direction.normalise();
 
-        this.colour = colour;
+        this.color = color;
 
         this.lightBias = lightBias;
     }
 
+    /**
+     * Getter of light direction.
+     *
+     * @return light direction
+     */
     public Vector3f getDirection() {
         return direction;
     }
 
+    /**
+     * Getter of light color.
+     *
+     * @return color of the light
+     */
     public Color getColor() {
-        return colour;
+        return color;
     }
 
     /**
-     * @return A vector with 2 float values. The x value is how much ambient
-     *         lighting should be used, and the y value is how much diffuse
-     *         lighting should be used.
+     * Getter of light bias.
+     *
+     * @return bias of the light
      */
     public Vector2f getLightBias() {
         return lightBias;
