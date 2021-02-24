@@ -74,7 +74,7 @@ public class TerrainRenderer {
                 .loadVector2f(light.getLightBias());
         TERRAIN_SHADER.lightDirection
                 .loadVector3f(light.getDirection());
-        TERRAIN_SHADER.lightColour
+        TERRAIN_SHADER.lightColor
                 .loadVector3f(light.getColor().getColor());
         TERRAIN_SHADER.projectionViewMatrix
                 .loadMatrix(camera.getProjectionViewMatrix());
