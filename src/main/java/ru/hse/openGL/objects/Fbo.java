@@ -8,55 +8,105 @@ import ru.hse.openGL.utils.MultisampledFboBuilder;
 
 import java.util.Map;
 
+/**
+ * Framebuffer object class.
+ */
 public class Fbo {
-    private final int fboId;
-    private final int width;
-    private final int height;
+    private final int FBO_ID;
 
-    private final Map<Integer, Attachment> colourAttachments;
+    private final int WIDTH;
+    private final int HEIGHT;
+
+    private final Map<Integer, Attachment> colorAttachments;
+
     private final Attachment depthAttachment;
 
-    public Fbo(int fboId, int width, int height, Map<Integer, Attachment> attachments, Attachment depthAttachment) {
-        this.fboId = fboId;
-        this.width = width;
-        this.height = height;
-        this.colourAttachments = attachments;
+    /**
+     * The class' constructor.
+     *
+     * @param fboId            ID of the FBO
+     * @param width            width of the FBO
+     * @param height           height of the FBO
+     * @param colorAttachments list of color attachments
+     * @param depthAttachment  depth attachment
+     */
+    public Fbo(int fboId,
+               int width, int height,
+               Map<Integer, Attachment> colorAttachments,
+               Attachment depthAttachment) {
+        FBO_ID = fboId;
+        WIDTH = width;
+        HEIGHT = height;
+
+        this.colorAttachments = colorAttachments;
         this.depthAttachment = depthAttachment;
     }
 
-    public void blitToScreen(int colourIndex) {
+    /**
+     * Method for blitting the FBO content to the screen.
+     *
+     * @param colorAttachmentIndex index of the color attachment
+     */
+    public void blitToScreen(int colorAttachmentIndex) {
         GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, 0);
+
         GL11.glDrawBuffer(GL11.GL_BACK);
-        GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, fboId);
-        GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0 + colourIndex);
-        GL30.glBlitFramebuffer(0, 0, width, height, 0, 0, Display.getWidth(), Display.getHeight(),
+
+        GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, FBO_ID);
+
+        GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0 + colorAttachmentIndex);
+
+        GL30.glBlitFramebuffer(0, 0,
+                WIDTH, HEIGHT,
+                0, 0,
+                Display.getWidth(), Display.getHeight(),
                 GL11.GL_COLOR_BUFFER_BIT, GL11.GL_NEAREST);
+
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
     }
 
-    public void blitToFbo(int srcColourIndex, Fbo target, int targetColourIndex) {
-        GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, target.fboId);
-        GL11.glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0 + targetColourIndex);
+    /**
+     * Method for blitting the FBO content to another FBO.
+     *
+     * @param sourceColorAttachmentIndex index of the source color attachment
+     * @param targetFbo                  target FBO
+     * @param targetColorAttachmentIndex index of the target color attachment
+     */
+    public void blitToFbo(int sourceColorAttachmentIndex,
+                          Fbo targetFbo,
+                          int targetColorAttachmentIndex) {
+        GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, targetFbo.FBO_ID);
+        GL11.glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0 +
+                targetColorAttachmentIndex);
 
-        GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, fboId);
-        GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0 + srcColourIndex);
+        GL30.glBindFramebuffer(GL30.GL_READ_FRAMEBUFFER, FBO_ID);
+        GL11.glReadBuffer(GL30.GL_COLOR_ATTACHMENT0 +
+                sourceColorAttachmentIndex);
 
-        int bufferBit = depthAttachment != null && target.depthAttachment != null
-                ? GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT : GL11.GL_COLOR_BUFFER_BIT;
-        GL30.glBlitFramebuffer(0, 0, width, height, 0, 0, target.width, target.height, bufferBit, GL11.GL_NEAREST);
+        int bufferBit = ((depthAttachment != null) &&
+                (targetFbo.depthAttachment != null) ?
+                (GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT) :
+                GL11.GL_COLOR_BUFFER_BIT);
+
+        GL30.glBlitFramebuffer(0, 0,
+                WIDTH, HEIGHT,
+                0, 0,
+                targetFbo.WIDTH, targetFbo.HEIGHT,
+                bufferBit, GL11.GL_NEAREST);
+
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
     }
 
-    public int getColourBuffer(int colourIndex) {
-        return colourAttachments.get(colourIndex).getBufferId();
+    public int getColorBuffer(int colorAttachmentIndex) {
+        return colorAttachments.get(colorAttachmentIndex).getBufferId();
     }
 
     public int getDepthBuffer() {
         return depthAttachment.getBufferId();
     }
 
-    public boolean isComplete(){
-        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, fboId);
+    public boolean isComplete() {
+        GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, FBO_ID);
         boolean complete = GL30.glCheckFramebufferStatus(GL30.GL_FRAMEBUFFER) == GL30.GL_FRAMEBUFFER_COMPLETE;
         GL30.glBindFramebuffer(GL30.GL_FRAMEBUFFER, 0);
         return complete;
@@ -65,8 +115,8 @@ public class Fbo {
     public void bindForRender(int colourIndex) {
         //should add support for binding multiple colour attachments
         GL11.glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0 + colourIndex);
-        GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, fboId);
-        GL11.glViewport(0, 0, width, height);
+        GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, FBO_ID);
+        GL11.glViewport(0, 0, WIDTH, HEIGHT);
     }
 
     public void unbindAfterRender() {
@@ -75,7 +125,7 @@ public class Fbo {
     }
 
     public void delete() {
-        for (Attachment attachment : colourAttachments.values()) {
+        for (Attachment attachment : colorAttachments.values()) {
             attachment.delete();
         }
         if (depthAttachment != null) {

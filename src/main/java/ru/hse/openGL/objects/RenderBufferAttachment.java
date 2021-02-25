@@ -10,12 +10,12 @@ public class RenderBufferAttachment extends Attachment {
     }
 
     @Override
-    public void init(int attachment, int width, int height, int samples) {
+    public void init(int attachmentType, int width, int height, int samplesAmount) {
         int buffer = GL30.glGenRenderbuffers();
         super.setBufferId(buffer);
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, buffer);
-        GL30.glRenderbufferStorageMultisample(GL30.GL_RENDERBUFFER, samples, format, width, height);
-        GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, attachment, GL30.GL_RENDERBUFFER, buffer);
+        GL30.glRenderbufferStorageMultisample(GL30.GL_RENDERBUFFER, samplesAmount, format, width, height);
+        GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, attachmentType, GL30.GL_RENDERBUFFER, buffer);
     }
 
     @Override

@@ -129,8 +129,8 @@ public class RenderEngine {
         GraphicsUtils.goWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
 
         WATER_RENDERER.render(waterTile, camera, light,
-                reflectionFbo.getColourBuffer(0),
-                refractionFbo.getColourBuffer(0),
+                reflectionFbo.getColorBuffer(0),
+                refractionFbo.getColorBuffer(0),
                 refractionFbo.getDepthBuffer());
 
         GraphicsUtils.goWireframe(false);

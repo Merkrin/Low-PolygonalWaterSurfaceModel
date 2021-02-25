@@ -105,7 +105,7 @@ public class Vao {
         int offset = 0;
         for (Attribute attribute : newAttributes) {
             attribute.link(offset, bytesPerVertex);
-            offset += attribute.bytesPerVertex;
+            offset += attribute.BYTES_PER_VERTEX;
             attribute.enable(true);
             attributes.add(attribute);
         }
@@ -114,7 +114,7 @@ public class Vao {
     private int getVertexDataTotalBytes(Attribute... newAttributes) {
         int total = 0;
         for (Attribute attribute : newAttributes) {
-            total += attribute.bytesPerVertex;
+            total += attribute.BYTES_PER_VERTEX;
         }
         return total;
     }

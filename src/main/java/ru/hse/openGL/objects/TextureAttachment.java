@@ -29,13 +29,13 @@ public class TextureAttachment extends Attachment{
     }
 
     @Override
-    public void init(int attachment, int width, int height, int samples) {
+    public void init(int attachmentType, int width, int height, int samplesAmount) {
         int texture = GL11.glGenTextures();
         super.setBufferId(texture);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
         indicateStorageType(width, height);
         setTextureParams();
-        GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, attachment, GL11.GL_TEXTURE_2D, texture, 0);
+        GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, attachmentType, GL11.GL_TEXTURE_2D, texture, 0);
     }
 
     private void indicateStorageType(int width, int height){

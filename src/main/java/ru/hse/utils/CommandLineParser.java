@@ -51,10 +51,9 @@ public class CommandLineParser {
         // Optional
         addOption("tc", false, "terrain color spread");
 
-        //Mandatory
-        addOption("lp", true, "position of light");
-        addOption("lc", true, "light color");
-        addOption("lb", true, "light bias");
+        addOption("lp", false, "position of light");
+        addOption("lc", false, "light color");
+        addOption("lb", false, "light bias");
 
         // Optional
         options.addOption("wh", false, "water height");

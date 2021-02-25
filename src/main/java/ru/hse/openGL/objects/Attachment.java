@@ -1,43 +1,62 @@
 package ru.hse.openGL.objects;
 
-// TODO: beautify!!!
+/**
+ * OpenGL color attachment storage class.
+ */
 public abstract class Attachment {
+    // ID of the buffer to use.
     private int bufferId;
-    private boolean isDepthAttach = false;
+    private boolean isDepthAttachment = false;
 
+    /**
+     * Method for the attachmentType creation by initializing storage,
+     * and attachmentType to the FBO.
+     *
+     * @param attachmentType type of the attachment
+     * @param width          width of the FBO
+     * @param height         height of the FBO
+     * @param samplesAmount  number of samples that the FBO uses
+     */
+    public abstract void init(int attachmentType,
+                              int width, int height,
+                              int samplesAmount);
+
+    /**
+     * Method for the attachment deletion.
+     */
+    public abstract void delete();
+
+    /**
+     * Getter of the buffer ID.
+     *
+     * @return ID of the FBO
+     */
     public int getBufferId() {
         return bufferId;
     }
 
     /**
-     * Creates the attachment by initializing the necessary storage, and then
-     * attaches it to the FBO. This method also needs to set the bufferId after
-     * the storage has been initialized.
+     * Setter of the buffer ID.
      *
-     * @param attachment
-     *            - The type of attachment, e.g. GL_COLOR_ATTACHMENT0, or
-     *            GL_DEPTH_ATTACHMENT, etc.
-     * @param width
-     *            - The width of the FBO in pixels
-     * @param height
-     *            - The height of the FBO in pixels
-     * @param samples
-     *            - The number of samples that this FBO uses (for
-     *            multisampling). This is 0 if multisampling is not used.
+     * @param id ID of the FBO
      */
-    public abstract void init(int attachment, int width, int height, int samples);
-
-    public abstract void delete();
-
     public void setBufferId(int id) {
         this.bufferId = id;
     }
 
-    public void setAsDepthAttachment(){
-        this.isDepthAttach = true;
+    /**
+     * Method for changing the type of the attachment to a depth one.
+     */
+    public void setAsDepthAttachment() {
+        this.isDepthAttachment = true;
     }
 
-    public boolean isDepthAttachment(){
-        return isDepthAttach;
+    /**
+     * Method for getting, if the attachment is a depth one.
+     *
+     * @return true if the attachment is a depth one and false otherwise
+     */
+    public boolean isDepthAttachment() {
+        return isDepthAttachment;
     }
 }

@@ -2,7 +2,9 @@ package ru.hse.utils;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import ru.hse.engine.exceptions.InvalidSettingExeption;
 
+import java.awt.*;
 import java.io.Serializable;
 
 public class Configs implements Serializable {
@@ -45,7 +47,10 @@ public class Configs implements Serializable {
         return FPS_CAP;
     }
 
-    public static void setFpsCap(int fpsCap) {
+    public static void setFpsCap(int fpsCap) throws InvalidSettingExeption {
+        if (fpsCap < 30 || fpsCap > 120)
+            throw new InvalidSettingExeption("Invalid FPS cap argument.");
+
         FPS_CAP = fpsCap;
     }
 
@@ -53,7 +58,15 @@ public class Configs implements Serializable {
         return SCREEN_WIDTH;
     }
 
-    public static void setScreenWidth(int screenWidth) {
+    public static void setScreenWidth(int screenWidth)
+            throws InvalidSettingExeption {
+        Dimension screenRes = Toolkit.getDefaultToolkit().getScreenSize();
+
+        double width = screenRes.getWidth();
+
+        if (screenWidth < width / 2 || screenWidth > width)
+            throw new InvalidSettingExeption("Invalid screen width.");
+
         SCREEN_WIDTH = screenWidth;
     }
 
@@ -61,7 +74,15 @@ public class Configs implements Serializable {
         return SCREEN_HEIGHT;
     }
 
-    public static void setScreenHeight(int screenHeight) {
+    public static void setScreenHeight(int screenHeight)
+            throws InvalidSettingExeption {
+        Dimension screenRes = Toolkit.getDefaultToolkit().getScreenSize();
+
+        double height = screenRes.getHeight();
+
+        if (screenHeight < height / 2 || screenHeight > height)
+            throw new InvalidSettingExeption("Invalid screen height.");
+
         SCREEN_HEIGHT = screenHeight;
     }
 
@@ -69,7 +90,12 @@ public class Configs implements Serializable {
         return COLOR_SPREAD;
     }
 
-    public static void setColorSpread(float colorSpread) {
+    public static void setColorSpread(float colorSpread)
+            throws InvalidSettingExeption {
+        if(colorSpread < 0.1f || colorSpread > 0.9f)
+            throw new InvalidSettingExeption("Invalid " +
+                    "color spread multiplier.");
+
         COLOR_SPREAD = colorSpread;
     }
 

@@ -10,6 +10,6 @@ public class IntAttribute extends Attribute {
 
     @Override
     protected void link(int offset, int stride) {
-        GL30.glVertexAttribIPointer(attributeNumber, componentCount, GL11.GL_INT, stride, offset);
+        GL30.glVertexAttribIPointer(ATTRIBUTE_NUMBER, COMPONENTS_AMOUNT, GL11.GL_INT, stride, offset);
     }
 }
