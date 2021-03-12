@@ -2,8 +2,14 @@ package ru.hse.utils;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import ru.hse.engine.exceptions.InvalidSettingExeption;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.Serializable;
 
@@ -37,7 +43,7 @@ public class Configs implements Serializable {
     // Like mountain intensivity
     public static int OCTAVES = 5;
 
-    public static float WATER_HEIGHT = -1;
+    public static int WATER_HEIGHT = -1;
 
     public static float WAVE_SPEED = 0.002f;
     public static float WAVE_LENGTH = 4.0f;
@@ -92,7 +98,7 @@ public class Configs implements Serializable {
 
     public static void setColorSpread(float colorSpread)
             throws InvalidSettingExeption {
-        if(colorSpread < 0.1f || colorSpread > 0.9f)
+        if (colorSpread < 0.1f || colorSpread > 0.9f)
             throw new InvalidSettingExeption("Invalid " +
                     "color spread multiplier.");
 
@@ -103,7 +109,11 @@ public class Configs implements Serializable {
         return TERRAIN_COLORS;
     }
 
-    public static void setTerrainColors(Color[] terrainColors) {
+    public static void setTerrainColors(Color[] terrainColors)
+            throws InvalidSettingExeption {
+        if (terrainColors.length == 0)
+            throw new InvalidSettingExeption("Invalid terrain colors amount.");
+
         TERRAIN_COLORS = terrainColors;
     }
 
@@ -135,7 +145,11 @@ public class Configs implements Serializable {
         return WORLD_SIZE;
     }
 
-    public static void setWorldSize(int worldSize) {
+    public static void setWorldSize(int worldSize)
+            throws InvalidSettingExeption {
+        if (worldSize < 100 || worldSize > 1000)
+            throw new InvalidSettingExeption("Invalid world size.");
+
         WORLD_SIZE = worldSize;
     }
 
@@ -151,31 +165,47 @@ public class Configs implements Serializable {
         return AMPLITUDE;
     }
 
-    public static void setAMPLITUDE(float AMPLITUDE) {
-        Configs.AMPLITUDE = AMPLITUDE;
+    public static void setAMPLITUDE(float amplitude)
+            throws InvalidSettingExeption {
+        if (amplitude < 10.0f || amplitude > 100.0f)
+            throw new InvalidSettingExeption("Invalid amplitude value");
+
+        Configs.AMPLITUDE = amplitude;
     }
 
     public static float getROUGHNESS() {
         return ROUGHNESS;
     }
 
-    public static void setROUGHNESS(float ROUGHNESS) {
-        Configs.ROUGHNESS = ROUGHNESS;
+    public static void setROUGHNESS(float roughness)
+            throws InvalidSettingExeption {
+        if (roughness < 0.1f || roughness > 0.9f)
+            throw new InvalidSettingExeption("Invalid roughness value");
+
+        Configs.ROUGHNESS = roughness;
     }
 
     public static int getOCTAVES() {
         return OCTAVES;
     }
 
-    public static void setOCTAVES(int OCTAVES) {
-        Configs.OCTAVES = OCTAVES;
+    public static void setOCTAVES(int octaves)
+            throws InvalidSettingExeption {
+        if (octaves < 2 || octaves > 10)
+            throw new InvalidSettingExeption("Invalid octaves value");
+
+        Configs.OCTAVES = octaves;
     }
 
-    public static float getWaterHeight() {
+    public static int getWaterHeight() {
         return WATER_HEIGHT;
     }
 
-    public static void setWaterHeight(float waterHeight) {
+    public static void setWaterHeight(int waterHeight)
+            throws InvalidSettingExeption {
+        if (waterHeight < -10 || waterHeight > 10)
+            throw new InvalidSettingExeption("Invalid water height");
+
         WATER_HEIGHT = waterHeight;
     }
 
@@ -183,7 +213,11 @@ public class Configs implements Serializable {
         return WAVE_SPEED;
     }
 
-    public static void setWaveSpeed(float waveSpeed) {
+    public static void setWaveSpeed(float waveSpeed)
+            throws InvalidSettingExeption {
+        if (waveSpeed < 0.0005f || waveSpeed > 0.009f)
+            throw new InvalidSettingExeption("Invalid wave speed value");
+
         WAVE_SPEED = waveSpeed;
     }
 
@@ -191,7 +225,11 @@ public class Configs implements Serializable {
         return WAVE_LENGTH;
     }
 
-    public static void setWaveLength(float waveLength) {
+    public static void setWaveLength(float waveLength)
+            throws InvalidSettingExeption {
+        if (waveLength < 1 || waveLength > 10)
+            throw new InvalidSettingExeption("Invalid wave length");
+
         WAVE_LENGTH = waveLength;
     }
 
@@ -199,7 +237,43 @@ public class Configs implements Serializable {
         return WAVE_AMPLITUDE;
     }
 
-    public static void setWaveAmplitude(float waveAmplitude) {
+    public static void setWaveAmplitude(float waveAmplitude)
+            throws InvalidSettingExeption {
+        if (waveAmplitude < 0.05f || waveAmplitude > 0.9f)
+            throw new InvalidSettingExeption("Invalid wave amplitude");
+
         WAVE_AMPLITUDE = waveAmplitude;
+    }
+
+    public static void saveToXML(String xml){
+        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = null;
+        try {
+            documentBuilder = documentFactory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        Document document = documentBuilder.newDocument();
+
+        Element root = document.createElement("configs");
+        document.appendChild(root);
+
+        addElementToXML("fps_cap", Integer.toString(getFpsCap()),
+                root, document);
+        addElementToXML("screen_width", Integer.toString(getScreenWidth()),
+                root, document);
+        addElementToXML("screen_height", Integer.toString(getScreenHeight()),
+                root, document);
+
+        addElementToXML("color_spread", Float.toString(getColorSpread()),
+                root, document);
+    }
+
+    private static void addElementToXML(String elementName,
+                                        String elementValue,
+                                        Element root, Document document){
+        Element element = document.createElement(elementName);
+        element.appendChild(document.createTextNode(elementValue));
+        root.appendChild(element);
     }
 }
