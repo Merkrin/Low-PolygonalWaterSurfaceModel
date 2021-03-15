@@ -1,17 +1,35 @@
 package ru.hse.engine;
 
 import org.lwjgl.util.vector.Vector3f;
+import ru.hse.engine.exceptions.CommandLineArgumentsException;
+import ru.hse.engine.exceptions.InvalidSettingExeption;
 import ru.hse.terrain.generation.PolygonizedTerrainGenerator;
 import ru.hse.terrain.generation.Terrain;
 import ru.hse.terrain.generation.TerrainGenerator;
 import ru.hse.terrain.utils.ColorGenerator;
 import ru.hse.terrain.utils.PerlinNoiseGenerator;
+import ru.hse.utils.CommandLineUtils;
 import ru.hse.utils.Configs;
 import ru.hse.water.generation.WaterGenerator;
 import ru.hse.water.utils.WaterTile;
 
 public class Main {
     public static void main(String[] args) {
+        if (args.length != 1) {
+            try {
+                String[] arguments = new String[args.length-1];
+
+                for(int i = 1; i < args.length; i++)
+                    arguments[i-1] = args[i];
+
+                CommandLineUtils.readArguments(arguments);
+            } catch (CommandLineArgumentsException e) {
+                e.printStackTrace();
+            } catch (InvalidSettingExeption invalidSettingExeption) {
+                invalidSettingExeption.printStackTrace();
+            }
+        }
+
         RenderEngine engine = new RenderEngine(Configs.FPS_CAP, Configs.SCREEN_WIDTH, Configs.SCREEN_HEIGHT);
         Daemon player = new Daemon(engine.getWINDOW(), new Vector3f(200, 50, 200),
                 0, 0, 0, 1);
