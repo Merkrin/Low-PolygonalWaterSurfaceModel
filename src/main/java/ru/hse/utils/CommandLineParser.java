@@ -109,7 +109,7 @@ public class CommandLineParser {
             System.out.println(e.getMessage());
             formatter.printHelp("utility-name", options);
 
-            System.exit(1);
+            //System.exit(1);
         }
     }
 

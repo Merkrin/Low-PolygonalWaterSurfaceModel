@@ -70,7 +70,7 @@ public class Configs implements Serializable {
 
         double width = screenRes.getWidth();
 
-        if (screenWidth < width / 2 || screenWidth > width)
+        if (screenWidth < width / 4 || screenWidth > width)
             throw new InvalidSettingExeption("Invalid screen width.");
 
         SCREEN_WIDTH = screenWidth;
@@ -86,7 +86,7 @@ public class Configs implements Serializable {
 
         double height = screenRes.getHeight();
 
-        if (screenHeight < height / 2 || screenHeight > height)
+        if (screenHeight < height / 4 || screenHeight > height)
             throw new InvalidSettingExeption("Invalid screen height.");
 
         SCREEN_HEIGHT = screenHeight;
