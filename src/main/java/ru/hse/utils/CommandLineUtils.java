@@ -69,6 +69,30 @@ public class CommandLineUtils {
             Configs.setWaveAmplitude(Float.parseFloat(settings.get("-wa")));
     }
 
+    public static String createCommandLine() {
+        String commandLine = "";
+
+        commandLine += "-fps " + Configs.getFpsCap();
+        commandLine += " -w " + Configs.getScreenWidth();
+        commandLine += " -h " + Configs.getScreenHeight();
+        commandLine += " -WS " + Configs.getWorldSize();
+        commandLine += " -S " + Configs.getSEED();
+        commandLine += " -A " + Configs.getAMPLITUDE();
+        commandLine += " -R " + Configs.getROUGHNESS();
+        commandLine += " -O " + Configs.getOCTAVES();
+        commandLine += " -cs " + Configs.getColorSpread();
+        commandLine += " -tc " + Configs.getTerrainColorsAsString();
+        commandLine += " -lp " + Configs.getLightPositionAsString();
+        commandLine += " -lc " + Configs.getLightColor();
+        commandLine += " -lb " + Configs.getLightBiasAsString();
+        commandLine += " -wh " + Configs.getWaterHeight();
+        commandLine += " -ws " + Configs.getWaveSpeed();
+        commandLine += " -wl " + Configs.getWaveLength();
+        commandLine += " -wa " + Configs.getWaveAmplitude();
+
+        return commandLine;
+    }
+
     private static void checkLength(double argsAmount) throws CommandLineArgumentsException {
         if (argsAmount < MINIMAL_ARGS_AMOUNT ||
                 argsAmount > MAXIMAL_ARGS_AMOUNT ||

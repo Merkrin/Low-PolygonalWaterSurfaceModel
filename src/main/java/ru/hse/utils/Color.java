@@ -136,7 +136,7 @@ public class Color {
 
     @Override
     public String toString() {
-        return "[" + color.x + ";" + color.y + ";" + color.z + "]";
+        return color.x + ";" + color.y + ";" + color.z;
     }
 
     public void setColor(float red, float green, float blue) {

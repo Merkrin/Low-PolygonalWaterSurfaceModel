@@ -109,6 +109,18 @@ public class Configs implements Serializable {
         return TERRAIN_COLORS;
     }
 
+    public static String getTerrainColorsAsString() {
+        StringBuilder colors = new StringBuilder();
+
+        for (int i = 0; i < TERRAIN_COLORS.length - 1; i++) {
+            colors.append(TERRAIN_COLORS[i]).append(";");
+        }
+
+        colors.append(TERRAIN_COLORS[TERRAIN_COLORS.length - 1]);
+
+        return colors.toString();
+    }
+
     public static void setTerrainColors(Color[] terrainColors)
             throws InvalidSettingExeption {
         if (terrainColors.length == 0)
@@ -119,6 +131,10 @@ public class Configs implements Serializable {
 
     public static Vector3f getLightPosition() {
         return LIGHT_POSITION;
+    }
+
+    public static String getLightPositionAsString(){
+        return LIGHT_POSITION.x + ";" + LIGHT_POSITION.y + ";" + LIGHT_POSITION.z;
     }
 
     public static void setLightPosition(Vector3f lightPosition) {
@@ -135,6 +151,10 @@ public class Configs implements Serializable {
 
     public static Vector2f getLightBias() {
         return LIGHT_BIAS;
+    }
+
+    public static String getLightBiasAsString(){
+        return LIGHT_BIAS.x + ";" + LIGHT_BIAS.y;
     }
 
     public static void setLightBias(Vector2f lightBias) {
@@ -245,7 +265,7 @@ public class Configs implements Serializable {
         WAVE_AMPLITUDE = waveAmplitude;
     }
 
-    public static void saveToXML(String xml){
+    public static void saveToXML(String xml) {
         DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = null;
         try {
@@ -271,7 +291,7 @@ public class Configs implements Serializable {
 
     private static void addElementToXML(String elementName,
                                         String elementValue,
-                                        Element root, Document document){
+                                        Element root, Document document) {
         Element element = document.createElement(elementName);
         element.appendChild(document.createTextNode(elementValue));
         root.appendChild(element);

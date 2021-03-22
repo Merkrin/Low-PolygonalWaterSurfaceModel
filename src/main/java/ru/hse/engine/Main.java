@@ -14,14 +14,25 @@ import ru.hse.water.generation.WaterGenerator;
 import ru.hse.water.utils.WaterTile;
 
 public class Main {
-    public static void main(String[] args) {
-        if (args.length != 1) {
+    private static void readArguments(String[] args){
+        boolean isMac = System.getProperty("os.name").startsWith("Mac");
+
+        String[] arguments = null;
+
+        if(isMac){
+            if (args.length != 1){
+                arguments = new String[args.length-1];
+
+                if (args.length - 1 >= 0) System.arraycopy(args, 1, arguments, 0, args.length - 1);
+            }
+        }else{
+            if (args.length != 0) {
+                arguments = args;
+            }
+        }
+
+        if(arguments != null) {
             try {
-                String[] arguments = new String[args.length-1];
-
-                for(int i = 1; i < args.length; i++)
-                    arguments[i-1] = args[i];
-
                 CommandLineUtils.readArguments(arguments);
             } catch (CommandLineArgumentsException e) {
                 e.printStackTrace();
@@ -29,7 +40,10 @@ public class Main {
                 invalidSettingExeption.printStackTrace();
             }
         }
+    }
 
+    public static void main(String[] args) {
+        readArguments(args);
         RenderEngine engine = new RenderEngine(Configs.FPS_CAP, Configs.SCREEN_WIDTH, Configs.SCREEN_HEIGHT);
         Daemon player = new Daemon(engine.getWINDOW(), new Vector3f(200, 50, 200),
                 0, 0, 0, 1);
