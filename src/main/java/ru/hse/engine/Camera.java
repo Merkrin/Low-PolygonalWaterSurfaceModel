@@ -61,7 +61,7 @@ public class Camera implements ICamera {
      */
     public void move() {
         calculatePitch();
-        //calculateAngleAroundPlayer();
+        calculateAngleAroundPlayer();
         calculateZoom();
 
         float horizontalDistance = calculateHorizontalDistance();
@@ -199,11 +199,17 @@ public class Camera implements ICamera {
      * TODO: make it also change the demon's rotation
      */
     private void calculateAngleAroundPlayer() {
-        if (Mouse.isButtonDown(0)) {
+        if (Mouse.isButtonDown(0)){
             float angleChange = Mouse.getDX() * YAW_SENSITIVITY;
-            angleAroundDaemon.increaseTargetValue(-angleChange);
+
+            daemon.increaseRotation(0, -angleChange, 0);
         }
-        angleAroundDaemon.update(1f / 60);
+
+//        if (Mouse.isButtonDown(0)) {
+//            float angleChange = Mouse.getDX() * YAW_SENSITIVITY;
+//            angleAroundDaemon.increaseTargetValue(-angleChange);
+//        }
+//        angleAroundDaemon.update(1f / 60);
     }
 
     /**
