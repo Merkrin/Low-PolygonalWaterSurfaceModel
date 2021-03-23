@@ -13,31 +13,35 @@ import ru.hse.utils.Configs;
 import ru.hse.water.generation.WaterGenerator;
 import ru.hse.water.utils.WaterTile;
 
+import java.io.IOException;
+
 public class Main {
-    private static void readArguments(String[] args){
+    private static void readArguments(String[] args) {
         boolean isMac = System.getProperty("os.name").startsWith("Mac");
 
         String[] arguments = null;
 
-        if(isMac){
-            if (args.length != 1){
-                arguments = new String[args.length-1];
+        if (isMac) {
+            if (args.length != 1) {
+                arguments = new String[args.length - 1];
 
                 if (args.length - 1 >= 0) System.arraycopy(args, 1, arguments, 0, args.length - 1);
             }
-        }else{
+        } else {
             if (args.length != 0) {
                 arguments = args;
             }
         }
 
-        if(arguments != null) {
+        if (arguments != null) {
             try {
                 CommandLineUtils.readArguments(arguments);
             } catch (CommandLineArgumentsException e) {
                 e.printStackTrace();
             } catch (InvalidSettingExeption invalidSettingExeption) {
                 invalidSettingExeption.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

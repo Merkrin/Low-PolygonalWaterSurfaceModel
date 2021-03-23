@@ -1,11 +1,14 @@
 package ru.hse.utils;
 
-import org.apache.commons.cli.CommandLine;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.engine.exceptions.CommandLineArgumentsException;
 import ru.hse.engine.exceptions.InvalidSettingExeption;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class CommandLineUtils {
@@ -19,10 +22,14 @@ public class CommandLineUtils {
             "-wl", "-wa"};
 
     public static void readArguments(String[] args)
-            throws CommandLineArgumentsException, InvalidSettingExeption {
+            throws CommandLineArgumentsException, InvalidSettingExeption, IOException {
         double argsAmount = args.length / 2.0;
 
         checkLength(argsAmount);
+
+        if(args[0].equals("-FF")){
+            args = readArgsFromFile(args[1]);
+        }
 
         for (int i = 0; i < argsAmount * 2; i += 2) {
             if (isValidFlag(args[i]))
@@ -93,6 +100,12 @@ public class CommandLineUtils {
         return commandLine;
     }
 
+    private static String[] readArgsFromFile(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+
+        return Files.readAllLines(path).get(0).split(" ");
+    }
+
     private static void checkLength(double argsAmount) throws CommandLineArgumentsException {
         if (argsAmount < MINIMAL_ARGS_AMOUNT ||
                 argsAmount > MAXIMAL_ARGS_AMOUNT ||
@@ -120,7 +133,7 @@ public class CommandLineUtils {
             for (int i = 0; i <= colorStrings.length - 3; i += 3) {
                 colors[index] = new Color(Float.parseFloat(colorStrings[i]),
                         Float.parseFloat(colorStrings[i + 1]),
-                        Float.parseFloat(colorStrings[i + 2]));
+                        Float.parseFloat(colorStrings[i + 2]),true);
 
                 index++;
             }

@@ -2,7 +2,6 @@ package ru.hse.utils;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import ru.hse.engine.exceptions.InvalidSettingExeption;
