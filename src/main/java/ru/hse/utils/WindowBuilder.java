@@ -1,7 +1,9 @@
 package ru.hse.utils;
 
+import org.lwjgl.LWJGLException;
+
 public class WindowBuilder {
-    private static final String TITLE = "Low-Polygonal water ";
+    private static final String TITLE = "Low-Polygonal water surface model";
 
     private final int WIDTH;
     private final int HEIGHT;
@@ -9,7 +11,6 @@ public class WindowBuilder {
 
     private boolean hasVSync = false;
     private boolean withAntialiasing = false;
-    private boolean isFullScreen = false;
 
     protected WindowBuilder(int width, int height, int fpsCap){
         WIDTH = width;
@@ -28,28 +29,23 @@ public class WindowBuilder {
         return this;
     }
 
-    public WindowBuilder fullScreen(boolean full){
-        this.isFullScreen = full;
-        return this;
-    }
-
-    public Window create(){
+    public Window create() throws LWJGLException {
         return new Window(new Context(3,3), this);
     }
 
-    protected int getWIDTH() {
+    protected int getWidth() {
         return WIDTH;
     }
 
-    protected int getHEIGHT(){
+    protected int getHeight(){
         return HEIGHT;
     }
 
-    protected int getFPS_CAP() {
+    protected int getFpsCap() {
         return FPS_CAP;
     }
 
-    protected String getTITLE() {
+    protected String getTitle() {
         return TITLE;
     }
 
@@ -59,9 +55,5 @@ public class WindowBuilder {
 
     protected boolean isWithAntialiasing() {
         return withAntialiasing;
-    }
-
-    protected boolean isFullScreen() {
-        return isFullScreen;
     }
 }

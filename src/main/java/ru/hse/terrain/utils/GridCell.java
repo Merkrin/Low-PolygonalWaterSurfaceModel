@@ -23,8 +23,8 @@ public class GridCell {
         this.row = row;
         this.col = col;
         boolean rightHanded = col % 2 != row % 2;
-        this.normalLeft = Maths.calcNormal(positions[0], positions[1], positions[rightHanded ? 3 : 2]);
-        this.normalRight = Maths.calcNormal(positions[2], positions[rightHanded ? 0 : 1], positions[3]);
+        this.normalLeft = Maths.calculateNormal(positions[0], positions[1], positions[rightHanded ? 3 : 2]);
+        this.normalRight = Maths.calculateNormal(positions[2], positions[rightHanded ? 0 : 1], positions[3]);
     }
 
     public void storeSquareData(ByteBuffer buffer) {

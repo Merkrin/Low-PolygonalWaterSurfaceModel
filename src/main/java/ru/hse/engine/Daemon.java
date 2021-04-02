@@ -25,7 +25,8 @@ public class Daemon {
 
     private Window window;
 
-    public Daemon(Window window, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Daemon(Window window, Vector3f position,
+                  float rotX, float rotY, float rotZ, float scale) {
         this.window = window;
         this.position = position;
         this.rotX = rotX;
@@ -34,65 +35,51 @@ public class Daemon {
         this.scale = scale;
     }
 
-    public void increasePosition(float dx, float dy, float dz){
+    public void increasePosition(float dx, float dy, float dz) {
         position.x += dx;
         position.y += dy;
         position.z += dz;
     }
 
-    public void increaseRotation(float dx, float dy, float dz){
+    public void increaseRotation(float dx, float dy, float dz) {
         rotX += dx;
         rotY += dy;
         rotZ += dz;
     }
 
-    public void move(){
+    public void move() {
         checkInput();
 
         increaseRotation(0, currentTurnSpeed * window.getFrameTimeSeconds(), 0);
 
         float distance = currentSpeed * window.getFrameTimeSeconds();
-        float dx = (float)(distance * Math.sin(Math.toRadians(getRotY())));
-        float dz = (float)(distance * Math.cos(Math.toRadians(getRotY())));
+        float dx = (float) (distance * Math.sin(Math.toRadians(getRotY())));
+        float dz = (float) (distance * Math.cos(Math.toRadians(getRotY())));
 
         increasePosition(dx, upwardsSpeed, dz);
     }
 
-    private void checkInput(){
-        if(Keyboard.isKeyDown(Keyboard.KEY_W)){
+    private void checkInput() {
+        if (Keyboard.isKeyDown(Keyboard.KEY_W))
             currentSpeed = RUN_SPEED;
-            //position.z -= 0.2f;
-        }else if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+        else if (Keyboard.isKeyDown(Keyboard.KEY_S))
             currentSpeed = -RUN_SPEED;
-            //position.z += 0.2f;
-        }else{
+        else
             currentSpeed = 0;
-        }
 
-        if(Keyboard.isKeyDown(Keyboard.KEY_D)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_D))
             currentTurnSpeed = -TURN_SPEED;
-        }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
+        else if (Keyboard.isKeyDown(Keyboard.KEY_A))
             currentTurnSpeed = TURN_SPEED;
-        }else{
+        else
             currentTurnSpeed = 0;
-        }
 
-        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
             upwardsSpeed = JUMP_POWER;
-        }else if(Keyboard.isKeyDown(Keyboard.KEY_X)){
+        else if (Keyboard.isKeyDown(Keyboard.KEY_X))
             upwardsSpeed = -JUMP_POWER;
-        }else{
+        else
             upwardsSpeed = 0;
-        }
-//        }else if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-//            position.x -= 0.2f;
-//        }else if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-//            position.x += 0.2f;
-//        }else if(Keyboard.isKeyDown(Keyboard.KEY_X)){
-//            position.y -= 0.2f;
-//        }else if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-//            position.y += 0.2f;
-//        }
     }
 
     public Vector3f getPosition() {

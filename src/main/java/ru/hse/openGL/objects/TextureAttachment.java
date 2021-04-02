@@ -6,6 +6,9 @@ import org.lwjgl.opengl.GL30;
 
 import java.nio.ByteBuffer;
 
+/**
+ * Class for attachments representation.
+ */
 public class TextureAttachment extends Attachment{
     private final int format;
     private final boolean nearestFiltering;

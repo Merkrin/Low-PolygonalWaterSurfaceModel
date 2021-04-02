@@ -1,5 +1,6 @@
 package ru.hse.engine;
 
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.*;
 import org.lwjgl.util.vector.Vector4f;
@@ -34,7 +35,8 @@ public class RenderEngine {
      * @param displayWidth  width of the window to show
      * @param displayHeight height of the window to show
      */
-    public RenderEngine(int fpsRate, int displayWidth, int displayHeight) {
+    public RenderEngine(int fpsRate, int displayWidth, int displayHeight)
+            throws LWJGLException {
         WINDOW = Window.newWindow(displayWidth, displayHeight, fpsRate)
                 .antialias(true)
                 .create();
@@ -59,8 +61,8 @@ public class RenderEngine {
                        ICamera camera, Light light) {
         GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
-        doReflectionPass(terrain, camera, light, waterTile.getHEIGHT());
-        doRefractionPass(terrain, camera, light, waterTile.getHEIGHT());
+        doReflectionPass(terrain, camera, light, waterTile.getHeight());
+        doRefractionPass(terrain, camera, light, waterTile.getHeight());
 
         GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
 
@@ -160,6 +162,7 @@ public class RenderEngine {
      * @param height             FBO height
      * @param useTextureForDepth boolean value if depth effect
      *                           should be added or not
+     *
      * @return created FBO class instance
      */
     private static Fbo createWaterFbo(int width, int height,

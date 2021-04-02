@@ -100,6 +100,7 @@ public class CommandLineUtils {
         return commandLine;
     }
 
+    // TODO: add format check
     private static String[] readArgsFromFile(String filePath) throws IOException {
         Path path = Paths.get(filePath);
 

@@ -7,7 +7,9 @@ import org.lwjgl.opengl.GL11;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
@@ -17,17 +19,30 @@ import java.time.format.DateTimeFormatter;
 public class InputParser {
     private static boolean isKeyDown = false;
 
-    public static void performInput() {
+    public static void performInput() throws IOException {
         if (Keyboard.isKeyDown(Keyboard.KEY_P) && !isKeyDown) {
             isKeyDown = true;
 
             takeScreenshot();
         }else if(Keyboard.isKeyDown(Keyboard.KEY_H) && !isKeyDown){
-            //Configs.saveConfigs();
+            isKeyDown = true;
+
+            saveConfigurations();
         }
 
         if(!Keyboard.getEventKeyState())
             isKeyDown = false;
+    }
+
+    private static void saveConfigurations() throws IOException {
+        String cli = CommandLineUtils.createCommandLine();
+
+        File file = getFileToSave(".lpws");
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(cli);
+
+        writer.close();
     }
 
     private static void takeScreenshot() {
@@ -38,11 +53,11 @@ public class InputParser {
         ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
         GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
-        DateTimeFormatter dtf =
-                DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
-        LocalDateTime now = LocalDateTime.now();
+//        DateTimeFormatter dtf =
+//                DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+//        LocalDateTime now = LocalDateTime.now();
 
-        File file = new File(dtf.format(now) + ".png");
+        File file = getFileToSave(".png");//new File(dtf.format(now) + ".png");
         String format = "PNG";
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int y = 0; y < height; ++y) {
@@ -59,5 +74,13 @@ public class InputParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static File getFileToSave(String fileFormat){
+        DateTimeFormatter dtf =
+                DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        return new File(dtf.format(now) + fileFormat);
     }
 }

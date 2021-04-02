@@ -9,11 +9,22 @@ import ru.hse.water.utils.WaterTile;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+/**
+ * Class of water model generation.
+ */
 public class WaterGenerator {
-    private static final int VERTICES_PER_SQUARE = 3 * 2;// 2 triangles
-    private static final int VERTEX_SIZE_BYTES = 8 + 4;// x,z position +
-    // indicator
+    // There are 2 triangles with 3 vertices in a square of the model.
+    private static final int VERTICES_PER_SQUARE = 3 * 2;
+    // X and Z position (2 * 4) and indicator (4).
+    private static final int VERTEX_SIZE_IN_BYTES = 8 + 4;
 
+    /**
+     * Method for water model generation.
+     *
+     * @param gridSize size of the wanted grid
+     * @param height   height of the wanted grid
+     * @return generated {@link WaterTile}
+     */
     public static WaterTile generate(int gridSize, float height) {
         int totalVertexAmount = gridSize * gridSize * VERTICES_PER_SQUARE;
 
@@ -24,10 +35,18 @@ public class WaterGenerator {
         return new WaterTile(vao, totalVertexAmount, height);
     }
 
-    private static byte[] createMeshData(int gridSize, int totalVertexCount) {
-        int byteSize = VERTEX_SIZE_BYTES * totalVertexCount;
+    /**
+     * Method for the water model's mesh data generation.
+     *
+     * @param gridSize          size of the wanted grid
+     * @param totalVertexAmount amount of the vertices in the mesh
+     * @return array of bytes with vertices' data
+     */
+    private static byte[] createMeshData(int gridSize, int totalVertexAmount) {
+        int bytesAmount = VERTEX_SIZE_IN_BYTES * totalVertexAmount;
 
-        ByteBuffer buffer = ByteBuffer.allocate(byteSize).order(ByteOrder.nativeOrder());
+        ByteBuffer buffer = ByteBuffer.allocate(bytesAmount)
+                .order(ByteOrder.nativeOrder());
 
         for (int row = 0; row < gridSize; row++)
             for (int column = 0; column < gridSize; column++)
@@ -36,6 +55,13 @@ public class WaterGenerator {
         return buffer.array();
     }
 
+    /**
+     * Method for grid square storing.
+     *
+     * @param column column of the square in the grid
+     * @param row    row of the square in the grid
+     * @param buffer buffer to store the square in
+     */
     private static void storeGridSquare(int column, int row,
                                         ByteBuffer buffer) {
         Vector2f[] cornerPosition = calculateCornerPositions(column, row);
@@ -44,15 +70,41 @@ public class WaterGenerator {
         storeTriangle(cornerPosition, buffer, false);
     }
 
-    private static void storeTriangle(Vector2f[] cornerPos, ByteBuffer buffer, boolean left) {
-        int index0 = left ? 0 : 2;
-        int index1 = 1;
-        int index2 = left ? 2 : 3;
-        DataStorage.packVertexData(cornerPos[index0], getIndicators(index0, cornerPos, index1, index2), buffer);
-        DataStorage.packVertexData(cornerPos[index1], getIndicators(index1, cornerPos, index2, index0), buffer);
-        DataStorage.packVertexData(cornerPos[index2], getIndicators(index2, cornerPos, index0, index1), buffer);
+    /**
+     * Method for grid square triangle storing.
+     *
+     * @param cornerPositions vector with triangle's corner positions
+     * @param buffer          buffer to store the triangle in
+     * @param left            flag if the square is the left one or not
+     */
+    private static void storeTriangle(Vector2f[] cornerPositions,
+                                      ByteBuffer buffer,
+                                      boolean left) {
+        int firstIndex = left ? 0 : 2;
+        int secondIndex = 1;
+        int thirdIndex = left ? 2 : 3;
+
+        DataStorage.packVertexData(cornerPositions[firstIndex],
+                getIndicators(firstIndex, cornerPositions,
+                        secondIndex, thirdIndex),
+                buffer);
+        DataStorage.packVertexData(cornerPositions[secondIndex],
+                getIndicators(secondIndex, cornerPositions,
+                        thirdIndex, firstIndex),
+                buffer);
+        DataStorage.packVertexData(cornerPositions[thirdIndex],
+                getIndicators(thirdIndex, cornerPositions,
+                        firstIndex, secondIndex),
+                buffer);
     }
 
+    /**
+     * Method for square's corner positions calculations.
+     *
+     * @param column column of the square in the grid
+     * @param row    row of the square in the grid
+     * @return vector of corners' positions
+     */
     private static Vector2f[] calculateCornerPositions(int column, int row) {
         Vector2f[] vertices = new Vector2f[4];
 
@@ -64,12 +116,32 @@ public class WaterGenerator {
         return vertices;
     }
 
-    private static byte[] getIndicators(int currentVertex, Vector2f[] vertexPositions, int vertex1, int vertex2) {
-        Vector2f currentVertexPos = vertexPositions[currentVertex];
-        Vector2f vertex1Pos = vertexPositions[vertex1];
-        Vector2f vertex2Pos = vertexPositions[vertex2];
-        Vector2f offset1 = Vector2f.sub(vertex1Pos, currentVertexPos, null);
-        Vector2f offset2 = Vector2f.sub(vertex2Pos, currentVertexPos, null);
-        return new byte[] { (byte) offset1.x, (byte) offset1.y, (byte) offset2.x, (byte) offset2.y };
+    /**
+     * Method for vertex' indicator getting.
+     *
+     * @param currentVertex   current vertex index
+     * @param vertexPositions array of vertex positions
+     * @param firstVertex     another vertex of the triangle
+     * @param secondVertex    another vertex of the triangle
+     * @return array of bytes with indicators
+     */
+    private static byte[] getIndicators(int currentVertex,
+                                        Vector2f[] vertexPositions,
+                                        int firstVertex, int secondVertex) {
+        Vector2f currentVertexPosition = vertexPositions[currentVertex];
+        Vector2f firstVertexPosition = vertexPositions[firstVertex];
+        Vector2f secondVertexPosition = vertexPositions[secondVertex];
+
+        Vector2f firstOffset = Vector2f.sub(firstVertexPosition,
+                currentVertexPosition,
+                null);
+        Vector2f secondOffset = Vector2f.sub(secondVertexPosition,
+                currentVertexPosition,
+                null);
+
+        return new byte[]{(byte) firstOffset.x,
+                (byte) firstOffset.y,
+                (byte) secondOffset.x,
+                (byte) secondOffset.y};
     }
 }

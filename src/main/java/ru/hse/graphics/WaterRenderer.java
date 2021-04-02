@@ -42,7 +42,7 @@ public class WaterRenderer {
 
         bindTextures(reflectionTexture, refractionTexture, depthTexture);
 
-        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, waterTile.getVERTEX_AMOUNT());
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, waterTile.getVertexAmount());
 
         finish(waterTile);
     }
@@ -55,7 +55,7 @@ public class WaterRenderer {
      * @param light     used light class instance
      */
     private void prepare(WaterTile waterTile, ICamera camera, Light light) {
-        waterTile.getVAO().bind();
+        waterTile.getVao().bind();
 
         GraphicsUtils.enableAlphaBlending();
 
@@ -102,7 +102,7 @@ public class WaterRenderer {
         loadCameraVariables(camera);
         loadLightVariables(light);
 
-        WATER_SHADER.height.loadFloat(waterTile.getHEIGHT());
+        WATER_SHADER.height.loadFloat(waterTile.getHeight());
 
         WATER_SHADER.waveLength.loadFloat(Configs.getWaveLength());
         WATER_SHADER.waveAmplitude.loadFloat(Configs.getWaveAmplitude());
@@ -150,7 +150,7 @@ public class WaterRenderer {
      * @param waterTile water tile class instance
      */
     private void finish(WaterTile waterTile) {
-        waterTile.getVAO().unbind();
+        waterTile.getVao().unbind();
 
         WATER_SHADER.stop();
 

@@ -12,7 +12,7 @@ public class FboBuilder {
     private final int height;
     private final int samples;
 
-    private Map<Integer, Attachment> colourAttachments = new HashMap<Integer, Attachment>();
+    private Map<Integer, Attachment> colorAttachments = new HashMap<>();
     private Attachment depthAttachment;
 
     public FboBuilder(int width, int height, int samples){
@@ -22,7 +22,7 @@ public class FboBuilder {
     }
 
     public FboBuilder addColourAttachment(int index, Attachment attachment){
-        colourAttachments.put(index, attachment);
+        colorAttachments.put(index, attachment);
         return this;
     }
 
@@ -36,7 +36,7 @@ public class FboBuilder {
         int fboId = createFbo();
         createColourAttachments();
         createDepthAttachment();
-        return new Fbo(fboId, width, height, colourAttachments, depthAttachment);
+        return new Fbo(fboId, width, height, colorAttachments, depthAttachment);
     }
 
     private int createFbo(){
@@ -46,7 +46,7 @@ public class FboBuilder {
     }
 
     private void createColourAttachments(){
-        for(Map.Entry<Integer, Attachment> entry : colourAttachments.entrySet()){
+        for(Map.Entry<Integer, Attachment> entry : colorAttachments.entrySet()){
             Attachment attachment = entry.getValue();
             int attachmentId = GL30.GL_COLOR_ATTACHMENT0 + entry.getKey();
             attachment.init(attachmentId, width, height, samples);

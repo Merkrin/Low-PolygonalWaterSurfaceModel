@@ -69,7 +69,6 @@ public class Camera implements ICamera {
 
         calculateCameraPosition(horizontalDistance, verticalDistance);
 
-        // TODO: beautify this?
         yaw = 180 - (daemon.getRotY() + angleAroundDaemon.getActualValue());
 
         updateViewMatrices();
@@ -204,12 +203,6 @@ public class Camera implements ICamera {
 
             daemon.increaseRotation(0, -angleChange, 0);
         }
-
-//        if (Mouse.isButtonDown(0)) {
-//            float angleChange = Mouse.getDX() * YAW_SENSITIVITY;
-//            angleAroundDaemon.increaseTargetValue(-angleChange);
-//        }
-//        angleAroundDaemon.update(1f / 60);
     }
 
     /**
