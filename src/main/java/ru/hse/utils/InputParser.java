@@ -1,9 +1,11 @@
 package ru.hse.utils;
 
 import org.lwjgl.BufferUtils;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import ru.hse.engine.exceptions.InvalidSettingExeption;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -20,18 +22,62 @@ public class InputParser {
     private static boolean isKeyDown = false;
 
     public static void performInput() throws IOException {
-        if (Keyboard.isKeyDown(Keyboard.KEY_P) && !isKeyDown) {
-            isKeyDown = true;
+        while (Keyboard.next()) {
+            if (checkKey(Keyboard.KEY_P)) {
+                isKeyDown = true;
 
-            takeScreenshot();
-        }else if(Keyboard.isKeyDown(Keyboard.KEY_H) && !isKeyDown){
-            isKeyDown = true;
+                takeScreenshot();
+            } else if (checkKey(Keyboard.KEY_H)) {
+                isKeyDown = true;
 
-            saveConfigurations();
+                saveConfigurations();
+            } else if (checkKey(Keyboard.KEY_1)) {
+                try {
+                    Configs.setWaveAmplitude(Configs.getWaveAmplitude() + 0.1f);
+
+                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                } catch (Exception e) {
+                }
+            } else if (checkKey(Keyboard.KEY_2)) {
+                try {
+                    Configs.setWaveAmplitude(Configs.getWaveAmplitude() - 0.1f);
+
+                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                } catch (Exception e) {
+                }
+            }else if (checkKey(Keyboard.KEY_3)) {
+                try {
+                    Configs.setWaveLength(Configs.getWaveLength() + 1);
+
+                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                } catch (Exception e) {
+                }
+            }else if (checkKey(Keyboard.KEY_4)) {
+                try {
+                    Configs.setWaveLength(Configs.getWaveLength() - 1);
+
+                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                } catch (Exception e) {
+                }
+            }else if (checkKey(Keyboard.KEY_5)) {
+                try {
+                    Configs.setWaveSpeed(Configs.getWaveSpeed() + 0.01f);
+
+                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                } catch (Exception e) {
+                }
+            }else if (checkKey(Keyboard.KEY_6)) {
+                try {
+                    Configs.setWaveSpeed(Configs.getWaveSpeed() - 0.01f);
+
+                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                } catch (Exception e) {
+                }
+            }
+
+            if (!Keyboard.getEventKeyState())
+                isKeyDown = false;
         }
-
-        if(!Keyboard.getEventKeyState())
-            isKeyDown = false;
     }
 
     private static void saveConfigurations() throws IOException {
@@ -53,11 +99,7 @@ public class InputParser {
         ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
         GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
-//        DateTimeFormatter dtf =
-//                DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
-//        LocalDateTime now = LocalDateTime.now();
-
-        File file = getFileToSave(".png");//new File(dtf.format(now) + ".png");
+        File file = getFileToSave(".png");
         String format = "PNG";
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         for (int y = 0; y < height; ++y) {
@@ -76,11 +118,15 @@ public class InputParser {
         }
     }
 
-    private static File getFileToSave(String fileFormat){
+    private static File getFileToSave(String fileFormat) {
         DateTimeFormatter dtf =
                 DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
         LocalDateTime now = LocalDateTime.now();
 
         return new File(dtf.format(now) + fileFormat);
+    }
+
+    private static boolean checkKey(int key) {
+        return Keyboard.isKeyDown(key) && !isKeyDown;
     }
 }
