@@ -50,6 +50,8 @@ public class WaterShader extends ShaderProgram {
     protected UniformSampler depthTexture =
             new UniformSampler("depthTexture");
 
+    protected  UniformBoolean applyAnimation = new UniformBoolean("applyAnimation");
+
     /**
      * The class' constructor.
      */
@@ -61,7 +63,7 @@ public class WaterShader extends ShaderProgram {
                 cameraPosition,
                 nearFarPlanes,
                 waveTime, waveLength, waveAmplitude,
-                lightDirection, lightColor, lightBias);
+                lightDirection, lightColor, lightBias, applyAnimation);
 
         linkTextureUnits();
     }

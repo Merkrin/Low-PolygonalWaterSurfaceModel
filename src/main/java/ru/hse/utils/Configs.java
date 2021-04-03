@@ -14,6 +14,7 @@ import java.io.Serializable;
 
 public class Configs implements Serializable {
     private static boolean showWater = true;
+    private static boolean animateWater = true;
 
     // Maximal FPS-rate.
     public static int FPS_CAP = 100;
@@ -56,6 +57,14 @@ public class Configs implements Serializable {
 
     public static void invertShowWater(){
         showWater = !showWater;
+    }
+
+    public static boolean getAnimateWater(){
+        return animateWater;
+    }
+
+    public static void invertAnimateWater(){
+        animateWater = !animateWater;
     }
 
     public static int getFpsCap() {

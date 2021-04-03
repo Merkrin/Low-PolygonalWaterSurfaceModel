@@ -26,7 +26,11 @@ public class InputParser {
                 isKeyDown = true;
 
                 Configs.invertShowWater();
-            } else if (checkKey(Keyboard.KEY_P)) {
+            }else if (checkKey((Keyboard.KEY_MINUS))) {
+                isKeyDown = true;
+
+                Configs.invertAnimateWater();
+            }  else if (checkKey(Keyboard.KEY_P)) {
                 isKeyDown = true;
 
                 takeScreenshot();

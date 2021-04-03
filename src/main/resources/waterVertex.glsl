@@ -26,6 +26,8 @@ uniform vec3 lightDirection;
 uniform vec3 lightColour;
 uniform vec2 lightBias;
 
+uniform bool applyAnimation;
+
 uniform mat4 projectionViewMatrix;
 
 // Get vector of specular lighting.
@@ -83,10 +85,12 @@ void main(void){
 
     pass_clipSpaceGrid = projectionViewMatrix * vec4(currentVertex, 1.0);
 
-    // Apply distortion to the vertices.
-    currentVertex = applyDistortion(currentVertex);
-    vertex1 = applyDistortion(vertex1);
-    vertex2 = applyDistortion(vertex2);
+    if(applyAnimation){
+        // Apply distortion to the vertices.
+        currentVertex = applyDistortion(currentVertex);
+        vertex1 = applyDistortion(vertex1);
+        vertex2 = applyDistortion(vertex2);
+    }
 
     // Get normal for the vertices.
     pass_normal = calculateNormal(currentVertex, vertex1, vertex2);

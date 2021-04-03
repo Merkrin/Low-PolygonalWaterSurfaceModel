@@ -106,6 +106,8 @@ public class WaterRenderer {
 
         WATER_SHADER.waveLength.loadFloat(Configs.getWaveLength());
         WATER_SHADER.waveAmplitude.loadFloat(Configs.getWaveAmplitude());
+
+        WATER_SHADER.applyAnimation.loadBoolean(Configs.getAnimateWater());
     }
 
     /**

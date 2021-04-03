@@ -6,7 +6,7 @@ public class UniformBoolean extends Uniform {
     private boolean value;
     private boolean isUsed = false;
 
-    protected UniformBoolean(String name) {
+    public UniformBoolean(String name) {
         super(name);
     }
 
