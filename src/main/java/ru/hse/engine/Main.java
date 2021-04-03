@@ -4,6 +4,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.engine.exceptions.CommandLineArgumentsException;
 import ru.hse.engine.exceptions.InvalidSettingExeption;
+import ru.hse.engine.exceptions.SettingsFileException;
 import ru.hse.terrain.generation.PolygonizedTerrainGenerator;
 import ru.hse.terrain.generation.Terrain;
 import ru.hse.terrain.generation.TerrainGenerator;
@@ -43,19 +44,25 @@ public class Main {
         if (arguments != null) {
             try {
                 CommandLineUtils.readArguments(arguments);
-            } catch (CommandLineArgumentsException | InvalidSettingExeption e) {
+            } catch (CommandLineArgumentsException | InvalidSettingExeption | NullPointerException e) {
                 System.out.println("An error in command line format found: " +
                         e.getMessage());
                 System.out.println("Starting with standard settings...");
-            } catch (IOException e) {
+            } catch (IOException | SettingsFileException e) {
                 System.out.println("An error while reading file occurred: " +
                         e.getMessage());
+                System.out.println("Starting with standard settings...");
+            } catch (Exception e) {
+                System.out.println("An unhandled exception occurred: " + e.getMessage());
                 System.out.println("Starting with standard settings...");
             }
         }
     }
 
     public static void main(String[] args) {
+        System.out.println("Welcome to the Low-polygonal water surface model program!");
+        System.out.println("You can press <H> to get help anytime.");
+
         readArguments(args);
 
         try {

@@ -4,6 +4,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.engine.exceptions.CommandLineArgumentsException;
 import ru.hse.engine.exceptions.InvalidSettingExeption;
+import ru.hse.engine.exceptions.SettingsFileException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,8 +13,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 public class CommandLineUtils {
-    private static int MINIMAL_ARGS_AMOUNT = 3;
-    private static int MAXIMAL_ARGS_AMOUNT = 17;
+    private static final int MINIMAL_ARGS_AMOUNT = 3;
+    private static final int MAXIMAL_ARGS_AMOUNT = 17;
 
     private static HashMap<String, String> settings = new HashMap<>();
 
@@ -22,8 +23,8 @@ public class CommandLineUtils {
             "-wl", "-wa"};
 
     public static void readArguments(String[] args)
-            throws CommandLineArgumentsException, InvalidSettingExeption, IOException {
-        if(args[0].equals("-FF")){
+            throws CommandLineArgumentsException, InvalidSettingExeption, IOException, SettingsFileException {
+        if (args[0].equals("-FF")) {
             args = readArgsFromFile(args[1]);
         }
 
@@ -101,7 +102,10 @@ public class CommandLineUtils {
     }
 
     // TODO: add format check
-    private static String[] readArgsFromFile(String filePath) throws IOException {
+    private static String[] readArgsFromFile(String filePath) throws IOException, SettingsFileException {
+        if (!(filePath).endsWith(".lpw"))
+            throw new SettingsFileException("Not an *.lpw-file given for settings reading.");
+
         Path path = Paths.get(filePath);
 
         return Files.readAllLines(path).get(0).split(" ");
@@ -134,7 +138,7 @@ public class CommandLineUtils {
             for (int i = 0; i <= colorStrings.length - 3; i += 3) {
                 colors[index] = new Color(Float.parseFloat(colorStrings[i]),
                         Float.parseFloat(colorStrings[i + 1]),
-                        Float.parseFloat(colorStrings[i + 2]),true);
+                        Float.parseFloat(colorStrings[i + 2]), true);
 
                 index++;
             }
