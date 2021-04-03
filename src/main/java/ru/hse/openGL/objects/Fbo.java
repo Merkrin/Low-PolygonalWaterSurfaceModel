@@ -113,7 +113,6 @@ public class Fbo {
     }
 
     public void bindForRender(int colourIndex) {
-        //should add support for binding multiple colour attachments
         GL11.glDrawBuffer(GL30.GL_COLOR_ATTACHMENT0 + colourIndex);
         GL30.glBindFramebuffer(GL30.GL_DRAW_FRAMEBUFFER, FBO_ID);
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
