@@ -17,13 +17,16 @@ import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-// TODO: https://www.youtube.com/watch?v=WQLPZKpnod8&list=PLRIWtICgwaX0u7Rf9zkZhLoLuZVfUksDP&index=48 about multiple rendering
 public class InputParser {
     private static boolean isKeyDown = false;
 
     public static void performInput() throws IOException {
         while (Keyboard.next()) {
-            if (checkKey(Keyboard.KEY_P)) {
+            if (checkKey((Keyboard.KEY_0))) {
+                isKeyDown = true;
+
+                Configs.invertShowWater();
+            } else if (checkKey(Keyboard.KEY_P)) {
                 isKeyDown = true;
 
                 takeScreenshot();
@@ -45,28 +48,28 @@ public class InputParser {
                     System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
                 } catch (Exception e) {
                 }
-            }else if (checkKey(Keyboard.KEY_3)) {
+            } else if (checkKey(Keyboard.KEY_3)) {
                 try {
                     Configs.setWaveLength(Configs.getWaveLength() + 1);
 
                     System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
                 } catch (Exception e) {
                 }
-            }else if (checkKey(Keyboard.KEY_4)) {
+            } else if (checkKey(Keyboard.KEY_4)) {
                 try {
                     Configs.setWaveLength(Configs.getWaveLength() - 1);
 
                     System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
                 } catch (Exception e) {
                 }
-            }else if (checkKey(Keyboard.KEY_5)) {
+            } else if (checkKey(Keyboard.KEY_5)) {
                 try {
                     Configs.setWaveSpeed(Configs.getWaveSpeed() + 0.01f);
 
                     System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
                 } catch (Exception e) {
                 }
-            }else if (checkKey(Keyboard.KEY_6)) {
+            } else if (checkKey(Keyboard.KEY_6)) {
                 try {
                     Configs.setWaveSpeed(Configs.getWaveSpeed() - 0.01f);
 

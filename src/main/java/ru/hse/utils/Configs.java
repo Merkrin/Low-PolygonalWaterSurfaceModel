@@ -13,6 +13,8 @@ import java.awt.*;
 import java.io.Serializable;
 
 public class Configs implements Serializable {
+    private static boolean showWater = true;
+
     // Maximal FPS-rate.
     public static int FPS_CAP = 100;
     // Window sizes
@@ -47,6 +49,14 @@ public class Configs implements Serializable {
     public static float WAVE_SPEED = 0.002f;
     public static float WAVE_LENGTH = 4.0f;
     public static float WAVE_AMPLITUDE = 0.2f;
+
+    public static boolean getShowWater(){
+        return showWater;
+    }
+
+    public static void invertShowWater(){
+        showWater = !showWater;
+    }
 
     public static int getFpsCap() {
         return FPS_CAP;

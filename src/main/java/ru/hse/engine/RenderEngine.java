@@ -11,8 +11,12 @@ import ru.hse.openGL.objects.RenderBufferAttachment;
 import ru.hse.openGL.objects.TextureAttachment;
 import ru.hse.openGL.utils.GraphicsUtils;
 import ru.hse.terrain.generation.Terrain;
+import ru.hse.utils.Configs;
+import ru.hse.utils.InputParser;
 import ru.hse.utils.Window;
 import ru.hse.water.utils.WaterTile;
+
+import java.lang.invoke.ConstantCallSite;
 
 /**
  * Render engine class.
@@ -59,12 +63,14 @@ public class RenderEngine {
      */
     public void render(Terrain terrain, WaterTile waterTile,
                        ICamera camera, Light light) {
-        GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+        if(Configs.getShowWater()) {
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
-        doReflectionPass(terrain, camera, light, waterTile.getHeight());
-        doRefractionPass(terrain, camera, light, waterTile.getHeight());
+            doReflectionPass(terrain, camera, light, waterTile.getHeight());
+            doRefractionPass(terrain, camera, light, waterTile.getHeight());
 
-        GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+            GL11.glDisable(GL30.GL_CLIP_DISTANCE0);
+        }
 
         doMainRenderPass(terrain, waterTile, camera, light);
     }
@@ -126,16 +132,19 @@ public class RenderEngine {
     private void doMainRenderPass(Terrain terrain, WaterTile waterTile,
                                   ICamera camera, Light light) {
         prepare();
+
         terrain.render(camera, light, new Vector4f(0, 0, 0, 0));
 
-        GraphicsUtils.goWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
+        if(Configs.getShowWater()) {
+            GraphicsUtils.goWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
 
-        WATER_RENDERER.render(waterTile, camera, light,
-                reflectionFbo.getColorBuffer(0),
-                refractionFbo.getColorBuffer(0),
-                refractionFbo.getDepthBuffer());
+            WATER_RENDERER.render(waterTile, camera, light,
+                    reflectionFbo.getColorBuffer(0),
+                    refractionFbo.getColorBuffer(0),
+                    refractionFbo.getDepthBuffer());
 
-        GraphicsUtils.goWireframe(false);
+            GraphicsUtils.goWireframe(false);
+        }
 
         WINDOW.update();
     }
