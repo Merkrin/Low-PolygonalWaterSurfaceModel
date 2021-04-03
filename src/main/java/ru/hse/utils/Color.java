@@ -17,6 +17,14 @@ public class Color {
         this.color = color;
     }
 
+    public Color(Vector3f color, boolean toBeConverted){
+        color.x = color.x/255f;
+        color.y = color.y/255f;
+        color.z = color.z/255f;
+
+        this.color = color;
+    }
+
     public Color(float red, float green, float blue) {
         color.set(red, green, blue);
     }
@@ -136,7 +144,7 @@ public class Color {
 
     @Override
     public String toString() {
-        return color.x + ";" + color.y + ";" + color.z;
+        return (int)(color.x*255) + ";" + (int)(color.y*255) + ";" + (int)(color.z*255);
     }
 
     public void setColor(float red, float green, float blue) {

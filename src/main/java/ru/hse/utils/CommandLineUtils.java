@@ -23,13 +23,13 @@ public class CommandLineUtils {
 
     public static void readArguments(String[] args)
             throws CommandLineArgumentsException, InvalidSettingExeption, IOException {
-        double argsAmount = args.length / 2.0;
-
-        checkLength(argsAmount);
-
         if(args[0].equals("-FF")){
             args = readArgsFromFile(args[1]);
         }
+
+        double argsAmount = args.length / 2.0;
+
+        checkLength(argsAmount);
 
         for (int i = 0; i < argsAmount * 2; i += 2) {
             if (isValidFlag(args[i]))
@@ -62,7 +62,7 @@ public class CommandLineUtils {
         if (settings.containsKey("-lp"))
             Configs.setLightPosition(createVector3f(settings.get("-lp")));
         if (settings.containsKey("-lc"))
-            Configs.setLightColor(new Color(createVector3f(settings.get("-lc"))));
+            Configs.setLightColor(new Color(createVector3f(settings.get("-lc")), true));
         if (settings.containsKey("-lb"))
             Configs.setLightBias(createVector2f(settings.get("-lb")));
 

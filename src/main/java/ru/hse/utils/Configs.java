@@ -2,13 +2,8 @@ package ru.hse.utils;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import ru.hse.engine.exceptions.InvalidSettingExeption;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.awt.*;
 import java.io.Serializable;
 
@@ -281,37 +276,5 @@ public class Configs implements Serializable {
             throw new InvalidSettingExeption("Invalid wave amplitude");
 
         WAVE_AMPLITUDE = waveAmplitude;
-    }
-
-    public static void saveToXML(String xml) {
-        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = null;
-        try {
-            documentBuilder = documentFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-        }
-        Document document = documentBuilder.newDocument();
-
-        Element root = document.createElement("configs");
-        document.appendChild(root);
-
-        addElementToXML("fps_cap", Integer.toString(getFpsCap()),
-                root, document);
-        addElementToXML("screen_width", Integer.toString(getScreenWidth()),
-                root, document);
-        addElementToXML("screen_height", Integer.toString(getScreenHeight()),
-                root, document);
-
-        addElementToXML("color_spread", Float.toString(getColorSpread()),
-                root, document);
-    }
-
-    private static void addElementToXML(String elementName,
-                                        String elementValue,
-                                        Element root, Document document) {
-        Element element = document.createElement(elementName);
-        element.appendChild(document.createTextNode(elementValue));
-        root.appendChild(element);
     }
 }
