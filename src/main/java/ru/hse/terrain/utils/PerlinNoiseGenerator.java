@@ -4,9 +4,6 @@ import java.util.Random;
 
 /**
  * Class for terrain heights map generation.
- * <p>
- * TODO: watch https://youtu.be/qChQrNWU9Xw
- * TODO: beautify the class
  */
 public class PerlinNoiseGenerator {
     private final int seed;

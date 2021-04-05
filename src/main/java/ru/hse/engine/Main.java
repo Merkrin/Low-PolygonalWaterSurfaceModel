@@ -81,9 +81,9 @@ public class Main {
                     Configs.getAMPLITUDE(),
                     Configs.getROUGHNESS());
 
-            ColorGenerator colourGen = new ColorGenerator(Configs.getTerrainColors(),
+            ColorGenerator colorGenerator = new ColorGenerator(Configs.getTerrainColors(),
                     Configs.getColorSpread());
-            TerrainGenerator terrainGenerator = new PolygonizedTerrainGenerator(noise, colourGen);
+            TerrainGenerator terrainGenerator = new PolygonizedTerrainGenerator(noise, colorGenerator);
 
             Terrain terrain = terrainGenerator.generateTerrain(Configs.getWorldSize());
 

@@ -1,8 +1,8 @@
 #version 330
 
-const vec3 waterColour = vec3(0.604, 0.867, 0.851);
+const vec3 waterColor = vec3(0.604, 0.867, 0.851);
 const float fresnelReflective = 0.5;
-const float edgeSoftness = 1;
+const float edgeSoftness = 0.5;
 const float minBlueness = 0.4;
 const float maxBlueness = 0.8;
 const float murkyDepth = 14;
@@ -26,7 +26,7 @@ vec3 applyMurkiness(vec3 refractColour, float waterDepth) {
     float murkyFactor = clamp(waterDepth / murkyDepth, 0.0, 1.0);
     float murkiness = minBlueness + murkyFactor * (maxBlueness - minBlueness);
 
-    return mix(refractColour, waterColour, murkiness);
+    return mix(refractColour, waterColor, murkiness);
 }
 
 // Convert z depth to linear one.
@@ -81,7 +81,7 @@ void main(void) {
     vec3 reflectColour = texture(reflectionTexture, reflectionTexCoords).rgb;
 
     refractColour = applyMurkiness(refractColour, waterDepth);
-    reflectColour = mix(reflectColour, waterColour, minBlueness);
+    reflectColour = mix(reflectColour, waterColor, minBlueness);
 
     vec3 finalColour = mix(reflectColour, refractColour, calculateFresnel());
     finalColour = finalColour * pass_diffuse + pass_specular;

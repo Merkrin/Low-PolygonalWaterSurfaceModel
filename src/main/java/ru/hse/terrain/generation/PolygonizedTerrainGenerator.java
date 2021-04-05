@@ -38,6 +38,7 @@ public class PolygonizedTerrainGenerator extends TerrainGenerator {
         byte[] terrainData = createMeshData(heights, colours, vertexCount);
         int[] indices = IndexGenerator.generateIndexBuffer(heights.length);
         Vao vao = VaoLoader.createVao(terrainData, indices);
+
         return new Terrain(vao, indices.length, renderer);
     }
 
@@ -50,8 +51,10 @@ public class PolygonizedTerrainGenerator extends TerrainGenerator {
 
     private byte[] createMeshData(float[][] heights, Color[][] colours, int vertexCount) {
         int byteSize = VERTEX_SIZE_BYTES * vertexCount;
+
         ByteBuffer buffer = ByteBuffer.allocate(byteSize).order(ByteOrder.nativeOrder());
         GridCell[] lastRow = new GridCell[heights.length - 1];
+
         for (int row = 0; row < heights.length - 1; row++) {
             for (int col = 0; col < heights[row].length - 1; col++) {
                 GridCell square = new GridCell(row, col, heights, colours);
@@ -61,9 +64,11 @@ public class PolygonizedTerrainGenerator extends TerrainGenerator {
                 }
             }
         }
+
         for (int i = 0; i < lastRow.length; i++) {
             lastRow[i].storeBottomRowData(buffer);
         }
+
         return buffer.array();
     }
 }
