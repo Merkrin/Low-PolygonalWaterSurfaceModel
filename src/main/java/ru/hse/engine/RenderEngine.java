@@ -16,6 +16,7 @@ import ru.hse.utils.InputParser;
 import ru.hse.utils.Window;
 import ru.hse.water.utils.WaterTile;
 
+import java.io.IOException;
 import java.lang.invoke.ConstantCallSite;
 
 /**
@@ -63,7 +64,7 @@ public class RenderEngine {
      */
     public void render(Terrain terrain, WaterTile waterTile,
                        ICamera camera, Light light) {
-        if(Configs.getShowWater()) {
+        if (Configs.getShowWater()) {
             GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
             doReflectionPass(terrain, camera, light, waterTile.getHeight());
@@ -135,7 +136,7 @@ public class RenderEngine {
 
         terrain.render(camera, light, new Vector4f(0, 0, 0, 0));
 
-        if(Configs.getShowWater()) {
+        if (Configs.getShowWater()) {
             GraphicsUtils.goWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
 
             WATER_RENDERER.render(waterTile, camera, light,
@@ -147,6 +148,14 @@ public class RenderEngine {
         }
 
         WINDOW.update();
+
+        reflectionFbo.blitToScreen(0);
+        refractionFbo.blitToScreen(0);
+        try {
+            InputParser.performInput();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -171,7 +180,6 @@ public class RenderEngine {
      * @param height             FBO height
      * @param useTextureForDepth boolean value if depth effect
      *                           should be added or not
-     *
      * @return created FBO class instance
      */
     private static Fbo createWaterFbo(int width, int height,

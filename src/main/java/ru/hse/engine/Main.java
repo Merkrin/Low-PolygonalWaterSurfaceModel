@@ -72,14 +72,14 @@ public class Main {
                     0, 0, 0, 1);
             Camera camera = new Camera(daemon);
 
-            Light light = new Light(Configs.getLightPosition(),
+            Light light = new Light(Configs.getLightDirection(),
                     Configs.getLightColor(),
                     Configs.getLightBias());
 
-            PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getSEED(),
-                    Configs.getOCTAVES(),
-                    Configs.getAMPLITUDE(),
-                    Configs.getROUGHNESS());
+            PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getSeed(),
+                    Configs.getOctaves(),
+                    Configs.getAmplitude(),
+                    Configs.getRoughness());
 
             ColorGenerator colorGenerator = new ColorGenerator(Configs.getTerrainColors(),
                     Configs.getColorSpread());
@@ -94,7 +94,7 @@ public class Main {
                 daemon.move();
                 engine.render(terrain, water, camera, light);
 
-                InputParser.performInput();
+//                InputParser.performInput();
             }
 
             water.delete();
@@ -102,7 +102,7 @@ public class Main {
             terrain.delete();
 
             engine.cleanUp();
-        } catch (LWJGLException | IOException exception) {
+        } catch (LWJGLException exception) {
             System.out.println("An error occurred: " + exception.getMessage());
         }
     }

@@ -7,44 +7,48 @@ import ru.hse.engine.exceptions.InvalidSettingExeption;
 import java.awt.*;
 import java.io.Serializable;
 
+/**
+ * Configurations class.
+ */
 public class Configs implements Serializable {
+    // Showing features flags.
     private static boolean showWater = true;
     private static boolean animateWater = true;
 
     // Maximal FPS-rate.
-    public static int FPS_CAP = 100;
+    public static int fpsCap = 100;
     // Window sizes
-    public static int SCREEN_WIDTH = 1280;
-    public static int SCREEN_HEIGHT = 720;
+    public static int screenWidth = 1200;
+    public static int screenHeight = 800;
 
     // Range of heights where colors should be spread over.
-    public static float COLOR_SPREAD = 0.45f;
-    public static Color[] TERRAIN_COLORS = new Color[]{
+    public static float colorSpread = 0.45f;
+    public static Color[] terrainColors = new Color[]{
             new Color(201, 178, 99, true),
             new Color(164, 155, 98, true),
             new Color(164, 155, 98, true),
             new Color(229, 219, 164, true),
             new Color(135, 184, 82, true),
-            new Color(120, 120, 120, true),
+            new Color(120, 120, 140, true),
             new Color(200, 200, 210, true)};
 
-    public static Vector3f LIGHT_POSITION = new Vector3f(0.3f, -1f, 0.5f);
-    public static Color LIGHT_COLOR = new Color(1f, 0.95f, 0.95f);
-    public static Vector2f LIGHT_BIAS = new Vector2f(0.3f, 0.8f);
+    public static Vector3f lightDirection = new Vector3f(0.3f, -1f, 0.5f);
+    public static Color lightColor = new Color(1f, 0.95f, 0.95f);
+    public static Vector2f lightBias = new Vector2f(0.3f, 0.8f);
 
-    public static int WORLD_SIZE = 200;
-    public static int SEED = 404536029;
+    public static int worldSize = 200;
+    public static int seed = 404536029;
 
-    public static float AMPLITUDE = 30;
-    public static float ROUGHNESS = 0.4f;
+    public static float amplitude = 30;
+    public static float roughness = 0.4f;
     // Like mountain intensivity
-    public static int OCTAVES = 5;
+    public static int octaves = 5;
 
-    public static int WATER_HEIGHT = -1;
+    public static int waterHeight = -1;
 
-    public static float WAVE_SPEED = 0.002f;
-    public static float WAVE_LENGTH = 4.0f;
-    public static float WAVE_AMPLITUDE = 0.2f;
+    public static float waveSpeed = 0.002f;
+    public static float waveLength = 4.0f;
+    public static float waveAmplitude = 0.2f;
 
     public static boolean getShowWater(){
         return showWater;
@@ -63,18 +67,18 @@ public class Configs implements Serializable {
     }
 
     public static int getFpsCap() {
-        return FPS_CAP;
+        return fpsCap;
     }
 
     public static void setFpsCap(int fpsCap) throws InvalidSettingExeption {
         if (fpsCap < 30 || fpsCap > 120)
             throw new InvalidSettingExeption("Invalid FPS cap argument.");
 
-        FPS_CAP = fpsCap;
+        Configs.fpsCap = fpsCap;
     }
 
     public static int getScreenWidth() {
-        return SCREEN_WIDTH;
+        return screenWidth;
     }
 
     public static void setScreenWidth(int screenWidth)
@@ -86,11 +90,11 @@ public class Configs implements Serializable {
         if (screenWidth < width / 4 || screenWidth > width)
             throw new InvalidSettingExeption("Invalid screen width.");
 
-        SCREEN_WIDTH = screenWidth;
+        Configs.screenWidth = screenWidth;
     }
 
     public static int getScreenHeight() {
-        return SCREEN_HEIGHT;
+        return screenHeight;
     }
 
     public static void setScreenHeight(int screenHeight)
@@ -102,11 +106,11 @@ public class Configs implements Serializable {
         if (screenHeight < height / 4 || screenHeight > height)
             throw new InvalidSettingExeption("Invalid screen height.");
 
-        SCREEN_HEIGHT = screenHeight;
+        Configs.screenHeight = screenHeight;
     }
 
     public static float getColorSpread() {
-        return COLOR_SPREAD;
+        return colorSpread;
     }
 
     public static void setColorSpread(float colorSpread)
@@ -115,21 +119,21 @@ public class Configs implements Serializable {
             throw new InvalidSettingExeption("Invalid " +
                     "color spread multiplier.");
 
-        COLOR_SPREAD = colorSpread;
+        Configs.colorSpread = colorSpread;
     }
 
     public static Color[] getTerrainColors() {
-        return TERRAIN_COLORS;
+        return terrainColors;
     }
 
     public static String getTerrainColorsAsString() {
         StringBuilder colors = new StringBuilder();
 
-        for (int i = 0; i < TERRAIN_COLORS.length - 1; i++) {
-            colors.append(TERRAIN_COLORS[i]).append(";");
+        for (int i = 0; i < terrainColors.length - 1; i++) {
+            colors.append(terrainColors[i]).append(";");
         }
 
-        colors.append(TERRAIN_COLORS[TERRAIN_COLORS.length - 1]);
+        colors.append(terrainColors[terrainColors.length - 1]);
 
         return colors.toString();
     }
@@ -139,43 +143,43 @@ public class Configs implements Serializable {
         if (terrainColors.length == 0)
             throw new InvalidSettingExeption("Invalid terrain colors amount.");
 
-        TERRAIN_COLORS = terrainColors;
+        Configs.terrainColors = terrainColors;
     }
 
-    public static Vector3f getLightPosition() {
-        return LIGHT_POSITION;
+    public static Vector3f getLightDirection() {
+        return lightDirection;
     }
 
     public static String getLightPositionAsString(){
-        return LIGHT_POSITION.x + ";" + LIGHT_POSITION.y + ";" + LIGHT_POSITION.z;
+        return lightDirection.x + ";" + lightDirection.y + ";" + lightDirection.z;
     }
 
-    public static void setLightPosition(Vector3f lightPosition) {
-        LIGHT_POSITION = lightPosition;
+    public static void setLightDirection(Vector3f lightDirection) {
+        Configs.lightDirection = lightDirection;
     }
 
     public static Color getLightColor() {
-        return LIGHT_COLOR;
+        return lightColor;
     }
 
     public static void setLightColor(Color lightColor) {
-        LIGHT_COLOR = lightColor;
+        Configs.lightColor = lightColor;
     }
 
     public static Vector2f getLightBias() {
-        return LIGHT_BIAS;
+        return lightBias;
     }
 
     public static String getLightBiasAsString(){
-        return LIGHT_BIAS.x + ";" + LIGHT_BIAS.y;
+        return lightBias.x + ";" + lightBias.y;
     }
 
     public static void setLightBias(Vector2f lightBias) {
-        LIGHT_BIAS = lightBias;
+        Configs.lightBias = lightBias;
     }
 
     public static int getWorldSize() {
-        return WORLD_SIZE;
+        return worldSize;
     }
 
     public static void setWorldSize(int worldSize)
@@ -183,55 +187,55 @@ public class Configs implements Serializable {
         if (worldSize < 100 || worldSize > 1000)
             throw new InvalidSettingExeption("Invalid world size.");
 
-        WORLD_SIZE = worldSize;
+        Configs.worldSize = worldSize;
     }
 
-    public static int getSEED() {
-        return SEED;
+    public static int getSeed() {
+        return seed;
     }
 
-    public static void setSEED(int SEED) {
-        Configs.SEED = SEED;
+    public static void setSeed(int seed) {
+        Configs.seed = seed;
     }
 
-    public static float getAMPLITUDE() {
-        return AMPLITUDE;
+    public static float getAmplitude() {
+        return amplitude;
     }
 
-    public static void setAMPLITUDE(float amplitude)
+    public static void setAmplitude(float amplitude)
             throws InvalidSettingExeption {
         if (amplitude < 10.0f || amplitude > 100.0f)
             throw new InvalidSettingExeption("Invalid amplitude value");
 
-        Configs.AMPLITUDE = amplitude;
+        Configs.amplitude = amplitude;
     }
 
-    public static float getROUGHNESS() {
-        return ROUGHNESS;
+    public static float getRoughness() {
+        return roughness;
     }
 
-    public static void setROUGHNESS(float roughness)
+    public static void setRoughness(float roughness)
             throws InvalidSettingExeption {
         if (roughness < 0.1f || roughness > 0.9f)
             throw new InvalidSettingExeption("Invalid roughness value");
 
-        Configs.ROUGHNESS = roughness;
+        Configs.roughness = roughness;
     }
 
-    public static int getOCTAVES() {
-        return OCTAVES;
+    public static int getOctaves() {
+        return octaves;
     }
 
-    public static void setOCTAVES(int octaves)
+    public static void setOctaves(int octaves)
             throws InvalidSettingExeption {
         if (octaves < 2 || octaves > 10)
             throw new InvalidSettingExeption("Invalid octaves value");
 
-        Configs.OCTAVES = octaves;
+        Configs.octaves = octaves;
     }
 
     public static int getWaterHeight() {
-        return WATER_HEIGHT;
+        return waterHeight;
     }
 
     public static void setWaterHeight(int waterHeight)
@@ -239,11 +243,11 @@ public class Configs implements Serializable {
         if (waterHeight < -10 || waterHeight > 10)
             throw new InvalidSettingExeption("Invalid water height");
 
-        WATER_HEIGHT = waterHeight;
+        Configs.waterHeight = waterHeight;
     }
 
     public static float getWaveSpeed() {
-        return WAVE_SPEED;
+        return waveSpeed;
     }
 
     public static void setWaveSpeed(float waveSpeed)
@@ -251,11 +255,11 @@ public class Configs implements Serializable {
         if (waveSpeed < 0.0005f || waveSpeed > 0.009f)
             throw new InvalidSettingExeption("Invalid wave speed value");
 
-        WAVE_SPEED = waveSpeed;
+        Configs.waveSpeed = waveSpeed;
     }
 
     public static float getWaveLength() {
-        return WAVE_LENGTH;
+        return waveLength;
     }
 
     public static void setWaveLength(float waveLength)
@@ -263,11 +267,11 @@ public class Configs implements Serializable {
         if (waveLength < 1 || waveLength > 10)
             throw new InvalidSettingExeption("Invalid wave length");
 
-        WAVE_LENGTH = waveLength;
+        Configs.waveLength = waveLength;
     }
 
     public static float getWaveAmplitude() {
-        return WAVE_AMPLITUDE;
+        return waveAmplitude;
     }
 
     public static void setWaveAmplitude(float waveAmplitude)
@@ -275,6 +279,6 @@ public class Configs implements Serializable {
         if (waveAmplitude < 0.05f || waveAmplitude > 0.9f)
             throw new InvalidSettingExeption("Invalid wave amplitude");
 
-        WAVE_AMPLITUDE = waveAmplitude;
+        Configs.waveAmplitude = waveAmplitude;
     }
 }

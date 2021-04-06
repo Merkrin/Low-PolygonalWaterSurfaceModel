@@ -47,13 +47,13 @@ public class CommandLineUtils {
         Configs.setWorldSize(Integer.parseInt(settings.get("-WS")));
 
         if (settings.containsKey("-S"))
-            Configs.setSEED(Integer.parseInt(settings.get("-S")));
+            Configs.setSeed(Integer.parseInt(settings.get("-S")));
         if (settings.containsKey("-A"))
-            Configs.setAMPLITUDE(Float.parseFloat(settings.get("-A")));
+            Configs.setAmplitude(Float.parseFloat(settings.get("-A")));
         if (settings.containsKey("-R"))
-            Configs.setROUGHNESS(Float.parseFloat(settings.get("-R")));
+            Configs.setRoughness(Float.parseFloat(settings.get("-R")));
         if (settings.containsKey("-O"))
-            Configs.setOCTAVES(Integer.parseInt(settings.get("-O")));
+            Configs.setOctaves(Integer.parseInt(settings.get("-O")));
         if (settings.containsKey("-cs"))
             Configs.setColorSpread(Float.parseFloat(settings.get("-cs")));
 
@@ -61,7 +61,7 @@ public class CommandLineUtils {
             Configs.setTerrainColors(createTerrainColors(settings.get("-tc")));
 
         if (settings.containsKey("-lp"))
-            Configs.setLightPosition(createVector3f(settings.get("-lp")));
+            Configs.setLightDirection(createVector3f(settings.get("-lp")));
         if (settings.containsKey("-lc"))
             Configs.setLightColor(new Color(createVector3f(settings.get("-lc")), true));
         if (settings.containsKey("-lb"))
@@ -84,10 +84,10 @@ public class CommandLineUtils {
         commandLine += " -w " + Configs.getScreenWidth();
         commandLine += " -h " + Configs.getScreenHeight();
         commandLine += " -WS " + Configs.getWorldSize();
-        commandLine += " -S " + Configs.getSEED();
-        commandLine += " -A " + Configs.getAMPLITUDE();
-        commandLine += " -R " + Configs.getROUGHNESS();
-        commandLine += " -O " + Configs.getOCTAVES();
+        commandLine += " -S " + Configs.getSeed();
+        commandLine += " -A " + Configs.getAmplitude();
+        commandLine += " -R " + Configs.getRoughness();
+        commandLine += " -O " + Configs.getOctaves();
         commandLine += " -cs " + Configs.getColorSpread();
         commandLine += " -tc " + Configs.getTerrainColorsAsString();
         commandLine += " -lp " + Configs.getLightPositionAsString();

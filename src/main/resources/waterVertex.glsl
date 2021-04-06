@@ -61,7 +61,7 @@ vec3 calculateNormal(vec3 vertex0, vec3 vertex1, vec3 vertex2) {
 // Get offset for vertices of the water model.
 float generateOffset(float x, float z, float val1, float val2) {
     float radiansX = ((mod(x + z * x * val1, waveLength) / waveLength) +
-                                waveTime * mod(x * 0.8 + z, 1.5)) * 2.0 * PI;
+                                waveTime * mod(x * 0.8 + z, 1.5)) * 2.0  * PI;
     float radiansZ = ((mod(val2 * (z * x + x * z), waveLength) / waveLength) +
                                     waveTime * 2.0 * mod(x, 2.0)) * 2.0 * PI;
 

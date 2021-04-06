@@ -4,6 +4,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import ru.hse.openGL.utils.GraphicsUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -32,11 +34,11 @@ public class InputParser {
                 Configs.invertAnimateWater();
 
                 System.out.println("Water animation set to: " + Configs.getAnimateWater());
-            }  /*else if (checkKey(Keyboard.KEY_P)) {
+            } else if (checkKey(Keyboard.KEY_P)) {
                 isKeyDown = true;
 
                 takeScreenshot();
-            }*/ else if (checkKey(Keyboard.KEY_P)) {
+            } else if (checkKey(Keyboard.KEY_P)) {
                 isKeyDown = true;
 
                 saveConfigurations();
@@ -131,7 +133,7 @@ public class InputParser {
                 int r = buffer.get(i) & 0xFF;
                 int g = buffer.get(i + 1) & 0xFF;
                 int b = buffer.get(i + 2) & 0xFF;
-                image.setRGB(x, y, (0xFF << 24) | (r << 16) | (g << 8) | b);
+                image.setRGB(x, height - y - 1, (0xFF << 24) | (r << 16) | (g << 8) | b);
             }
         }
         try {

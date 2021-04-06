@@ -83,7 +83,7 @@ public class Camera implements ICamera {
                 pitch.getActualValue(), yaw);
 
         float yPosition = cameraPosition.y -
-                (2 * (cameraPosition.y - Configs.WATER_HEIGHT));
+                (2 * (cameraPosition.y - Configs.waterHeight));
         float pitchReflection = -pitch.getActualValue();
 
         Maths.updateViewMatrix(reflectedMatrix,

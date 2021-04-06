@@ -3,19 +3,25 @@ package ru.hse.openGL.objects;
 import org.lwjgl.opengl.GL30;
 
 public class RenderBufferAttachment extends Attachment {
-    private final int format;
+    private final int FORMAT;
 
-    public RenderBufferAttachment(int format) {
-        this.format = format;
+    public RenderBufferAttachment(int FORMAT) {
+        this.FORMAT = FORMAT;
     }
 
     @Override
-    public void init(int attachmentType, int width, int height, int samplesAmount) {
+    public void init(int attachmentType,
+                     int width, int height,
+                     int samplesAmount) {
         int buffer = GL30.glGenRenderbuffers();
+
         super.setBufferId(buffer);
+
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, buffer);
-        GL30.glRenderbufferStorageMultisample(GL30.GL_RENDERBUFFER, samplesAmount, format, width, height);
-        GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER, attachmentType, GL30.GL_RENDERBUFFER, buffer);
+        GL30.glRenderbufferStorageMultisample(GL30.GL_RENDERBUFFER,
+                samplesAmount, FORMAT, width, height);
+        GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER,
+                attachmentType, GL30.GL_RENDERBUFFER, buffer);
     }
 
     @Override

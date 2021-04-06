@@ -26,8 +26,10 @@ public class Attribute {
         ATTRIBUTE_NUMBER = attributeNumber;
         DATA_TYPE = dataType;
         COMPONENTS_AMOUNT = componentsAmount;
+
+        BYTES_PER_VERTEX = calculateBytesPerVertex();
+
         IS_NORMALIZED = false;
-        BYTES_PER_VERTEX = calculateBytesPerVertexAmount();
     }
 
     /**
@@ -44,7 +46,7 @@ public class Attribute {
         DATA_TYPE = dataType;
         COMPONENTS_AMOUNT = componentsAmount;
         IS_NORMALIZED = isNormalized;
-        BYTES_PER_VERTEX = calculateBytesPerVertexAmount();
+        BYTES_PER_VERTEX = calculateBytesPerVertex();
     }
 
     /**
@@ -78,7 +80,7 @@ public class Attribute {
      *
      * @return amount of bytes to use
      */
-    private int calculateBytesPerVertexAmount() {
+    private int calculateBytesPerVertex() {
         if (DATA_TYPE == GL11.GL_FLOAT ||
                 DATA_TYPE == GL11.GL_UNSIGNED_INT ||
                 DATA_TYPE == GL11.GL_INT)
