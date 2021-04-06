@@ -74,9 +74,9 @@ public class WaterShader extends ShaderProgram {
     private void linkTextureUnits() {
         super.start();
 
-        reflectionTexture.loadTexUnit(REFLECTION_TEXTURE_UNIT);
-        refractionTexture.loadTexUnit(REFRACTION_TEXTURE_UNIT);
-        depthTexture.loadTexUnit(DEPTH_TEXTURE_UNIT);
+        reflectionTexture.loadTextureUnit(REFLECTION_TEXTURE_UNIT);
+        refractionTexture.loadTextureUnit(REFRACTION_TEXTURE_UNIT);
+        depthTexture.loadTextureUnit(DEPTH_TEXTURE_UNIT);
 
         super.stop();
     }

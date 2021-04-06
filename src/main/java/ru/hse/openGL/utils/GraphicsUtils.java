@@ -3,81 +3,107 @@ package ru.hse.openGL.utils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
-// TODO: beautify this!!!
-
+/**
+ * Class with graphics utility methods.
+ */
 public class GraphicsUtils {
     private static boolean cullingBackFace = false;
     private static boolean inWireframe = false;
-    private static boolean isAlphaBlending = false;
-    private static boolean additiveBlending = false;
-    private static boolean antialiasing = false;
-    private static boolean depthTesting = false;
+    private static boolean usesAlphaBlending = false;
+    private static boolean usesAntialiasing = false;
+    private static boolean usesDepthTesting = false;
 
-    public static void antialias(boolean enable) {
-        if (enable && !antialiasing) {
+    /**
+     * Method for antialiasing setting.
+     *
+     * @param enable flag if the setting has to be enabled or not
+     */
+    public static void setAntialiasing(boolean enable) {
+        if (enable && !usesAntialiasing) {
             GL11.glEnable(GL13.GL_MULTISAMPLE);
-            antialiasing = true;
-        } else if (!enable && antialiasing) {
+
+            usesAntialiasing = true;
+        } else if (!enable && usesAntialiasing) {
             GL11.glDisable(GL13.GL_MULTISAMPLE);
-            antialiasing = false;
+
+            usesAntialiasing = false;
         }
     }
 
+    /**
+     * Method for alpha blending enabling.
+     */
     public static void enableAlphaBlending() {
-        if (!isAlphaBlending) {
+        if (!usesAlphaBlending) {
             GL11.glEnable(GL11.GL_BLEND);
+
             GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            isAlphaBlending = true;
-            additiveBlending = false;
+
+            usesAlphaBlending = true;
         }
     }
 
-    public static void enableAdditiveBlending() {
-        if (!additiveBlending) {
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-            additiveBlending = true;
-            isAlphaBlending = false;
-        }
-    }
-
-    public static void disableBlending() {
-        if (isAlphaBlending || additiveBlending) {
+    /**
+     * Method for alpha blending disabling.
+     */
+    public static void disableAlphaBlending() {
+        if (usesAlphaBlending) {
             GL11.glDisable(GL11.GL_BLEND);
-            isAlphaBlending = false;
-            additiveBlending = false;
+
+            usesAlphaBlending = false;
         }
     }
 
-    public static void enableDepthTesting(boolean enable){
-        if(enable && !depthTesting){
+    /**
+     * Method for depth testing setting.
+     *
+     * @param enable flag if the setting has to be enabled or not
+     */
+    public static void enableDepthTesting(boolean enable) {
+        if (enable && !usesDepthTesting) {
             GL11.glEnable(GL11.GL_DEPTH_TEST);
-            depthTesting = true;
-        }else if(!enable && depthTesting){
+
+            usesDepthTesting = true;
+        } else if (!enable && usesDepthTesting) {
             GL11.glDisable(GL11.GL_DEPTH_TEST);
-            depthTesting = false;
+
+            usesDepthTesting = false;
         }
     }
 
-    public static void cullBackFaces(boolean cull) {
-        if (cull && !cullingBackFace) {
+    /**
+     * Method for back faces culling setting.
+     *
+     * @param enable flag if the setting has to be enabled or not
+     */
+    public static void cullBackFaces(boolean enable) {
+        if (enable && !cullingBackFace) {
             GL11.glEnable(GL11.GL_CULL_FACE);
+
             GL11.glCullFace(GL11.GL_BACK);
+
             cullingBackFace = true;
-        } else if (!cull && cullingBackFace) {
+        } else if (!enable && cullingBackFace) {
             GL11.glDisable(GL11.GL_CULL_FACE);
+
             cullingBackFace = false;
         }
     }
 
-    public static void goWireframe(boolean goWireframe) {
-        if (goWireframe && !inWireframe) {
+    /**
+     * Method for wireframe setting.
+     *
+     * @param enable flag if the setting has to be enabled or not
+     */
+    public static void setWireframe(boolean enable) {
+        if (enable && !inWireframe) {
             GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_LINE);
+
             inWireframe = true;
-        } else if (!goWireframe && inWireframe) {
+        } else if (!enable && inWireframe) {
             GL11.glPolygonMode(GL11.GL_FRONT_AND_BACK, GL11.GL_FILL);
+
             inWireframe = false;
         }
     }
-
 }

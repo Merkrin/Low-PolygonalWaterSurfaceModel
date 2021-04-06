@@ -8,15 +8,15 @@ import ru.hse.utils.Color;
  * Class for light representation.
  */
 public class Light {
-    // Light direction.
-    private Vector3f direction;
-
-    // Light color.
-    private Color color;
-
     // Setting of how much ambient (x-value) and
     // how much diffuse (y-value) light there has to be.
-    private Vector2f lightBias;
+    private final Vector2f lightBias;
+
+    // Light direction.
+    private final Vector3f direction;
+
+    // Light color.
+    private final Color color;
 
     /**
      * The class' constructor.

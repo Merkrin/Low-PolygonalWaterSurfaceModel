@@ -4,8 +4,6 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-import ru.hse.openGL.utils.GraphicsUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -126,21 +124,24 @@ public class InputParser {
 
         File file = getFileToSave(".png");
         String format = "PNG";
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        for (int y = 0; y < height; ++y) {
-            for (int x = 0; x < width; ++x) {
-                int i = y * width * bpp + x * bpp;
-                int r = buffer.get(i) & 0xFF;
-                int g = buffer.get(i + 1) & 0xFF;
-                int b = buffer.get(i + 2) & 0xFF;
-                image.setRGB(x, height - y - 1, (0xFF << 24) | (r << 16) | (g << 8) | b);
+
+        new Thread(() -> {
+            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            for (int y = 0; y < height; ++y) {
+                for (int x = 0; x < width; ++x) {
+                    int i = y * width * bpp + x * bpp;
+                    int r = buffer.get(i) & 0xFF;
+                    int g = buffer.get(i + 1) & 0xFF;
+                    int b = buffer.get(i + 2) & 0xFF;
+                    image.setRGB(x, height - y - 1, (0xFF << 24) | (r << 16) | (g << 8) | b);
+                }
             }
-        }
-        try {
-            ImageIO.write(image, format, file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            try {
+                ImageIO.write(image, format, file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private static File getFileToSave(String fileFormat) {

@@ -1,15 +1,15 @@
 package ru.hse.engine.exceptions;
 
 /**
- * Exception class for setting file errors.
+ * Exception class for invalid setting error.
  */
-public class SettingsFileException extends Exception {
+public class InvalidSettingException extends Exception {
     /**
      * The class' constructor.
      *
      * @param message message with exception information
      */
-    public SettingsFileException(String message) {
+    public InvalidSettingException(String message) {
         super(message);
     }
 }

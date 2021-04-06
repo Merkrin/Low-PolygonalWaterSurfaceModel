@@ -17,7 +17,6 @@ import ru.hse.utils.Window;
 import ru.hse.water.utils.WaterTile;
 
 import java.io.IOException;
-import java.lang.invoke.ConstantCallSite;
 
 /**
  * Render engine class.
@@ -26,12 +25,12 @@ public class RenderEngine {
     private static final float REFRACTION_OFFSET = 1f;
     private static final float REFLECTION_OFFSET = 0.1f;
 
-    private final Window WINDOW;
-
-    private final WaterRenderer WATER_RENDERER;
-
     private final Fbo reflectionFbo;
     private final Fbo refractionFbo;
+
+    private final WaterRenderer waterRenderer;
+
+    private final Window window;
 
     /**
      * The class' constructor.
@@ -42,11 +41,11 @@ public class RenderEngine {
      */
     public RenderEngine(int fpsRate, int displayWidth, int displayHeight)
             throws LWJGLException {
-        WINDOW = Window.newWindow(displayWidth, displayHeight, fpsRate)
+        window = Window.newWindow(displayWidth, displayHeight, fpsRate)
                 .antialias(true)
                 .create();
 
-        WATER_RENDERER = new WaterRenderer();
+        waterRenderer = new WaterRenderer();
 
         refractionFbo = createWaterFbo(displayWidth / 2, displayHeight / 2,
                 true);
@@ -137,17 +136,17 @@ public class RenderEngine {
         terrain.render(camera, light, new Vector4f(0, 0, 0, 0));
 
         if (Configs.getShowWater()) {
-            GraphicsUtils.goWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
+            GraphicsUtils.setWireframe(Keyboard.isKeyDown(Keyboard.KEY_G));
 
-            WATER_RENDERER.render(waterTile, camera, light,
+            waterRenderer.render(waterTile, camera, light,
                     reflectionFbo.getColorBuffer(0),
                     refractionFbo.getColorBuffer(0),
                     refractionFbo.getDepthBuffer());
 
-            GraphicsUtils.goWireframe(false);
+            GraphicsUtils.setWireframe(false);
         }
 
-        WINDOW.update();
+        window.update();
 
         reflectionFbo.blitToScreen(0);
         refractionFbo.blitToScreen(0);
@@ -170,7 +169,7 @@ public class RenderEngine {
 
         GraphicsUtils.cullBackFaces(true);
         GraphicsUtils.enableDepthTesting(true);
-        GraphicsUtils.antialias(true);
+        GraphicsUtils.setAntialiasing(true);
     }
 
     /**
@@ -195,9 +194,9 @@ public class RenderEngine {
                     new RenderBufferAttachment(GL14.GL_DEPTH_COMPONENT24);
 
         return Fbo.newFbo(width, height)
-                .addColourAttachment(0, colorAttachment)
+                .addColorAttachment(0, colorAttachment)
                 .addDepthAttachment(depthAttachment)
-                .init();
+                .initialize();
     }
 
     /**
@@ -207,9 +206,9 @@ public class RenderEngine {
         reflectionFbo.delete();
         refractionFbo.delete();
 
-        WATER_RENDERER.cleanUp();
+        waterRenderer.cleanUp();
 
-        WINDOW.destroy();
+        window.destroy();
     }
 
     /**
@@ -217,7 +216,7 @@ public class RenderEngine {
      *
      * @return window class instance
      */
-    public Window getWINDOW() {
-        return WINDOW;
+    public Window getWindow() {
+        return window;
     }
 }

@@ -12,54 +12,54 @@ import ru.hse.utils.Window;
 public class Daemon {
     private final static float RUN_SPEED = 20;
     private final static float TURN_SPEED = 160;
-    private final static float JUMP_POWER = 0.6f;
+    private final static float FLIGHT_SPEED = 0.6f;
+
+    private final Window window;
+
+    private final Vector3f position;
 
     private float currentSpeed = 0;
     private float currentTurnSpeed = 0;
     private float upwardsSpeed = 0;
 
-    private Vector3f position;
+    private float yRotation;
 
-    private float rotX, rotY, rotZ;
-    private float scale;
-
-    private Window window;
-
+    /**
+     * The class' constructor.
+     *
+     * @param window    used window instance
+     * @param position  starting position
+     * @param yRotation y-axis starting rotation
+     */
     public Daemon(Window window, Vector3f position,
-                  float rotX, float rotY, float rotZ, float scale) {
+                  float yRotation) {
         this.window = window;
+
         this.position = position;
-        this.rotX = rotX;
-        this.rotY = rotY;
-        this.rotZ = rotZ;
-        this.scale = scale;
+
+        this.yRotation = yRotation;
     }
 
-    public void increasePosition(float dx, float dy, float dz) {
-        position.x += dx;
-        position.y += dy;
-        position.z += dz;
-    }
-
-    public void increaseRotation(float dx, float dy, float dz) {
-        rotX += dx;
-        rotY += dy;
-        rotZ += dz;
-    }
-
+    /**
+     * Daemon's moving method.
+     */
     public void move() {
-        checkInput();
+        getInput();
 
-        increaseRotation(0, currentTurnSpeed * window.getFrameTimeSeconds(), 0);
+        changeRotation(currentTurnSpeed * window.getFrameTimeSeconds());
 
         float distance = currentSpeed * window.getFrameTimeSeconds();
-        float dx = (float) (distance * Math.sin(Math.toRadians(getRotY())));
-        float dz = (float) (distance * Math.cos(Math.toRadians(getRotY())));
 
-        increasePosition(dx, upwardsSpeed, dz);
+        float dx = (float) (distance * Math.sin(Math.toRadians(getYRotation())));
+        float dz = (float) (distance * Math.cos(Math.toRadians(getYRotation())));
+
+        changePosition(dx, upwardsSpeed, dz);
     }
 
-    private void checkInput() {
+    /**
+     * Method for user input processing.
+     */
+    private void getInput() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W))
             currentSpeed = RUN_SPEED;
         else if (Keyboard.isKeyDown(Keyboard.KEY_S))
@@ -75,50 +75,50 @@ public class Daemon {
             currentTurnSpeed = 0;
 
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE))
-            upwardsSpeed = JUMP_POWER;
+            upwardsSpeed = FLIGHT_SPEED;
         else if (Keyboard.isKeyDown(Keyboard.KEY_X))
-            upwardsSpeed = -JUMP_POWER;
+            upwardsSpeed = -FLIGHT_SPEED;
         else
             upwardsSpeed = 0;
     }
 
+    /**
+     * Method for daemon's position change.
+     *
+     * @param xDelta x-coordinate delta
+     * @param yDelta y-coordinate delta
+     * @param zDelta z-coordinate delta
+     */
+    public void changePosition(float xDelta, float yDelta, float zDelta) {
+        position.x += xDelta;
+        position.y += yDelta;
+        position.z += zDelta;
+    }
+
+    /**
+     * Method for daemon's rotation change.
+     *
+     * @param yDelta y-coordinate delta
+     */
+    public void changeRotation(float yDelta) {
+        yRotation += yDelta;
+    }
+
+    /**
+     * Daemon's position getter.
+     *
+     * @return position of the daemon
+     */
     public Vector3f getPosition() {
         return position;
     }
 
-    public void setPosition(Vector3f position) {
-        this.position = position;
-    }
-
-    public float getRotX() {
-        return rotX;
-    }
-
-    public void setRotX(float rotX) {
-        this.rotX = rotX;
-    }
-
-    public float getRotY() {
-        return rotY;
-    }
-
-    public void setRotY(float rotY) {
-        this.rotY = rotY;
-    }
-
-    public float getRotZ() {
-        return rotZ;
-    }
-
-    public void setRotZ(float rotZ) {
-        this.rotZ = rotZ;
-    }
-
-    public float getScale() {
-        return scale;
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
+    /**
+     * Daemon's y-axis rotation getter.
+     *
+     * @return y-axis rotation of the daemon
+     */
+    public float getYRotation() {
+        return yRotation;
     }
 }

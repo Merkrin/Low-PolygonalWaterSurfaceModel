@@ -2,7 +2,7 @@ package ru.hse.utils;
 
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import ru.hse.engine.exceptions.InvalidSettingExeption;
+import ru.hse.engine.exceptions.InvalidSettingException;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -70,9 +70,9 @@ public class Configs implements Serializable {
         return fpsCap;
     }
 
-    public static void setFpsCap(int fpsCap) throws InvalidSettingExeption {
+    public static void setFpsCap(int fpsCap) throws InvalidSettingException {
         if (fpsCap < 30 || fpsCap > 120)
-            throw new InvalidSettingExeption("Invalid FPS cap argument.");
+            throw new InvalidSettingException("Invalid FPS cap argument.");
 
         Configs.fpsCap = fpsCap;
     }
@@ -82,13 +82,13 @@ public class Configs implements Serializable {
     }
 
     public static void setScreenWidth(int screenWidth)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         Dimension screenRes = Toolkit.getDefaultToolkit().getScreenSize();
 
         double width = screenRes.getWidth();
 
         if (screenWidth < width / 4 || screenWidth > width)
-            throw new InvalidSettingExeption("Invalid screen width.");
+            throw new InvalidSettingException("Invalid screen width.");
 
         Configs.screenWidth = screenWidth;
     }
@@ -98,13 +98,13 @@ public class Configs implements Serializable {
     }
 
     public static void setScreenHeight(int screenHeight)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         Dimension screenRes = Toolkit.getDefaultToolkit().getScreenSize();
 
         double height = screenRes.getHeight();
 
         if (screenHeight < height / 4 || screenHeight > height)
-            throw new InvalidSettingExeption("Invalid screen height.");
+            throw new InvalidSettingException("Invalid screen height.");
 
         Configs.screenHeight = screenHeight;
     }
@@ -114,9 +114,9 @@ public class Configs implements Serializable {
     }
 
     public static void setColorSpread(float colorSpread)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (colorSpread < 0.1f || colorSpread > 0.9f)
-            throw new InvalidSettingExeption("Invalid " +
+            throw new InvalidSettingException("Invalid " +
                     "color spread multiplier.");
 
         Configs.colorSpread = colorSpread;
@@ -139,9 +139,9 @@ public class Configs implements Serializable {
     }
 
     public static void setTerrainColors(Color[] terrainColors)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (terrainColors.length == 0)
-            throw new InvalidSettingExeption("Invalid terrain colors amount.");
+            throw new InvalidSettingException("Invalid terrain colors amount.");
 
         Configs.terrainColors = terrainColors;
     }
@@ -183,9 +183,9 @@ public class Configs implements Serializable {
     }
 
     public static void setWorldSize(int worldSize)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (worldSize < 100 || worldSize > 1000)
-            throw new InvalidSettingExeption("Invalid world size.");
+            throw new InvalidSettingException("Invalid world size.");
 
         Configs.worldSize = worldSize;
     }
@@ -203,9 +203,9 @@ public class Configs implements Serializable {
     }
 
     public static void setAmplitude(float amplitude)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (amplitude < 10.0f || amplitude > 100.0f)
-            throw new InvalidSettingExeption("Invalid amplitude value");
+            throw new InvalidSettingException("Invalid amplitude value");
 
         Configs.amplitude = amplitude;
     }
@@ -215,9 +215,9 @@ public class Configs implements Serializable {
     }
 
     public static void setRoughness(float roughness)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (roughness < 0.1f || roughness > 0.9f)
-            throw new InvalidSettingExeption("Invalid roughness value");
+            throw new InvalidSettingException("Invalid roughness value");
 
         Configs.roughness = roughness;
     }
@@ -227,9 +227,9 @@ public class Configs implements Serializable {
     }
 
     public static void setOctaves(int octaves)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (octaves < 2 || octaves > 10)
-            throw new InvalidSettingExeption("Invalid octaves value");
+            throw new InvalidSettingException("Invalid octaves value");
 
         Configs.octaves = octaves;
     }
@@ -239,9 +239,9 @@ public class Configs implements Serializable {
     }
 
     public static void setWaterHeight(int waterHeight)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (waterHeight < -10 || waterHeight > 10)
-            throw new InvalidSettingExeption("Invalid water height");
+            throw new InvalidSettingException("Invalid water height");
 
         Configs.waterHeight = waterHeight;
     }
@@ -251,9 +251,9 @@ public class Configs implements Serializable {
     }
 
     public static void setWaveSpeed(float waveSpeed)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (waveSpeed < 0.0005f || waveSpeed > 0.009f)
-            throw new InvalidSettingExeption("Invalid wave speed value");
+            throw new InvalidSettingException("Invalid wave speed value");
 
         Configs.waveSpeed = waveSpeed;
     }
@@ -263,9 +263,9 @@ public class Configs implements Serializable {
     }
 
     public static void setWaveLength(float waveLength)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (waveLength < 1 || waveLength > 10)
-            throw new InvalidSettingExeption("Invalid wave length");
+            throw new InvalidSettingException("Invalid wave length");
 
         Configs.waveLength = waveLength;
     }
@@ -275,9 +275,9 @@ public class Configs implements Serializable {
     }
 
     public static void setWaveAmplitude(float waveAmplitude)
-            throws InvalidSettingExeption {
+            throws InvalidSettingException {
         if (waveAmplitude < 0.05f || waveAmplitude > 0.9f)
-            throw new InvalidSettingExeption("Invalid wave amplitude");
+            throw new InvalidSettingException("Invalid wave amplitude");
 
         Configs.waveAmplitude = waveAmplitude;
     }

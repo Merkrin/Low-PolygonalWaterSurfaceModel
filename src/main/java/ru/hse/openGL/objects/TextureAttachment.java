@@ -7,32 +7,24 @@ import org.lwjgl.opengl.GL30;
 import java.nio.ByteBuffer;
 
 /**
- * Class for attachments representation.
+ * Class for texture attachments representation.
  */
 public class TextureAttachment extends Attachment {
-    private final int FORMAT;
+    private final int format;
 
-    private final boolean NEAREST_FILTERING;
-    private final boolean CLAMP_EDGES;
+    private final boolean clampsEdges;
+    private final boolean usesNearestFiltering;
 
-    public TextureAttachment(int FORMAT) {
-        this.FORMAT = FORMAT;
+    /**
+     * The class' constructor.
+     *
+     * @param format format of the attachment
+     */
+    public TextureAttachment(int format) {
+        this.format = format;
 
-        this.NEAREST_FILTERING = false;
-        this.CLAMP_EDGES = false;
-    }
-
-    public TextureAttachment(int FORMAT, boolean NEAREST_FILTERING,
-                             boolean CLAMP_EDGES) {
-        this.FORMAT = FORMAT;
-
-        this.NEAREST_FILTERING = NEAREST_FILTERING;
-        this.CLAMP_EDGES = CLAMP_EDGES;
-    }
-
-    @Override
-    public void delete() {
-        GL11.glDeleteTextures(getBufferId());
+        this.usesNearestFiltering = false;
+        this.clampsEdges = false;
     }
 
     @Override
@@ -46,38 +38,52 @@ public class TextureAttachment extends Attachment {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 
         indicateStorageType(width, height);
-        setTextureParams();
+        setTextureParameters();
 
         GL30.glFramebufferTexture2D(GL30.GL_FRAMEBUFFER, attachmentType,
                 GL11.GL_TEXTURE_2D, texture, 0);
     }
 
+    /**
+     * Method for storage type indication.
+     *
+     * @param width  width of the attachment
+     * @param height height of the attachment
+     */
     private void indicateStorageType(int width, int height) {
         if (isDepthAttachment())
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, FORMAT,
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, format,
                     width, height, 0,
                     GL11.GL_DEPTH_COMPONENT, GL11.GL_FLOAT,
                     (ByteBuffer) null);
         else
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, FORMAT,
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, format,
                     width, height, 0,
                     GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE,
                     (ByteBuffer) null);
     }
 
-    private void setTextureParams() {
-        int filterType = NEAREST_FILTERING ? GL11.GL_NEAREST : GL11.GL_LINEAR;
+    /**
+     * Method for texture parameters setting.
+     */
+    private void setTextureParameters() {
+        int filterType = usesNearestFiltering ? GL11.GL_NEAREST : GL11.GL_LINEAR;
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
                 GL11.GL_TEXTURE_MAG_FILTER, filterType);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
                 GL11.GL_TEXTURE_MIN_FILTER, filterType);
 
-        int wrapType = CLAMP_EDGES ? GL12.GL_CLAMP_TO_EDGE : GL11.GL_REPEAT;
+        int wrapType = clampsEdges ? GL12.GL_CLAMP_TO_EDGE : GL11.GL_REPEAT;
 
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
                 GL11.GL_TEXTURE_WRAP_S, wrapType);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D,
                 GL11.GL_TEXTURE_WRAP_T, wrapType);
+    }
+
+    @Override
+    public void delete() {
+        GL11.glDeleteTextures(getBufferId());
     }
 }

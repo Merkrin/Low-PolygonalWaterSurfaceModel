@@ -3,7 +3,7 @@ package ru.hse.engine;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.engine.exceptions.CommandLineArgumentsException;
-import ru.hse.engine.exceptions.InvalidSettingExeption;
+import ru.hse.engine.exceptions.InvalidSettingException;
 import ru.hse.engine.exceptions.SettingsFileException;
 import ru.hse.terrain.generation.PolygonizedTerrainGenerator;
 import ru.hse.terrain.generation.Terrain;
@@ -12,7 +12,6 @@ import ru.hse.terrain.utils.ColorGenerator;
 import ru.hse.terrain.utils.PerlinNoiseGenerator;
 import ru.hse.utils.CommandLineUtils;
 import ru.hse.utils.Configs;
-import ru.hse.utils.InputParser;
 import ru.hse.water.generation.WaterGenerator;
 import ru.hse.water.utils.WaterTile;
 
@@ -44,7 +43,7 @@ public class Main {
         if (arguments != null) {
             try {
                 CommandLineUtils.readArguments(arguments);
-            } catch (CommandLineArgumentsException | InvalidSettingExeption | NullPointerException e) {
+            } catch (CommandLineArgumentsException | InvalidSettingException | NullPointerException e) {
                 System.out.println("An error in command line format found: " +
                         e.getMessage());
                 System.out.println("Starting with standard settings...");
@@ -68,8 +67,8 @@ public class Main {
         try {
             RenderEngine engine = new RenderEngine(Configs.getFpsCap(),
                     Configs.getScreenWidth(), Configs.getScreenHeight());
-            Daemon daemon = new Daemon(engine.getWINDOW(), new Vector3f(200, 50, 200),
-                    0, 0, 0, 1);
+            Daemon daemon = new Daemon(engine.getWindow(), new Vector3f(200, 50, 200),
+                    0);
             Camera camera = new Camera(daemon);
 
             Light light = new Light(Configs.getLightDirection(),
@@ -89,7 +88,7 @@ public class Main {
 
             WaterTile water = WaterGenerator.generate(Configs.getWorldSize(), Configs.getWaterHeight());
 
-            while (!engine.getWINDOW().isCloseRequested()) {
+            while (!engine.getWindow().isCloseRequested()) {
                 camera.move();
                 daemon.move();
                 engine.render(terrain, water, camera, light);

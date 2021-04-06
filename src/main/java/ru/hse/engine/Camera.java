@@ -12,38 +12,41 @@ import ru.hse.utils.SmoothFloat;
  * Class of camera logic implementation.
  */
 public class Camera implements ICamera {
+    private static final int PI = 180;
+
+    private static final float PITCH_DELTA = 1f / 60;
+
     // Pitch is the y-axis rotation.
     private static final float PITCH_SENSITIVITY = 0.3f;
-    private static final float MAXIMAL_PITCH = 90;
-
-    private SmoothFloat pitch = new SmoothFloat(10, 10);
+    private static final float MAXIMAL_PITCH = 100;
 
     // Yaw is the z-axis rotation.
     private static final float YAW_SENSITIVITY = 0.3f;
 
-    private float yaw = 0;
-
-    // Field of view and other daemon settings.
-    private static final float FIELD_OF_VIEW = 70;
-
-    private SmoothFloat angleAroundDaemon = new SmoothFloat(0, 10);
-    private SmoothFloat distanceFromDaemon = new SmoothFloat(10, 5);
-
-    public static final float zoomMultiplier = 0.0008f;
+    public static final float ZOOM_MULTIPLIER = 0.0008f;
 
     private static final float NEAR_PLANE = 0.4f;
     private static final float FAR_PLANE = 2500;
 
+    // Field of view and other daemon settings.
+    private static final float FIELD_OF_VIEW = 70;
+
+    private final SmoothFloat pitch = new SmoothFloat(10, 10);
+    private final SmoothFloat angleAroundDaemon = new SmoothFloat(0, 10);
+    private final SmoothFloat distanceFromDaemon = new SmoothFloat(10, 5);
+
+    private final Vector3f cameraPosition = new Vector3f(0, 0, 0);
+
     // Matrices to transform the view.
-    private Matrix4f projectionMatrix;
-    private Matrix4f viewMatrix = new Matrix4f();
-    private Matrix4f reflectedMatrix = new Matrix4f();
+    private final Matrix4f projectionMatrix;
+    private final Matrix4f viewMatrix = new Matrix4f();
+    private final Matrix4f reflectedMatrix = new Matrix4f();
+
+    private final Daemon daemon;
+
+    private float yaw = 0;
 
     private boolean isReflected = false;
-
-    private Vector3f cameraPosition = new Vector3f(0, 0, 0);
-
-    private Daemon daemon;
 
     /**
      * The class' constructor.
@@ -69,7 +72,7 @@ public class Camera implements ICamera {
 
         calculateCameraPosition(horizontalDistance, verticalDistance);
 
-        yaw = 180 - (daemon.getRotY() + angleAroundDaemon.getActualValue());
+        yaw = PI - (daemon.getYRotation() + angleAroundDaemon.getActualValue());
 
         updateViewMatrices();
     }
@@ -128,7 +131,7 @@ public class Camera implements ICamera {
      */
     private void calculateCameraPosition(float horizontalDistance,
                                          float verticalDistance) {
-        float theta = daemon.getRotY() + angleAroundDaemon.getActualValue();
+        float theta = daemon.getYRotation() + angleAroundDaemon.getActualValue();
         float offsetX = (float) (horizontalDistance *
                 Math.sin(Math.toRadians(theta)));
         float offsetZ = (float) (horizontalDistance *
@@ -172,7 +175,7 @@ public class Camera implements ICamera {
             clampPitch();
         }
 
-        pitch.update(1f / 60);
+        pitch.update(PITCH_DELTA);
     }
 
     /**
@@ -180,7 +183,7 @@ public class Camera implements ICamera {
      */
     private void calculateZoom() {
         float targetZoom = distanceFromDaemon.getTargetValue();
-        float zoomLevel = Mouse.getDWheel() * zoomMultiplier * targetZoom;
+        float zoomLevel = Mouse.getDWheel() * ZOOM_MULTIPLIER * targetZoom;
 
         targetZoom -= zoomLevel;
 
@@ -195,13 +198,12 @@ public class Camera implements ICamera {
      * Calculate the angle of the camera around the player (when looking down at
      * the camera from above). Basically the yaw. Changes the yaw when the user
      * moves the mouse horizontally with the LMB down.
-     * TODO: make it also change the demon's rotation
      */
     private void calculateAngleAroundPlayer() {
-        if (Mouse.isButtonDown(0)){
+        if (Mouse.isButtonDown(0)) {
             float angleChange = Mouse.getDX() * YAW_SENSITIVITY;
 
-            daemon.increaseRotation(0, -angleChange, 0);
+            daemon.changeRotation(-angleChange);
         }
     }
 
@@ -221,27 +223,16 @@ public class Camera implements ICamera {
     }
 
     @Override
-    public Matrix4f getViewMatrix() {
-        return viewMatrix;
-    }
-
-    @Override
-    public Matrix4f getProjectionMatrix() {
-        return projectionMatrix;
-    }
-
-    @Override
     public void reflect() {
-        this.isReflected = !isReflected;
+        isReflected = !isReflected;
     }
 
     @Override
     public Matrix4f getProjectionViewMatrix() {
-        if (isReflected) {
+        if (isReflected)
             return Matrix4f.mul(projectionMatrix, reflectedMatrix, null);
-        } else {
-            return Matrix4f.mul(projectionMatrix, viewMatrix, null);
-        }
+
+        return Matrix4f.mul(projectionMatrix, viewMatrix, null);
     }
 
     @Override

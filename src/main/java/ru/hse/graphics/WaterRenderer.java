@@ -156,7 +156,7 @@ public class WaterRenderer {
 
         WATER_SHADER.stop();
 
-        GraphicsUtils.disableBlending();
+        GraphicsUtils.disableAlphaBlending();
     }
 
     /**

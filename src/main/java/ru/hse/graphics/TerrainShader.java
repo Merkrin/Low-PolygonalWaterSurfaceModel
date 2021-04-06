@@ -33,15 +33,4 @@ public class TerrainShader extends ShaderProgram {
                 lightBias,
                 plane);
     }
-
-    public TerrainShader(FileBuffer vertexShaderFile,
-                         FileBuffer geometryShaderFile,
-                         FileBuffer fragmentShaderFile) {
-        super(vertexShaderFile, geometryShaderFile, fragmentShaderFile);
-        super.storeAllUniformLocations(projectionViewMatrix,
-                lightDirection,
-                lightColor,
-                lightBias,
-                plane);
-    }
 }

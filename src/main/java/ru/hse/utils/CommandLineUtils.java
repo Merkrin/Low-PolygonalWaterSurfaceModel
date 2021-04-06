@@ -3,7 +3,7 @@ package ru.hse.utils;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import ru.hse.engine.exceptions.CommandLineArgumentsException;
-import ru.hse.engine.exceptions.InvalidSettingExeption;
+import ru.hse.engine.exceptions.InvalidSettingException;
 import ru.hse.engine.exceptions.SettingsFileException;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class CommandLineUtils {
             "-wl", "-wa"};
 
     public static void readArguments(String[] args)
-            throws CommandLineArgumentsException, InvalidSettingExeption, IOException, SettingsFileException {
+            throws CommandLineArgumentsException, InvalidSettingException, IOException, SettingsFileException {
         if (args[0].equals("-FF")) {
             args = readArgsFromFile(args[1]);
         }

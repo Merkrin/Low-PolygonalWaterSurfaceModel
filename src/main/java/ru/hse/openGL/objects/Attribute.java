@@ -8,12 +8,12 @@ import org.lwjgl.opengl.GL20;
  * Class of an attribute representation.
  */
 public class Attribute {
-    protected final int ATTRIBUTE_NUMBER;
-    protected final int DATA_TYPE;
-    protected final int COMPONENTS_AMOUNT;
-    protected final int BYTES_PER_VERTEX;
+    protected final int attributeNumber;
+    protected final int dataType;
+    protected final int componentsAmount;
+    protected final int bytesPerVertex;
 
-    protected final boolean IS_NORMALIZED;
+    protected final boolean isNormalized;
 
     /**
      * The class' constructor.
@@ -23,13 +23,13 @@ public class Attribute {
      * @param componentsAmount amount of components
      */
     public Attribute(int attributeNumber, int dataType, int componentsAmount) {
-        ATTRIBUTE_NUMBER = attributeNumber;
-        DATA_TYPE = dataType;
-        COMPONENTS_AMOUNT = componentsAmount;
+        this.attributeNumber = attributeNumber;
+        this.dataType = dataType;
+        this.componentsAmount = componentsAmount;
 
-        BYTES_PER_VERTEX = calculateBytesPerVertex();
+        bytesPerVertex = calculateBytesPerVertex();
 
-        IS_NORMALIZED = false;
+        isNormalized = false;
     }
 
     /**
@@ -42,11 +42,13 @@ public class Attribute {
      */
     public Attribute(int attributeNumber, int dataType, int componentsAmount,
                      boolean isNormalized) {
-        ATTRIBUTE_NUMBER = attributeNumber;
-        DATA_TYPE = dataType;
-        COMPONENTS_AMOUNT = componentsAmount;
-        IS_NORMALIZED = isNormalized;
-        BYTES_PER_VERTEX = calculateBytesPerVertex();
+        this.attributeNumber = attributeNumber;
+        this.dataType = dataType;
+        this.componentsAmount = componentsAmount;
+
+        bytesPerVertex = calculateBytesPerVertex();
+
+        this.isNormalized = isNormalized;
     }
 
     /**
@@ -56,9 +58,9 @@ public class Attribute {
      */
     protected void enable(boolean enable) {
         if (enable)
-            GL20.glEnableVertexAttribArray(ATTRIBUTE_NUMBER);
+            GL20.glEnableVertexAttribArray(attributeNumber);
         else
-            GL20.glDisableVertexAttribArray(ATTRIBUTE_NUMBER);
+            GL20.glDisableVertexAttribArray(attributeNumber);
     }
 
     /**
@@ -68,10 +70,10 @@ public class Attribute {
      * @param stride length
      */
     protected void link(int offset, int stride) {
-        GL20.glVertexAttribPointer(ATTRIBUTE_NUMBER,
-                COMPONENTS_AMOUNT,
-                DATA_TYPE,
-                IS_NORMALIZED,
+        GL20.glVertexAttribPointer(attributeNumber,
+                componentsAmount,
+                dataType,
+                isNormalized,
                 stride, offset);
     }
 
@@ -81,23 +83,23 @@ public class Attribute {
      * @return amount of bytes to use
      */
     private int calculateBytesPerVertex() {
-        if (DATA_TYPE == GL11.GL_FLOAT ||
-                DATA_TYPE == GL11.GL_UNSIGNED_INT ||
-                DATA_TYPE == GL11.GL_INT)
-            return 4 * COMPONENTS_AMOUNT;
+        if (dataType == GL11.GL_FLOAT ||
+                dataType == GL11.GL_UNSIGNED_INT ||
+                dataType == GL11.GL_INT)
+            return 4 * componentsAmount;
 
-        if (DATA_TYPE == GL11.GL_SHORT ||
-                DATA_TYPE == GL11.GL_UNSIGNED_SHORT)
-            return 2 * COMPONENTS_AMOUNT;
+        if (dataType == GL11.GL_SHORT ||
+                dataType == GL11.GL_UNSIGNED_SHORT)
+            return 2 * componentsAmount;
 
-        if (DATA_TYPE == GL11.GL_BYTE ||
-                DATA_TYPE == GL11.GL_UNSIGNED_BYTE)
-            return COMPONENTS_AMOUNT;
+        if (dataType == GL11.GL_BYTE ||
+                dataType == GL11.GL_UNSIGNED_BYTE)
+            return componentsAmount;
 
-        if (DATA_TYPE == GL12.GL_UNSIGNED_INT_2_10_10_10_REV)
+        if (dataType == GL12.GL_UNSIGNED_INT_2_10_10_10_REV)
             return 4;
 
-        System.err.println("Unsupported data type for VAO attribute: " + DATA_TYPE);
+        System.err.println("Unsupported data type for VAO attribute: " + dataType);
 
         return 0;
     }

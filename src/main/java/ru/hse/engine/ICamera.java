@@ -8,25 +8,11 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public interface ICamera {
     /**
-     * Getter of view matrix.
-     *
-     * @return view matrix
-     */
-    Matrix4f getViewMatrix();
-
-    /**
      * Getter of camera position.
      *
      * @return position of camera
      */
     Vector3f getCameraPosition();
-
-    /**
-     * Getter of projection matrix.
-     *
-     * @return projection matrix
-     */
-    Matrix4f getProjectionMatrix();
 
     /**
      * Getter of projection view matrix.

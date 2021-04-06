@@ -11,49 +11,34 @@ import java.io.BufferedReader;
  * Class for shaders processing.
  */
 public class ShaderProgram {
-    private int programID;
+    private final int programId;
 
-    public ShaderProgram(FileBuffer vertexFile, FileBuffer fragmentFile,
+    /**
+     * The class' constructor.
+     *
+     * @param vertexShader   vertex shader file
+     * @param fragmentShader fragment shader file
+     * @param inVariables    incoming variables
+     */
+    public ShaderProgram(FileBuffer vertexShader, FileBuffer fragmentShader,
                          String... inVariables) {
-        int vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
-        int fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
+        int vertexShaderID = loadShader(vertexShader,
+                GL20.GL_VERTEX_SHADER);
+        int fragmentShaderID = loadShader(fragmentShader,
+                GL20.GL_FRAGMENT_SHADER);
 
-        programID = GL20.glCreateProgram();
+        programId = GL20.glCreateProgram();
 
-        GL20.glAttachShader(programID, vertexShaderID);
-        GL20.glAttachShader(programID, fragmentShaderID);
-
-        bindAttributes(inVariables);
-        GL20.glLinkProgram(programID);
-
-        GL20.glDetachShader(programID, vertexShaderID);
-        GL20.glDetachShader(programID, fragmentShaderID);
-
-        GL20.glDeleteShader(vertexShaderID);
-        GL20.glDeleteShader(fragmentShaderID);
-    }
-
-    public ShaderProgram(FileBuffer vertexFile, FileBuffer geometryFile,
-                         FileBuffer fragmentFile, String... inVariables) {
-        int vertexShaderID = loadShader(vertexFile, GL20.GL_VERTEX_SHADER);
-        int geometryShaderID = loadShader(geometryFile, GL32.GL_GEOMETRY_SHADER);
-        int fragmentShaderID = loadShader(fragmentFile, GL20.GL_FRAGMENT_SHADER);
-
-        programID = GL20.glCreateProgram();
-
-        GL20.glAttachShader(programID, vertexShaderID);
-        GL20.glAttachShader(programID, geometryShaderID);
-        GL20.glAttachShader(programID, fragmentShaderID);
+        GL20.glAttachShader(programId, vertexShaderID);
+        GL20.glAttachShader(programId, fragmentShaderID);
 
         bindAttributes(inVariables);
-        GL20.glLinkProgram(programID);
+        GL20.glLinkProgram(programId);
 
-        GL20.glDetachShader(programID, vertexShaderID);
-        GL20.glDetachShader(programID, geometryShaderID);
-        GL20.glDetachShader(programID, fragmentShaderID);
+        GL20.glDetachShader(programId, vertexShaderID);
+        GL20.glDetachShader(programId, fragmentShaderID);
 
         GL20.glDeleteShader(vertexShaderID);
-        GL20.glDeleteShader(geometryShaderID);
         GL20.glDeleteShader(fragmentShaderID);
     }
 
@@ -64,43 +49,40 @@ public class ShaderProgram {
      */
     protected void storeAllUniformLocations(Uniform... uniforms) {
         for (Uniform uniform : uniforms)
-            uniform.storeUniformLocation(programID);
+            uniform.storeUniformLocation(programId);
 
-        GL20.glValidateProgram(programID);
+        GL20.glValidateProgram(programId);
     }
 
-    protected void storeSomeUniformLocations(Uniform... uniforms) {
-        for (Uniform uniform : uniforms)
-            uniform.storeUniformLocation(programID);
-    }
-
-    protected void validateProgram() {
-        GL20.glValidateProgram(programID);
-    }
-
+    /**
+     * Method for shader program starting.
+     */
     public void start() {
-        GL20.glUseProgram(programID);
+        GL20.glUseProgram(programId);
     }
 
-    public void stop() {
-        GL20.glUseProgram(0);
-    }
-
-    public void cleanUp() {
-        GL20.glUseProgram(0);
-        GL20.glDeleteProgram(programID);
-    }
-
+    /**
+     * Method for attributes binding.
+     *
+     * @param inVariables incoming variables
+     */
     private void bindAttributes(String[] inVariables) {
         for (int i = 0; i < inVariables.length; i++)
-            GL20.glBindAttribLocation(programID, i, inVariables[i]);
+            GL20.glBindAttribLocation(programId, i, inVariables[i]);
     }
 
-    private int loadShader(FileBuffer file, int type) {
+    /**
+     * Method for shader loading.
+     *
+     * @param shaderFile shader file to load
+     * @param type       shader type
+     * @return shader id
+     */
+    private int loadShader(FileBuffer shaderFile, int type) {
         StringBuilder shaderSource = new StringBuilder();
 
         try {
-            BufferedReader reader = file.getBufferedReader();
+            BufferedReader reader = shaderFile.getBufferedReader();
             String line;
 
             while ((line = reader.readLine()) != null)
@@ -108,22 +90,39 @@ public class ShaderProgram {
 
             reader.close();
         } catch (Exception e) {
-            System.err.println("Could not read file.");
+            System.err.println("Could not read shader file.");
             e.printStackTrace();
+
             System.exit(-1);
         }
 
-        int shaderID = GL20.glCreateShader(type);
+        int shaderId = GL20.glCreateShader(type);
 
-        GL20.glShaderSource(shaderID, shaderSource);
-        GL20.glCompileShader(shaderID);
+        GL20.glShaderSource(shaderId, shaderSource);
+        GL20.glCompileShader(shaderId);
 
-        if (GL20.glGetShaderi(shaderID, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
-            System.out.println(GL20.glGetShaderInfoLog(shaderID, 500));
-            System.err.println("Could not compile shader " + file);
+        if (GL20.glGetShaderi(shaderId, GL20.GL_COMPILE_STATUS) == GL11.GL_FALSE) {
+            System.out.println(GL20.glGetShaderInfoLog(shaderId, 500));
+            System.err.println("Could not compile shader " + shaderFile);
+
             System.exit(-1);
         }
 
-        return shaderID;
+        return shaderId;
+    }
+
+    /**
+     * Method for shader stopping.
+     */
+    public void stop() {
+        GL20.glUseProgram(0);
+    }
+
+    /**
+     * "Destructor" of the shader.
+     */
+    public void cleanUp() {
+        GL20.glUseProgram(0);
+        GL20.glDeleteProgram(programId);
     }
 }
