@@ -66,7 +66,7 @@ public class ColorGenerator {
 
         float blend = (value - (firstBiome * part)) / part;
 
-        return Color.interpolateColours(biomeColors[firstBiome],
+        return Color.interpolateColors(biomeColors[firstBiome],
                 biomeColors[firstBiome + 1], blend,
                 null);
     }

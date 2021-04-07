@@ -63,7 +63,7 @@ public class CommandLineUtils {
         if (settings.containsKey("-lp"))
             Configs.setLightDirection(createVector3f(settings.get("-lp")));
         if (settings.containsKey("-lc"))
-            Configs.setLightColor(new Color(createVector3f(settings.get("-lc")), true));
+            Configs.setLightColor(new Color(createVector3f(settings.get("-lc"))));
         if (settings.containsKey("-lb"))
             Configs.setLightBias(createVector2f(settings.get("-lb")));
 
