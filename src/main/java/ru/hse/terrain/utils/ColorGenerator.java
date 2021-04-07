@@ -3,54 +3,46 @@ package ru.hse.terrain.utils;
 import ru.hse.utils.Color;
 import ru.hse.utils.Maths;
 
+/**
+ * Class for map colors generation.
+ */
 public class ColorGenerator {
+    private final Color[] biomeColors;
+
     private final float spread;
     private final float halfSpread;
-
-    private final Color[] biomeColours;
     private final float part;
 
     /**
-     * @param biomeColours
-     *            - The preset colours that will be interpolated over the
-     *            terrain. The first colours in this array will be used for the
-     *            lowest parts of the terrain, and the last colours in this
-     *            array will be used for the highest. All the other colours will
-     *            be spread out linearly inbetween.
-     * @param spread
-     *            - This indicates how much of the possible altitude range the
-     *            colours should be spread over. If this is too high the extreme
-     *            colours won't be used as there won't be any terrain vertices
-     *            high or low enough (the heights generator doesn't usually fill
-     *            the whole altitude range).
+     * The class' constructor.
+     *
+     * @param biomeColors colors of the terrain to be interpolated over the map
+     * @param spread      setting of how big is the range of color spread
      */
-    public ColorGenerator(Color[] biomeColours, float spread) {
-        this.biomeColours = biomeColours;
+    public ColorGenerator(Color[] biomeColors, float spread) {
+        this.biomeColors = biomeColors;
+
         this.spread = spread;
         this.halfSpread = spread / 2f;
-        this.part = 1f / (biomeColours.length - 1);
+        this.part = 1f / (biomeColors.length - 1);
     }
 
     /**
-     * Calculates the colour for every vertex of the terrain, by linearly
-     * interpolating between the biome colours depending on the vertex's height.
+     * Method for vertex color calculation.
      *
-     * @param heights
-     *            -The heights of all the vertices in the terrain.
-     * @param amplitude
-     *            - The amplitude range of the terrain that was used in the
-     *            heights generation. Maximum possible height is
-     *            {@code altitude} and minimum possible is {@code -altitude}.
-     * @return The colours of all the vertices in the terrain, in a grid.
+     * @param heights   height map
+     * @param amplitude amplitude of the map generation
+     * @return colors of the map
      */
-    public Color[][] generateColours(float[][] heights, float amplitude) {
-        Color[][] colours = new Color[heights.length][heights.length];
-        for (int z = 0; z < heights.length; z++) {
-            for (int x = 0; x < heights[z].length; x++) {
-                colours[z][x] = calculateColour(heights[z][x], amplitude);
-            }
-        }
-        return colours;
+    public Color[][] generateColors(float[][] heights, float amplitude) {
+        Color[][] colors = new Color[heights.length][heights.length];
+
+        for (int row = 0; row < heights.length; row++)
+            for (int column = 0; column < heights[row].length; column++)
+                colors[row][column] = calculateColor(heights[row][column],
+                        amplitude);
+
+        return colors;
     }
 
     /**Determines the colour of the vertex based on the provided height.
@@ -58,11 +50,24 @@ public class ColorGenerator {
      * @param amplitude - The maximum height that a vertex can be (
      * @return
      */
-    private Color calculateColour(float height, float amplitude) {
+    /**
+     * Method for color calculation.
+     *
+     * @param height    height of the vertex
+     * @param amplitude amplitude of the map generation
+     * @return color of the vertex
+     */
+    private Color calculateColor(float height, float amplitude) {
         float value = (height + amplitude) / (amplitude * 2);
+
         value = Maths.clamp((value - halfSpread) * (1f / spread), 0f, 0.9999f);
+
         int firstBiome = (int) Math.floor(value / part);
+
         float blend = (value - (firstBiome * part)) / part;
-        return Color.interpolateColours(biomeColours[firstBiome], biomeColours[firstBiome + 1], blend, null);
+
+        return Color.interpolateColours(biomeColors[firstBiome],
+                biomeColors[firstBiome + 1], blend,
+                null);
     }
 }

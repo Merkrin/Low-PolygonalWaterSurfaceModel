@@ -42,13 +42,13 @@ public class TerrainRenderer {
 
         if (USES_INDICES)
             GL11.glDrawElements(GL11.GL_TRIANGLES,
-                    terrain.getVertexCount(),
+                    terrain.getVerticesAmount(),
                     GL11.GL_UNSIGNED_INT,
                     0);
         else
             GL11.glDrawArrays(GL11.GL_TRIANGLES,
                     0,
-                    terrain.getVertexCount());
+                    terrain.getVerticesAmount());
 
         finish(terrain);
     }

@@ -2,11 +2,19 @@ package ru.hse.openGL.objects;
 
 import org.lwjgl.opengl.GL30;
 
+/**
+ * Class for render buffer attachment representation.
+ */
 public class RenderBufferAttachment extends Attachment {
-    private final int FORMAT;
+    private final int format;
 
-    public RenderBufferAttachment(int FORMAT) {
-        this.FORMAT = FORMAT;
+    /**
+     * The class' constructor.
+     *
+     * @param format format of the attachment
+     */
+    public RenderBufferAttachment(int format) {
+        this.format = format;
     }
 
     @Override
@@ -19,7 +27,7 @@ public class RenderBufferAttachment extends Attachment {
 
         GL30.glBindRenderbuffer(GL30.GL_RENDERBUFFER, buffer);
         GL30.glRenderbufferStorageMultisample(GL30.GL_RENDERBUFFER,
-                samplesAmount, FORMAT, width, height);
+                samplesAmount, format, width, height);
         GL30.glFramebufferRenderbuffer(GL30.GL_FRAMEBUFFER,
                 attachmentType, GL30.GL_RENDERBUFFER, buffer);
     }
