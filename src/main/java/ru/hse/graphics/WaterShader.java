@@ -24,7 +24,7 @@ public class WaterShader extends ShaderProgram {
             new UniformFloat("height");
 
     public UniformVector3f cameraPosition =
-            new UniformVector3f("cameraPos");
+            new UniformVector3f("cameraPosition");
 
     public UniformVector2f nearFarPlanes =
             new UniformVector2f("nearFarPlanes");
@@ -39,7 +39,7 @@ public class WaterShader extends ShaderProgram {
     protected UniformVector3f lightDirection =
             new UniformVector3f("lightDirection");
     protected UniformVector3f lightColor =
-            new UniformVector3f("lightColour");
+            new UniformVector3f("lightColor");
     protected UniformVector2f lightBias =
             new UniformVector2f("lightBias");
 

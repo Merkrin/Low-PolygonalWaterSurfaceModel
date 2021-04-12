@@ -1,16 +1,17 @@
 #version 330
 
-const vec3 waterColor = vec3(0.604, 0.867, 0.851);
-const float fresnelReflective = 0.5;
+const vec3 waterColor = vec3(0.60, 0.87, 0.85);
+
+const float fresnelReflectiveCoefficient = 0.5;
 const float edgeSoftness = 0.5;
-const float minBlueness = 0.4;
-const float maxBlueness = 0.8;
-const float murkyDepth = 14;
+const float minimalBlueness = 0.4;
+const float maximalBlueness = 0.8;
+const float murkinessDepth = 14;
 
-out vec4 out_colour;
+out vec4 out_color;
 
-in vec4 pass_clipSpaceGrid;
-in vec4 pass_clipSpaceReal;
+in vec4 pass_clippingSpaceGrid;
+in vec4 pass_clippingSpaceReal;
 in vec3 pass_normal;
 in vec3 pass_toCameraVector;
 in vec3 pass_specular;
@@ -19,17 +20,17 @@ in vec3 pass_diffuse;
 uniform sampler2D reflectionTexture;
 uniform sampler2D refractionTexture;
 uniform sampler2D depthTexture;
+
 uniform vec2 nearFarPlanes;
 
-// Apply murkiness effect to the color.
 vec3 applyMurkiness(vec3 refractColour, float waterDepth) {
-    float murkyFactor = clamp(waterDepth / murkyDepth, 0.0, 1.0);
-    float murkiness = minBlueness + murkyFactor * (maxBlueness - minBlueness);
+    float murkyFactor = clamp(waterDepth / murkinessDepth, 0.0, 1.0);
+    float murkiness = minimalBlueness + murkyFactor *
+                                (maximalBlueness - minimalBlueness);
 
     return mix(refractColour, waterColor, murkiness);
 }
 
-// Convert z depth to linear one.
 float toLinearDepth(float zDepth){
     float near = nearFarPlanes.x;
     float far = nearFarPlanes.y;
@@ -38,7 +39,6 @@ float toLinearDepth(float zDepth){
                                                         (far - near));
 }
 
-// Calculate depth of the water place.
 float calculateWaterDepth(vec2 textureCoordinates) {
     float depth = texture(depthTexture, textureCoordinates).r;
     float floorDistance = toLinearDepth(depth);
@@ -50,18 +50,16 @@ float calculateWaterDepth(vec2 textureCoordinates) {
     return floorDistance - waterDistance;
 }
 
-// Get value used for the Fresnel effect.
 float calculateFresnel() {
     vec3 viewVector = normalize(pass_toCameraVector);
     vec3 normal = normalize(pass_normal);
     float refractiveFactor = dot(viewVector, normal);
 
-    refractiveFactor = pow(refractiveFactor, fresnelReflective);
+    refractiveFactor = pow(refractiveFactor, fresnelReflectiveCoefficient);
 
     return clamp(refractiveFactor, 0.0, 1.0);
 }
 
-// Clip space and texture coordinates.
 vec2 clipSpaceToTextureCoordinates(vec4 clippingSpace) {
     vec2 ndc = (clippingSpace.xy / clippingSpace.w);
     vec2 textureCoordinates = ndc / 2.0 + 0.5;
@@ -70,24 +68,26 @@ vec2 clipSpaceToTextureCoordinates(vec4 clippingSpace) {
 }
 
 void main(void) {
-    vec2 texCoordsReal = clipSpaceToTextureCoordinates(pass_clipSpaceReal);
-    vec2 texCoordsGrid = clipSpaceToTextureCoordinates(pass_clipSpaceGrid);
+    vec2 textureCoordinatesReal =
+                    clipSpaceToTextureCoordinates(pass_clippingSpaceReal);
+    vec2 textureCoordinatesGrid =
+                    clipSpaceToTextureCoordinates(pass_clippingSpaceGrid);
 
-    vec2 refractionTexCoords = texCoordsGrid;
-    vec2 reflectionTexCoords = vec2(texCoordsGrid.x, 1.0 - texCoordsGrid.y);
-    float waterDepth = calculateWaterDepth(texCoordsReal);
+    vec2 refractionTextureCoordinates = textureCoordinatesGrid;
+    vec2 reflectionTextureCoordinates =
+                vec2(textureCoordinatesGrid.x, 1.0 - textureCoordinatesGrid.y);
+    float waterDepth = calculateWaterDepth(textureCoordinatesReal);
 
-    vec3 refractColour = texture(refractionTexture, refractionTexCoords).rgb;
-    vec3 reflectColour = texture(reflectionTexture, reflectionTexCoords).rgb;
+    vec3 refractionColor = texture(refractionTexture, refractionTextureCoordinates).rgb;
+    vec3 reflectionColor = texture(reflectionTexture, reflectionTextureCoordinates).rgb;
 
-    refractColour = applyMurkiness(refractColour, waterDepth);
-    reflectColour = mix(reflectColour, waterColor, minBlueness);
+    refractionColor = applyMurkiness(refractionColor, waterDepth);
+    reflectionColor = mix(reflectionColor, waterColor, minimalBlueness);
 
-    vec3 finalColour = mix(reflectColour, refractColour, calculateFresnel());
-    finalColour = finalColour * pass_diffuse + pass_specular;
+    vec3 finalColor = mix(reflectionColor, refractionColor, calculateFresnel());
+    finalColor = finalColor * pass_diffuse + pass_specular;
 
-    out_colour = vec4(finalColour, 1.0);
+    out_color = vec4(finalColor, 1.0);
 
-    //apply soft edges
-    out_colour.a = clamp(waterDepth / edgeSoftness, 0.0, 1.0);
+    out_color.a = clamp(waterDepth / edgeSoftness, 0.0, 1.0);
 }

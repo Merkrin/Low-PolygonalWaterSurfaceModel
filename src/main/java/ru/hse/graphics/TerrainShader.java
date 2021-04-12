@@ -12,7 +12,7 @@ public class TerrainShader extends ShaderProgram {
     protected UniformVector3f lightDirection
             = new UniformVector3f("lightDirection");
     protected UniformVector3f lightColor
-            = new UniformVector3f("lightColour");
+            = new UniformVector3f("lightColor");
     protected UniformVector2f lightBias
             = new UniformVector2f("lightBias");
     protected UniformVector4f plane
