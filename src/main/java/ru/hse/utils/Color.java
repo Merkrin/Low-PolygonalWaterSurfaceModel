@@ -84,9 +84,10 @@ public class Color {
 
     /**
      * Method for colors interpolation.
-     * @param firstColor first color
+     *
+     * @param firstColor  first color
      * @param secondColor second color
-     * @param blend blending rate
+     * @param blend       blending rate
      * @param destination destination color
      * @return interpolated color
      */
@@ -109,42 +110,76 @@ public class Color {
         return destination;
     }
 
+    /**
+     * Setter of the color value.
+     *
+     * @param red   red value
+     * @param green green value
+     * @param blue  blue value
+     */
     public void setColor(float red, float green, float blue) {
         color.set(red, green, blue);
     }
 
+    /**
+     * Setter of the color value.
+     *
+     * @param color color vector
+     */
     public void setColor(Vector3f color) {
         color.set(color);
     }
 
+    /**
+     * Setter of the color value.
+     *
+     * @param color color instance to copy
+     */
     public void setColor(Color color) {
         this.color.set(color.getColor());
     }
 
+    /**
+     * Getter of the color value.
+     *
+     * @return color vector
+     */
     public Vector3f getColor() {
         return color;
     }
 
+    /**
+     * Getter of the red value.
+     *
+     * @return red value of the color
+     */
     public float getRedValue() {
         return color.x;
     }
 
+    /**
+     * Getter of the green value.
+     *
+     * @return green value of the color
+     */
     public float getGreenValue() {
         return color.y;
     }
 
+    /**
+     * Getter of the blue value.
+     *
+     * @return blue value of the color
+     */
     public float getBlueValue() {
         return color.z;
     }
 
-    public float getLength() {
-        return (float) Math.sqrt(getLengthSquared());
-    }
-
-    public float getLengthSquared() {
-        return color.lengthSquared();
-    }
-
+    /**
+     * Overriden toString method.
+     *
+     * @return color value as a string
+     */
     @Override
     public String toString() {
         return (int) (color.x * 255) + ";" + (int) (color.y * 255) + ";" + (int) (color.z * 255);

@@ -50,19 +50,19 @@ public class Configs implements Serializable {
     public static float waveLength = 4.0f;
     public static float waveAmplitude = 0.2f;
 
-    public static boolean getShowWater(){
+    public static boolean getShowWater() {
         return showWater;
     }
 
-    public static void invertShowWater(){
+    public static void invertShowWater() {
         showWater = !showWater;
     }
 
-    public static boolean getAnimateWater(){
+    public static boolean getAnimateWater() {
         return animateWater;
     }
 
-    public static void invertAnimateWater(){
+    public static void invertAnimateWater() {
         animateWater = !animateWater;
     }
 
@@ -140,7 +140,7 @@ public class Configs implements Serializable {
 
     public static void setTerrainColors(Color[] terrainColors)
             throws InvalidSettingException {
-        if (terrainColors.length == 0)
+        if (terrainColors == null || terrainColors.length == 0)
             throw new InvalidSettingException("Invalid terrain colors amount.");
 
         Configs.terrainColors = terrainColors;
@@ -150,7 +150,7 @@ public class Configs implements Serializable {
         return lightDirection;
     }
 
-    public static String getLightPositionAsString(){
+    public static String getLightPositionAsString() {
         return lightDirection.x + ";" + lightDirection.y + ";" + lightDirection.z;
     }
 
@@ -170,7 +170,7 @@ public class Configs implements Serializable {
         return lightBias;
     }
 
-    public static String getLightBiasAsString(){
+    public static String getLightBiasAsString() {
         return lightBias.x + ";" + lightBias.y;
     }
 

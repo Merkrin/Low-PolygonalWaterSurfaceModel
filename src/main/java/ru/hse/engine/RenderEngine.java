@@ -41,9 +41,7 @@ public class RenderEngine {
      */
     public RenderEngine(int fpsRate, int displayWidth, int displayHeight)
             throws LWJGLException {
-        window = Window.newWindow(displayWidth, displayHeight, fpsRate)
-                .antialias(true)
-                .create();
+        window = Window.newWindow(displayWidth, displayHeight, fpsRate).create();
 
         waterRenderer = new WaterRenderer();
 

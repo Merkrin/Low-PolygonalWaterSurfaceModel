@@ -2,17 +2,27 @@ package ru.hse.utils;
 
 import org.lwjgl.opengl.ContextAttribs;
 
+/**
+ * Class for window context representation.
+ */
 public class Context {
-    private int[] openGlVersion;
+    private final int[] openGlVersion;
 
+    /**
+     * The class' constructor.
+     *
+     * @param version
+     * @param subVersion
+     */
     public Context(int version, int subVersion) {
         this.openGlVersion = new int[]{version, subVersion};
     }
 
-    public int[] getOpenGlVersion() {
-        return openGlVersion;
-    }
-
+    /**
+     * Getter of OpenGL window context attributes.
+     *
+     * @return contex attributes
+     */
     public ContextAttribs getAttribs() {
         return new ContextAttribs(openGlVersion[0], openGlVersion[1])
                 .withForwardCompatible(true)

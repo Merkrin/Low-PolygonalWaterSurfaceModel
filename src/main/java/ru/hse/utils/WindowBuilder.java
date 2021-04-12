@@ -9,24 +9,10 @@ public class WindowBuilder {
     private final int HEIGHT;
     private final int FPS_CAP;
 
-    private boolean hasVSync = false;
-    private boolean withAntialiasing = false;
-
     protected WindowBuilder(int width, int height, int fpsCap){
         WIDTH = width;
         HEIGHT = height;
         FPS_CAP = fpsCap;
-    }
-
-    public WindowBuilder withVSync(boolean vSync){
-        hasVSync = vSync;
-
-        return this;
-    }
-
-    public WindowBuilder antialias(boolean antialias){
-        this.withAntialiasing = antialias;
-        return this;
     }
 
     public Window create() throws LWJGLException {
@@ -47,13 +33,5 @@ public class WindowBuilder {
 
     protected String getTitle() {
         return TITLE;
-    }
-
-    protected boolean hasVSync() {
-        return hasVSync;
-    }
-
-    protected boolean isWithAntialiasing() {
-        return withAntialiasing;
     }
 }

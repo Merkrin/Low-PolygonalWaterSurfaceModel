@@ -11,15 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Window {
-    private static final int MIN_HEIGHT = 700;
-
     private static final float MILLISECONDS_IN_SECOND = 1000f;
 
     private final int fpsCap;
-
-    private DisplayMode resolution;
-    // Соотношение сторон :)
-    private float aspectRatio;
 
     private long lastFrameTime;
     private float delta;
@@ -32,12 +26,8 @@ public class Window {
 
         Display.setInitialBackground(1, 1, 1);
 
-        aspectRatio = (float) resolution.getWidth() /
-                resolution.getHeight();
-
         setResolution(resolution);
 
-        Display.setVSyncEnabled(windowBuilder.hasVSync());
         Display.setTitle(windowBuilder.getTitle());
 
         Display.create(new PixelFormat().withDepthBits(24).withSamples(4),
@@ -61,7 +51,6 @@ public class Window {
     public void setResolution(DisplayMode resolution) {
         try {
             Display.setDisplayMode(resolution);
-            this.resolution = resolution;
         } catch (LWJGLException e) {
             e.printStackTrace();
         }

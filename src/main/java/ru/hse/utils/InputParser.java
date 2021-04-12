@@ -15,9 +15,17 @@ import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Class for input parsing.
+ */
 public class InputParser {
     private static boolean isKeyDown = false;
 
+    /**
+     * Method for main input reading.
+     *
+     * @throws IOException file working error
+     */
     public static void performInput() throws IOException {
         while (Keyboard.next()) {
             if (checkKey((Keyboard.KEY_0))) {
@@ -25,13 +33,15 @@ public class InputParser {
 
                 Configs.invertShowWater();
 
-                System.out.println("Water surface showing set to: " + Configs.getShowWater());
+                System.out.println("Water surface showing set to: " +
+                        Configs.getShowWater());
             } else if (checkKey((Keyboard.KEY_MINUS))) {
                 isKeyDown = true;
 
                 Configs.invertAnimateWater();
 
-                System.out.println("Water animation set to: " + Configs.getAnimateWater());
+                System.out.println("Water animation set to: " +
+                        Configs.getAnimateWater());
             } else if (checkKey(Keyboard.KEY_P)) {
                 isKeyDown = true;
 
@@ -46,43 +56,55 @@ public class InputParser {
                 try {
                     Configs.setWaveAmplitude(Configs.getWaveAmplitude() + 0.1f);
 
-                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                    System.out.println("Wave amplitude changed to: " +
+                            Configs.getWaveAmplitude());
                 } catch (Exception e) {
+                    System.out.println("Maximal wave amplitude reached.");
                 }
             } else if (checkKey(Keyboard.KEY_2)) {
                 try {
                     Configs.setWaveAmplitude(Configs.getWaveAmplitude() - 0.1f);
 
-                    System.out.println("Wave amplitude changed to: " + Configs.getWaveAmplitude());
+                    System.out.println("Wave amplitude changed to: " +
+                            Configs.getWaveAmplitude());
                 } catch (Exception e) {
+                    System.out.println("Minimal wave amplitude reached.");
                 }
             } else if (checkKey(Keyboard.KEY_3)) {
                 try {
                     Configs.setWaveLength(Configs.getWaveLength() + 1);
 
-                    System.out.println("Wave length changed to: " + Configs.getWaveLength());
+                    System.out.println("Wave length changed to: " +
+                            Configs.getWaveLength());
                 } catch (Exception e) {
+                    System.out.println("Maximal wave length reached.");
                 }
             } else if (checkKey(Keyboard.KEY_4)) {
                 try {
                     Configs.setWaveLength(Configs.getWaveLength() - 1);
 
-                    System.out.println("Wave length changed to: " + Configs.getWaveLength());
+                    System.out.println("Wave length changed to: " +
+                            Configs.getWaveLength());
                 } catch (Exception e) {
+                    System.out.println("Minimal wave length reached.");
                 }
             } else if (checkKey(Keyboard.KEY_5)) {
                 try {
                     Configs.setWaveSpeed(Configs.getWaveSpeed() + 0.001f);
 
-                    System.out.println("Wave speed changed to: " + Configs.getWaveSpeed());
+                    System.out.println("Wave speed changed to: " +
+                            Configs.getWaveSpeed());
                 } catch (Exception e) {
+                    System.out.println("Maximal wave speed reached.");
                 }
             } else if (checkKey(Keyboard.KEY_6)) {
                 try {
                     Configs.setWaveSpeed(Configs.getWaveSpeed() - 0.001f);
 
-                    System.out.println("Wave speed changed to: " + Configs.getWaveSpeed());
+                    System.out.println("Wave speed changed to: " +
+                            Configs.getWaveSpeed());
                 } catch (Exception e) {
+                    System.out.println("Minimal wave speed reached.");
                 }
             }
 
@@ -91,6 +113,11 @@ public class InputParser {
         }
     }
 
+    /**
+     * Method for configuration saving.
+     *
+     * @throws IOException file working error
+     */
     private static void saveConfigurations() throws IOException {
         String cli = CommandLineUtils.createCommandLine();
 
@@ -102,6 +129,9 @@ public class InputParser {
         writer.close();
     }
 
+    /**
+     * Method for help message printing.
+     */
     private static void printHelp() {
         System.out.println("Use yor keyboard keys <W>, <S>, <A>, <D>, <X>" +
                 " and <SPACE> to move and right mouse button to rotate camera.");
@@ -114,26 +144,34 @@ public class InputParser {
         System.out.println("Use <P> to save your settings in a file.");
     }
 
+    /**
+     * Method for screenshot taking.
+     */
     private static void takeScreenshot() {
         GL11.glReadBuffer(GL11.GL_FRONT);
         int width = Display.getDisplayMode().getWidth();
         int height = Display.getDisplayMode().getHeight();
         int bpp = 4;
         ByteBuffer buffer = BufferUtils.createByteBuffer(width * height * bpp);
-        GL11.glReadPixels(0, 0, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
+        GL11.glReadPixels(0, 0, width, height,
+                GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
         File file = getFileToSave(".png");
         String format = "PNG";
 
         new Thread(() -> {
-            BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage image = new BufferedImage(width, height,
+                    BufferedImage.TYPE_INT_ARGB);
+
             for (int y = 0; y < height; ++y) {
                 for (int x = 0; x < width; ++x) {
                     int i = y * width * bpp + x * bpp;
                     int r = buffer.get(i) & 0xFF;
                     int g = buffer.get(i + 1) & 0xFF;
                     int b = buffer.get(i + 2) & 0xFF;
-                    image.setRGB(x, height - y - 1, (0xFF << 24) | (r << 16) | (g << 8) | b);
+
+                    image.setRGB(x, height - y - 1,
+                            (0xFF << 24) | (r << 16) | (g << 8) | b);
                 }
             }
             try {
@@ -144,6 +182,12 @@ public class InputParser {
         }).start();
     }
 
+    /**
+     * Utility method for file creation.
+     *
+     * @param fileFormat format of file to create
+     * @return File created
+     */
     private static File getFileToSave(String fileFormat) {
         DateTimeFormatter dtf =
                 DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
@@ -152,6 +196,12 @@ public class InputParser {
         return new File(dtf.format(now) + fileFormat);
     }
 
+    /**
+     * Utility method for pressed key check.
+     *
+     * @param key key indicator
+     * @return true if the key was pressed and false otherwise
+     */
     private static boolean checkKey(int key) {
         return Keyboard.isKeyDown(key) && !isKeyDown;
     }
