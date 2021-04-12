@@ -7,15 +7,15 @@ import ru.hse.utils.FileBuffer;
  * Terrain shader storing class.
  */
 public class TerrainShader extends ShaderProgram {
-    protected UniformMatrix projectionViewMatrix
+    protected final UniformMatrix projectionViewMatrix
             = new UniformMatrix("projectionViewMatrix");
-    protected UniformVector3f lightDirection
+    protected final UniformVector3f lightDirection
             = new UniformVector3f("lightDirection");
-    protected UniformVector3f lightColor
+    protected final UniformVector3f lightColor
             = new UniformVector3f("lightColor");
-    protected UniformVector2f lightBias
+    protected final UniformVector2f lightBias
             = new UniformVector2f("lightBias");
-    protected UniformVector4f plane
+    protected final UniformVector4f plane
             = new UniformVector4f("plane");
 
     /**

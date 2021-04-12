@@ -7,9 +7,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Window {
     private static final float MILLISECONDS_IN_SECOND = 1000f;
 

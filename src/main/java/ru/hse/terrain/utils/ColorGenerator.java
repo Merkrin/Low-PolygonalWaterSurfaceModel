@@ -7,7 +7,7 @@ import ru.hse.utils.Maths;
  * Class for map colors generation.
  */
 public class ColorGenerator {
-    private final Color[] biomeColors;
+    private final Color[] biomesColors;
 
     private final float spread;
     private final float halfSpread;
@@ -16,15 +16,15 @@ public class ColorGenerator {
     /**
      * The class' constructor.
      *
-     * @param biomeColors colors of the terrain to be interpolated over the map
+     * @param biomesColors colors of the terrain to be interpolated over the map
      * @param spread      setting of how big is the range of color spread
      */
-    public ColorGenerator(Color[] biomeColors, float spread) {
-        this.biomeColors = biomeColors;
+    public ColorGenerator(Color[] biomesColors, float spread) {
+        this.biomesColors = biomesColors;
 
         this.spread = spread;
         this.halfSpread = spread / 2f;
-        this.part = 1f / (biomeColors.length - 1);
+        this.part = 1f / (biomesColors.length - 1);
     }
 
     /**
@@ -45,11 +45,6 @@ public class ColorGenerator {
         return colors;
     }
 
-    /**Determines the colour of the vertex based on the provided height.
-     * @param height - Height of the vertex.
-     * @param amplitude - The maximum height that a vertex can be (
-     * @return
-     */
     /**
      * Method for color calculation.
      *
@@ -62,12 +57,12 @@ public class ColorGenerator {
 
         value = Maths.clamp((value - halfSpread) * (1f / spread), 0f, 0.9999f);
 
-        int firstBiome = (int) Math.floor(value / part);
+        int firstOfBiomes = (int) Math.floor(value / part);
 
-        float blend = (value - (firstBiome * part)) / part;
+        float blend = (value - (firstOfBiomes * part)) / part;
 
-        return Color.interpolateColors(biomeColors[firstBiome],
-                biomeColors[firstBiome + 1], blend,
+        return Color.interpolateColors(biomesColors[firstOfBiomes],
+                biomesColors[firstOfBiomes + 1], blend,
                 null);
     }
 }

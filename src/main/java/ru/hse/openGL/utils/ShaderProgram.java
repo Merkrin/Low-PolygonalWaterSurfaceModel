@@ -2,7 +2,6 @@ package ru.hse.openGL.utils;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL32;
 import ru.hse.utils.FileBuffer;
 
 import java.io.BufferedReader;

@@ -17,8 +17,6 @@ public class Vao {
 
     private final List<Vbo> relatedVbos = new ArrayList<>();
 
-    private Vbo indexBuffer;
-
     public final int id;
 
     /**
@@ -62,7 +60,7 @@ public class Vao {
 
             offset += attribute.bytesPerVertex;
 
-            attribute.enable(true);
+            attribute.enable();
 
             this.attributes.add(attribute);
         }
@@ -111,7 +109,7 @@ public class Vao {
      * @param indices indices to use
      */
     public void createIndexBuffer(IntBuffer indices) {
-        this.indexBuffer = Vbo.create(GL15.GL_ELEMENT_ARRAY_BUFFER,
+        Vbo indexBuffer = Vbo.create(GL15.GL_ELEMENT_ARRAY_BUFFER,
                 GL15.GL_STATIC_DRAW);
 
         indexBuffer.allocateData((long) indices.limit() *

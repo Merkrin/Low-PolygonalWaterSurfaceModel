@@ -54,13 +54,9 @@ public class Attribute {
     /**
      * Method for attributes array enabling.
      *
-     * @param enable boolean value if the array has to be enabled or disabled
      */
-    protected void enable(boolean enable) {
-        if (enable)
-            GL20.glEnableVertexAttribArray(attributeNumber);
-        else
-            GL20.glDisableVertexAttribArray(attributeNumber);
+    protected void enable() {
+        GL20.glEnableVertexAttribArray(attributeNumber);
     }
 
     /**

@@ -17,40 +17,40 @@ public class WaterShader extends ShaderProgram {
     private static final FileBuffer FRAGMENT_SHADER =
             new FileBuffer("waterFragment.glsl");
 
-    public UniformMatrix projectionViewMatrix =
+    public final UniformMatrix projectionViewMatrix =
             new UniformMatrix("projectionViewMatrix");
 
-    public UniformFloat height =
+    public final UniformFloat height =
             new UniformFloat("height");
 
-    public UniformVector3f cameraPosition =
+    public final UniformVector3f cameraPosition =
             new UniformVector3f("cameraPosition");
 
-    public UniformVector2f nearFarPlanes =
+    public final UniformVector2f nearFarPlanes =
             new UniformVector2f("nearFarPlanes");
 
-    protected UniformFloat waveTime =
+    protected final UniformFloat waveTime =
             new UniformFloat("waveTime");
-    protected UniformFloat waveLength =
+    protected final UniformFloat waveLength =
             new UniformFloat("waveLength");
-    protected UniformFloat waveAmplitude =
+    protected final UniformFloat waveAmplitude =
             new UniformFloat("waveAmplitude");
 
-    protected UniformVector3f lightDirection =
+    protected final UniformVector3f lightDirection =
             new UniformVector3f("lightDirection");
-    protected UniformVector3f lightColor =
+    protected final UniformVector3f lightColor =
             new UniformVector3f("lightColor");
-    protected UniformVector2f lightBias =
+    protected final UniformVector2f lightBias =
             new UniformVector2f("lightBias");
 
-    protected UniformSampler reflectionTexture =
+    protected final UniformSampler reflectionTexture =
             new UniformSampler("reflectionTexture");
-    protected UniformSampler refractionTexture =
+    protected final UniformSampler refractionTexture =
             new UniformSampler("refractionTexture");
-    protected UniformSampler depthTexture =
+    protected final UniformSampler depthTexture =
             new UniformSampler("depthTexture");
 
-    protected  UniformBoolean applyAnimation = new UniformBoolean("applyAnimation");
+    protected final UniformBoolean applyAnimation = new UniformBoolean("applyAnimation");
 
     /**
      * The class' constructor.

@@ -41,7 +41,6 @@ public class Configs implements Serializable {
 
     public static float amplitude = 30;
     public static float roughness = 0.4f;
-    // Like mountain intensivity
     public static int octaves = 5;
 
     public static int waterHeight = -1;

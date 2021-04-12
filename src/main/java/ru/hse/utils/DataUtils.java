@@ -1,7 +1,5 @@
 package ru.hse.utils;
 
-import java.nio.FloatBuffer;
-
 /**
  * Utility class for data storing.
  */

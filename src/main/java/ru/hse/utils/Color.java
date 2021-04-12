@@ -10,8 +10,6 @@ public class Color {
 
     private Vector3f color = new Vector3f();
 
-    private float alpha = 1;
-
     /**
      * The class' constructor
      *
@@ -34,20 +32,6 @@ public class Color {
      */
     public Color(float red, float green, float blue) {
         color.set(red, green, blue);
-    }
-
-    /**
-     * The class' constructor.
-     *
-     * @param red   red color value
-     * @param green green color value
-     * @param blue  blue color value
-     * @param alpha alpha channel value
-     */
-    public Color(float red, float green, float blue, float alpha) {
-        color.set(red, green, blue);
-
-        this.alpha = alpha;
     }
 
     /**
@@ -77,7 +61,7 @@ public class Color {
         byte red = (byte) (color.x * COLOR_FRACTION);
         byte green = (byte) (color.y * COLOR_FRACTION);
         byte blue = (byte) (color.z * COLOR_FRACTION);
-        byte alpha = (byte) (this.alpha * COLOR_FRACTION);
+        byte alpha = (byte) (COLOR_FRACTION);
 
         return new byte[]{red, green, blue, alpha};
     }
@@ -122,24 +106,6 @@ public class Color {
     }
 
     /**
-     * Setter of the color value.
-     *
-     * @param color color vector
-     */
-    public void setColor(Vector3f color) {
-        color.set(color);
-    }
-
-    /**
-     * Setter of the color value.
-     *
-     * @param color color instance to copy
-     */
-    public void setColor(Color color) {
-        this.color.set(color.getColor());
-    }
-
-    /**
      * Getter of the color value.
      *
      * @return color vector
@@ -176,7 +142,7 @@ public class Color {
     }
 
     /**
-     * Overriden toString method.
+     * Overridden toString method.
      *
      * @return color value as a string
      */
