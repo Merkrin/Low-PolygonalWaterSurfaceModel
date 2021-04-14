@@ -37,8 +37,8 @@ public class DataUtils {
      * @param signed       is value signed or nor
      * @return needed value
      */
-    public static int quantizeNormalized(float original, int highestLevel,
-                                         boolean signed) {
+    private static int quantizeNormalized(float original, int highestLevel,
+                                          boolean signed) {
         if (signed)
             original = original * 0.5f + 0.5f;
 

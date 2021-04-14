@@ -50,10 +50,10 @@ public class DataStorage {
      * @param color  vertex color
      * @param buffer buffer to use
      */
-    public static void packVertexData(float x, float y, float z,
-                                      Vector3f normal,
-                                      Color color,
-                                      ByteBuffer buffer) {
+    private static void packVertexData(float x, float y, float z,
+                                       Vector3f normal,
+                                       Color color,
+                                       ByteBuffer buffer) {
         storeFloats(buffer, x, y, z);
         storeNormal(buffer, normal);
         storeColor(buffer, color);

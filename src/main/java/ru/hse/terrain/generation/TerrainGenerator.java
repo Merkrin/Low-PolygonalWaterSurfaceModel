@@ -17,8 +17,8 @@ public abstract class TerrainGenerator {
      * @param perlinNoiseGenerator perlin noise generator instance
      * @param colorGenerator       color generator instance
      */
-    public TerrainGenerator(PerlinNoiseGenerator perlinNoiseGenerator,
-                            ColorGenerator colorGenerator) {
+    TerrainGenerator(PerlinNoiseGenerator perlinNoiseGenerator,
+                     ColorGenerator colorGenerator) {
         this.perlinNoiseGenerator = perlinNoiseGenerator;
         this.colorGenerator = colorGenerator;
     }

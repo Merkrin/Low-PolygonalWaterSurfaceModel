@@ -7,14 +7,13 @@ import java.io.InputStreamReader;
 /**
  * Utility file buffer class.
  */
-@SuppressWarnings("ALL")
 public class FileBuffer {
     private static final String FILE_SEPARATOR =
             System.getProperty("file.separator");
 
     private final String name;
 
-    private String path;
+    private final String path;
 
     /**
      * The class' constructor.
@@ -35,11 +34,8 @@ public class FileBuffer {
     public FileBuffer(String... paths) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        //path = "";
-
         for (String part : paths)
-            stringBuilder.append(FILE_SEPARATOR + part);
-            //path += (FILE_SEPARATOR + part);
+            stringBuilder.append(FILE_SEPARATOR).append(part);
 
         path = stringBuilder.toString();
 
@@ -52,7 +48,7 @@ public class FileBuffer {
      * Input stream getter.
      * @return input stream
      */
-    public InputStream getInputStream(){
+    private InputStream getInputStream(){
         return getClass().getClassLoader().getResourceAsStream(name);
     }
 

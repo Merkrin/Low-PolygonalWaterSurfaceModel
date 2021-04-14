@@ -101,7 +101,7 @@ public class Color {
      * @param green green value
      * @param blue  blue value
      */
-    public void setColor(float red, float green, float blue) {
+    private void setColor(float red, float green, float blue) {
         color.set(red, green, blue);
     }
 
@@ -119,7 +119,7 @@ public class Color {
      *
      * @return red value of the color
      */
-    public float getRedValue() {
+    private float getRedValue() {
         return color.x;
     }
 
@@ -128,7 +128,7 @@ public class Color {
      *
      * @return green value of the color
      */
-    public float getGreenValue() {
+    private float getGreenValue() {
         return color.y;
     }
 
@@ -137,7 +137,7 @@ public class Color {
      *
      * @return blue value of the color
      */
-    public float getBlueValue() {
+    private float getBlueValue() {
         return color.z;
     }
 

@@ -5,17 +5,15 @@ import org.lwjgl.opengl.ContextAttribs;
 /**
  * Class for window context representation.
  */
-public class Context {
+class Context {
     private final int[] openGlVersion;
 
     /**
      * The class' constructor.
      *
-     * @param version OpenGL version
-     * @param subVersion OpenGL subversion
      */
-    public Context(int version, int subVersion) {
-        this.openGlVersion = new int[]{version, subVersion};
+    Context() {
+        this.openGlVersion = new int[]{3, 3};
     }
 
     /**
@@ -23,7 +21,7 @@ public class Context {
      *
      * @return context attributes
      */
-    public ContextAttribs getAttribs() {
+    ContextAttribs getAttribs() {
         return new ContextAttribs(openGlVersion[0], openGlVersion[1])
                 .withForwardCompatible(true)
                 .withProfileCore(true);

@@ -16,7 +16,7 @@ public class Uniform {
      *
      * @param name name of the uniform
      */
-    protected Uniform(String name) {
+    Uniform(String name) {
         this.name = name;
     }
 
@@ -25,7 +25,7 @@ public class Uniform {
      *
      * @param shaderId id of the shader to use
      */
-    protected void storeUniformLocation(int shaderId) {
+    void storeUniformLocation(int shaderId) {
         location = GL20.glGetUniformLocation(shaderId, name);
 
         if (location == NOT_FOUND)
@@ -38,7 +38,7 @@ public class Uniform {
      *
      * @return location of the uniform
      */
-    protected int getLocation() {
+    int getLocation() {
         return location;
     }
 

@@ -8,12 +8,12 @@ import org.lwjgl.opengl.GL20;
  * Class of an attribute representation.
  */
 public class Attribute {
-    protected final int attributeNumber;
-    protected final int dataType;
-    protected final int componentsAmount;
-    protected final int bytesPerVertex;
+    private final int attributeNumber;
+    private final int dataType;
+    private final int componentsAmount;
+    final int bytesPerVertex;
 
-    protected final boolean isNormalized;
+    private final boolean isNormalized;
 
     /**
      * The class' constructor.
@@ -55,7 +55,7 @@ public class Attribute {
      * Method for attributes array enabling.
      *
      */
-    protected void enable() {
+    void enable() {
         GL20.glEnableVertexAttribArray(attributeNumber);
     }
 
@@ -65,7 +65,7 @@ public class Attribute {
      * @param offset point of start
      * @param stride length
      */
-    protected void link(int offset, int stride) {
+    void link(int offset, int stride) {
         GL20.glVertexAttribPointer(attributeNumber,
                 componentsAmount,
                 dataType,

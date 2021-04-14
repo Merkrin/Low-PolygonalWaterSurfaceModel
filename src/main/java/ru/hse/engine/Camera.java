@@ -23,7 +23,7 @@ public class Camera implements ICamera {
     // Yaw is the z-axis rotation.
     private static final float YAW_SENSITIVITY = 0.3f;
 
-    public static final float ZOOM_MULTIPLIER = 0.0008f;
+    private static final float ZOOM_MULTIPLIER = 0.0008f;
 
     private static final float NEAR_PLANE = 0.4f;
     private static final float FAR_PLANE = 2500;
@@ -86,7 +86,7 @@ public class Camera implements ICamera {
                 pitch.getActualValue(), yaw);
 
         float yPosition = cameraPosition.y -
-                (2 * (cameraPosition.y - Configs.waterHeight));
+                (2 * (cameraPosition.y - Configs.getWaterHeight()));
         float pitchReflection = -pitch.getActualValue();
 
         Maths.updateViewMatrix(reflectedMatrix,

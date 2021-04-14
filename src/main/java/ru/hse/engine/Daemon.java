@@ -9,7 +9,7 @@ import ru.hse.utils.Window;
  * that does not really exist, so it can be moved and the camera
  * works as the third view camera.
  */
-public class Daemon {
+class Daemon {
     private final static float RUN_SPEED = 20;
     private final static float TURN_SPEED = 160;
     private final static float FLIGHT_SPEED = 0.6f;
@@ -26,24 +26,21 @@ public class Daemon {
 
     /**
      * The class' constructor.
-     *
-     * @param window    used window instance
+     *  @param window    used window instance
      * @param position  starting position
-     * @param yRotation y-axis starting rotation
      */
-    public Daemon(Window window, Vector3f position,
-                  float yRotation) {
+    Daemon(Window window, Vector3f position) {
         this.window = window;
 
         this.position = position;
 
-        this.yRotation = yRotation;
+        this.yRotation = (float) 0;
     }
 
     /**
      * Daemon's moving method.
      */
-    public void move() {
+    void move() {
         getInput();
 
         changeRotation(currentTurnSpeed * window.getFrameTimeSeconds());
@@ -89,7 +86,7 @@ public class Daemon {
      * @param yDelta y-coordinate delta
      * @param zDelta z-coordinate delta
      */
-    public void changePosition(float xDelta, float yDelta, float zDelta) {
+    private void changePosition(float xDelta, float yDelta, float zDelta) {
         position.x += xDelta;
         position.y += yDelta;
         position.z += zDelta;
@@ -100,7 +97,7 @@ public class Daemon {
      *
      * @param yDelta y-coordinate delta
      */
-    public void changeRotation(float yDelta) {
+    void changeRotation(float yDelta) {
         yRotation += yDelta;
     }
 
@@ -109,7 +106,7 @@ public class Daemon {
      *
      * @return position of the daemon
      */
-    public Vector3f getPosition() {
+    Vector3f getPosition() {
         return position;
     }
 
@@ -118,7 +115,7 @@ public class Daemon {
      *
      * @return y-axis rotation of the daemon
      */
-    public float getYRotation() {
+    float getYRotation() {
         return yRotation;
     }
 }

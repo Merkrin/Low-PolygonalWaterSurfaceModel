@@ -44,7 +44,7 @@ public class Vbo {
     /**
      * Method for the VBO binding.
      */
-    public void bind() {
+    private void bind() {
         GL15.glBindBuffer(type, vboId);
     }
 

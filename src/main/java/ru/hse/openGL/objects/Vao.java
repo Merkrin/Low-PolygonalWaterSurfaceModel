@@ -7,17 +7,18 @@ import ru.hse.utils.DataUtils;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Class for vertex array object representation.
  */
 public class Vao {
-    private final List<Attribute> attributes = new ArrayList<>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    private final Collection<Attribute> attributes = new ArrayList<>();
 
-    private final List<Vbo> relatedVbos = new ArrayList<>();
+    private final Collection<Vbo> relatedVbos = new ArrayList<>();
 
-    public final int id;
+    private final int id;
 
     /**
      * Method for a VAO creation.

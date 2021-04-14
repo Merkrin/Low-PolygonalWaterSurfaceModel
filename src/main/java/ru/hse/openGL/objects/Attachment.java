@@ -31,7 +31,7 @@ public abstract class Attachment {
      *
      * @return ID of the FBO
      */
-    public int getBufferId() {
+    int getBufferId() {
         return bufferId;
     }
 
@@ -40,7 +40,7 @@ public abstract class Attachment {
      *
      * @param id ID of the FBO
      */
-    public void setBufferId(int id) {
+    void setBufferId(int id) {
         this.bufferId = id;
     }
 
@@ -56,7 +56,7 @@ public abstract class Attachment {
      *
      * @return true if the attachment is a depth one and false otherwise
      */
-    public boolean isDepthAttachment() {
+    boolean isDepthAttachment() {
         return isDepthAttachment;
     }
 }

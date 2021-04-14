@@ -92,7 +92,7 @@ public class CommandLineUtils {
      *
      * @return line for program running
      */
-    public static String createCommandLine() {
+    static String createCommandLine() {
         String commandLine = "";
 
         commandLine += "-fps " + Configs.getFpsCap();
@@ -170,7 +170,7 @@ public class CommandLineUtils {
      * @return array of {@link Color}
      */
     private static Color[] createTerrainColors(String cmd) {
-        String[] colorStrings = cmd.split(";");
+        String[] colorStrings = cmd.split(",");
 
         Color[] colors = null;
 
@@ -197,7 +197,7 @@ public class CommandLineUtils {
      * @return processed vector
      */
     private static Vector3f createVector3f(String cmd) {
-        String[] positionStrings = cmd.split(";");
+        String[] positionStrings = cmd.split(",");
 
         return new Vector3f(Float.parseFloat(positionStrings[0]),
                 Float.parseFloat(positionStrings[1]),
@@ -211,7 +211,7 @@ public class CommandLineUtils {
      * @return processed vector
      */
     private static Vector2f createVector2f(String cmd) {
-        String[] positionStrings = cmd.split(";");
+        String[] positionStrings = cmd.split(",");
 
         return new Vector2f(Float.parseFloat(positionStrings[0]),
                 Float.parseFloat(positionStrings[1]));

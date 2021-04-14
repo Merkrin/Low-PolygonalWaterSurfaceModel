@@ -1,14 +1,13 @@
 package ru.hse.terrain.utils;
 
+import ru.hse.utils.Configs;
+
 import java.util.Random;
 
 /**
  * Class for terrain heights map generation.
  */
 public class PerlinNoiseGenerator {
-    private static final Random RANDOM = new Random();
-
-    private static final int randomBound = 1_000_000_000;
     private static final int firstConstant = 49632;
     private static final int secondConstant = 325176;
 
@@ -21,28 +20,12 @@ public class PerlinNoiseGenerator {
     /**
      * The class' constructor.
      *
-     * @param seed      random seed
-     * @param octaves   octaves value
-     * @param amplitude height amplitude value
-     * @param roughness roughness value
-     */
-    public PerlinNoiseGenerator(int seed, int octaves, float amplitude, float roughness) {
-        this.seed = seed;
-        this.octaves = octaves;
-        this.amplitude = amplitude;
-        this.roughness = roughness;
-    }
-
-    /**
-     * The class' constructor.
-     *
      * @param octaves   octaves value
      * @param amplitude height amplitude value
      * @param roughness roughness value
      */
     public PerlinNoiseGenerator(int octaves, float amplitude, float roughness) {
-//        this.seed = new Random().nextInt(1000000000);
-        seed = RANDOM.nextInt(randomBound);
+        seed = Configs.getSeed();
 
         this.octaves = octaves;
         this.amplitude = amplitude;

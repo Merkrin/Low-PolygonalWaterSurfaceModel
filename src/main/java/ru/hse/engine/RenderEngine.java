@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Render engine class.
  */
-public class RenderEngine {
+class RenderEngine {
     private static final float REFRACTION_OFFSET = 1f;
     private static final float REFLECTION_OFFSET = 0.1f;
 

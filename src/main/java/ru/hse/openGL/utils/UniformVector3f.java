@@ -38,7 +38,7 @@ public class UniformVector3f extends Uniform {
      * @param yValue y-value to load
      * @param zValue z-value to load
      */
-    public void loadVector3f(float xValue, float yValue, float zValue) {
+    private void loadVector3f(float xValue, float yValue, float zValue) {
         if (!isUsed ||
                 this.xValue != xValue ||
                 this.yValue != yValue ||

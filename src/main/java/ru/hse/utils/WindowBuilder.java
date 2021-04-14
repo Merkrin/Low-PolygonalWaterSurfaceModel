@@ -9,29 +9,29 @@ public class WindowBuilder {
     private final int HEIGHT;
     private final int FPS_CAP;
 
-    protected WindowBuilder(int width, int height, int fpsCap){
+    WindowBuilder(int width, int height, int fpsCap){
         WIDTH = width;
         HEIGHT = height;
         FPS_CAP = fpsCap;
     }
 
     public Window create() throws LWJGLException {
-        return new Window(new Context(3,3), this);
+        return new Window(new Context(), this);
     }
 
-    protected int getWidth() {
+    int getWidth() {
         return WIDTH;
     }
 
-    protected int getHeight(){
+    int getHeight(){
         return HEIGHT;
     }
 
-    protected int getFpsCap() {
+    int getFpsCap() {
         return FPS_CAP;
     }
 
-    protected String getTitle() {
+    String getTitle() {
         return TITLE;
     }
 }

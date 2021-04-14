@@ -6,11 +6,11 @@ import ru.hse.utils.FileBuffer;
 /**
  * Water shader storage class.
  */
-public class WaterShader extends ShaderProgram {
+class WaterShader extends ShaderProgram {
     // Indexes of texture units.
-    protected static final int REFLECTION_TEXTURE_UNIT = 0;
-    protected static final int REFRACTION_TEXTURE_UNIT = 1;
-    protected static final int DEPTH_TEXTURE_UNIT = 2;
+    static final int REFLECTION_TEXTURE_UNIT = 0;
+    static final int REFRACTION_TEXTURE_UNIT = 1;
+    static final int DEPTH_TEXTURE_UNIT = 2;
 
     private static final FileBuffer VERTEX_SHADER =
             new FileBuffer("waterVertex.glsl");
@@ -29,33 +29,33 @@ public class WaterShader extends ShaderProgram {
     public final UniformVector2f nearFarPlanes =
             new UniformVector2f("nearFarPlanes");
 
-    protected final UniformFloat waveTime =
+    final UniformFloat waveTime =
             new UniformFloat("waveTime");
-    protected final UniformFloat waveLength =
+    final UniformFloat waveLength =
             new UniformFloat("waveLength");
-    protected final UniformFloat waveAmplitude =
+    final UniformFloat waveAmplitude =
             new UniformFloat("waveAmplitude");
 
-    protected final UniformVector3f lightDirection =
+    final UniformVector3f lightDirection =
             new UniformVector3f("lightDirection");
-    protected final UniformVector3f lightColor =
+    final UniformVector3f lightColor =
             new UniformVector3f("lightColor");
-    protected final UniformVector2f lightBias =
+    final UniformVector2f lightBias =
             new UniformVector2f("lightBias");
 
-    protected final UniformSampler reflectionTexture =
+    private final UniformSampler reflectionTexture =
             new UniformSampler("reflectionTexture");
-    protected final UniformSampler refractionTexture =
+    private final UniformSampler refractionTexture =
             new UniformSampler("refractionTexture");
-    protected final UniformSampler depthTexture =
+    private final UniformSampler depthTexture =
             new UniformSampler("depthTexture");
 
-    protected final UniformBoolean applyAnimation = new UniformBoolean("applyAnimation");
+    final UniformBoolean applyAnimation = new UniformBoolean("applyAnimation");
 
     /**
      * The class' constructor.
      */
-    public WaterShader() {
+    WaterShader() {
         super(VERTEX_SHADER, FRAGMENT_SHADER);
         super.storeAllUniformLocations(projectionViewMatrix,
                 height,

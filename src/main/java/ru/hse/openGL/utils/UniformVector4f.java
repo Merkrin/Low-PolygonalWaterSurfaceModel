@@ -33,8 +33,8 @@ public class UniformVector4f extends Uniform {
      * @param zValue z-value to load
      * @param wValue w-value to load
      */
-    public void loadVector4f(float xValue, float yValue,
-                             float zValue, float wValue) {
+    private void loadVector4f(float xValue, float yValue,
+                              float zValue, float wValue) {
         GL20.glUniform4f(super.getLocation(), xValue, yValue, zValue, wValue);
     }
 

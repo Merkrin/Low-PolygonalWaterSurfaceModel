@@ -17,7 +17,7 @@ import ru.hse.water.utils.WaterTile;
 
 import java.io.IOException;
 
-public class Main {
+class Main {
     /**
      * Method for command line arguments reading for further processing.
      *
@@ -72,8 +72,8 @@ public class Main {
         try {
             RenderEngine engine = new RenderEngine(Configs.getFpsCap(),
                     Configs.getScreenWidth(), Configs.getScreenHeight());
-            Daemon daemon = new Daemon(engine.getWindow(), new Vector3f(200, 50, 200),
-                    0);
+            Daemon daemon = new Daemon(engine.getWindow(), new Vector3f(200, 50, 200)
+            );
             Camera camera = new Camera(daemon);
 
             Light light = new Light(Configs.getLightDirection(),
@@ -83,11 +83,6 @@ public class Main {
             PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getOctaves(),
                     Configs.getAmplitude(),
                     Configs.getRoughness());
-
-//            PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getSeed(),
-//                    Configs.getOctaves(),
-//                    Configs.getAmplitude(),
-//                    Configs.getRoughness());
 
             ColorGenerator colorGenerator = new ColorGenerator(Configs.getTerrainColors(),
                     Configs.getColorSpread());

@@ -15,7 +15,7 @@ public class Window {
     private long lastFrameTime;
     private float delta;
 
-    protected Window(Context context, WindowBuilder windowBuilder)
+    Window(Context context, WindowBuilder windowBuilder)
             throws LWJGLException {
         this.fpsCap = windowBuilder.getFpsCap();
 
@@ -45,7 +45,7 @@ public class Window {
      *
      * @param resolution resolution of the window
      */
-    public void setResolution(DisplayMode resolution) {
+    private void setResolution(DisplayMode resolution) {
         try {
             Display.setDisplayMode(resolution);
         } catch (LWJGLException e) {
