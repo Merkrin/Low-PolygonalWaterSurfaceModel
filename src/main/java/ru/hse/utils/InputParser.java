@@ -46,7 +46,7 @@ public class InputParser {
                 isKeyDown = true;
 
                 takeScreenshot();
-            } else if (checkKey(Keyboard.KEY_P)) {
+            } else if (checkKey(Keyboard.KEY_O)) {
                 isKeyDown = true;
 
                 saveConfigurations();
@@ -141,7 +141,8 @@ public class InputParser {
                 "(+1 and -1 respectively).");
         System.out.println("Use <5> and <6> to change wave speed " +
                 "(+0.1 and -0.1 respectively).");
-        System.out.println("Use <P> to save your settings in a file.");
+        System.out.println("Use <O> to save your settings in a file.");
+        System.out.println("Use <P> to take screenshot.");
     }
 
     /**

@@ -154,6 +154,7 @@ public class Configs implements Serializable {
     }
 
     public static void setLightDirection(Vector3f lightDirection) {
+        lightDirection.normalise();
         Configs.lightDirection = lightDirection;
     }
 
@@ -183,7 +184,7 @@ public class Configs implements Serializable {
 
     public static void setWorldSize(int worldSize)
             throws InvalidSettingException {
-        if (worldSize < 100 || worldSize > 1000)
+        if (worldSize < 100 || worldSize > 500)
             throw new InvalidSettingException("Invalid world size.");
 
         Configs.worldSize = worldSize;
@@ -239,7 +240,7 @@ public class Configs implements Serializable {
 
     public static void setWaterHeight(int waterHeight)
             throws InvalidSettingException {
-        if (waterHeight < -10 || waterHeight > 10)
+        if (waterHeight < -amplitude || waterHeight > amplitude)
             throw new InvalidSettingException("Invalid water height");
 
         Configs.waterHeight = waterHeight;

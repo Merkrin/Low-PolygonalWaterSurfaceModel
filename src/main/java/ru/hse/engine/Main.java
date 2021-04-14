@@ -62,7 +62,12 @@ public class Main {
         System.out.println("Welcome to the Low-polygonal water surface model program!");
         System.out.println("You can press <H> to get help anytime.");
 
-        readArguments(args);
+        try {
+            readArguments(args);
+        }catch(Exception exception){
+            System.out.println("An unhandled exception occurred: " + exception.getMessage());
+            System.out.println("Starting with standard settings...");
+        }
 
         try {
             RenderEngine engine = new RenderEngine(Configs.getFpsCap(),
@@ -75,10 +80,14 @@ public class Main {
                     Configs.getLightColor(),
                     Configs.getLightBias());
 
-            PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getSeed(),
-                    Configs.getOctaves(),
+            PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getOctaves(),
                     Configs.getAmplitude(),
                     Configs.getRoughness());
+
+//            PerlinNoiseGenerator noise = new PerlinNoiseGenerator(Configs.getSeed(),
+//                    Configs.getOctaves(),
+//                    Configs.getAmplitude(),
+//                    Configs.getRoughness());
 
             ColorGenerator colorGenerator = new ColorGenerator(Configs.getTerrainColors(),
                     Configs.getColorSpread());
@@ -92,8 +101,6 @@ public class Main {
                 camera.move();
                 daemon.move();
                 engine.render(terrain, water, camera, light);
-
-//                InputParser.performInput();
             }
 
             water.delete();
