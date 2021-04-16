@@ -132,7 +132,7 @@ public class Configs implements Serializable {
         StringBuilder colors = new StringBuilder();
 
         for (int i = 0; i < terrainColors.length - 1; i++) {
-            colors.append(terrainColors[i]).append(";");
+            colors.append(terrainColors[i]).append(",");
         }
 
         colors.append(terrainColors[terrainColors.length - 1]);
@@ -153,7 +153,7 @@ public class Configs implements Serializable {
     }
 
     static String getLightPositionAsString() {
-        return lightDirection.x + ";" + lightDirection.y + ";" + lightDirection.z;
+        return lightDirection.x + "," + lightDirection.y + "," + lightDirection.z;
     }
 
     static void setLightDirection(Vector3f lightDirection) {
@@ -174,7 +174,7 @@ public class Configs implements Serializable {
     }
 
     static String getLightBiasAsString() {
-        return lightBias.x + ";" + lightBias.y;
+        return lightBias.x + "," + lightBias.y;
     }
 
     static void setLightBias(Vector2f lightBias) {
